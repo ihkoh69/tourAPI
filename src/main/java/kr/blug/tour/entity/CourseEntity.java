@@ -30,9 +30,9 @@ public class CourseEntity {
 	private Long courseId;
 	
 	private String courseName;
-	private String courseDesc;
+	private String description;
 	private String areaCode;
-	private String sigungucode;
+	private String sigunguCode;
 	private LocalDateTime crdttm;
 	private LocalDateTime updttm;
 
