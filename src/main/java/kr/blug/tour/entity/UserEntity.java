@@ -40,4 +40,6 @@ public class UserEntity {
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CourseEntity> courses = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<FavoritesEntity> favorites = new ArrayList<>();
 }
