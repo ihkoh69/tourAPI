@@ -18,8 +18,8 @@ public class UserDto {
 	
 	private String password;
 	private String nickname;
-	private String profile_img;
-	private String auth_grade;
+	private String profileImg;
+	private String authGrade;
 	private LocalDateTime crDtTm;
 	private LocalDateTime upDtTm;
 }
