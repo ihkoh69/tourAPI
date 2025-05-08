@@ -1,0 +1,237 @@
+@charset "UTF-8";
+
+
+
+* { 
+	margin: 0;
+	padding: 0;
+/*	border: 1px solid blue; */ 
+}
+
+ul, ol, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+a:link, a:visited {
+	text-decoration: none;
+	color: black;
+}
+
+
+@font-face {
+    font-family: 'LGSmHaR';
+    font-style: normal;
+    font-weight: 400;
+    src: local('LGSmHaR'),
+         url('./fonts/LGSmHaR.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'LGSmHaL';
+    font-style: normal;
+    font-weight: 400;
+    src: local('LGSmHaL'),
+         url('./fonts/LGSmHaL.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'LGSmHaB';
+    font-style: normal;
+    font-weight: 400;
+    src: local('LGSmHaB'),
+         url('./fonts/LGSmHaB.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: LGSmHaSB;
+    font-style: normal;
+    font-weight: 400;
+    src: url('./fonts/LGSmHaSB.woff2') format('woff2');
+}
+
+.history-header h1 {
+    font-family: 'LGSmHaSB', '돋움', '돋움체';
+    font-size: 61px;
+}
+
+.lg-history {
+        padding: 50px 0;
+        background-color: #F0F4F6;
+        text-align: center;
+        font-family: "LGSmHaSB", sans-serif;
+        font-weight: 500;
+        margin: 0 auto;
+
+}
+
+.nav_right{
+        color: #999999;
+      }
+
+.section-content ul.philosophy-by-foundation li {
+    width: 330px;
+    height: 330px;
+    border-radius: 50% 50%;
+    float: left;
+    text-align: center;
+    padding: 70px 0 0 0;
+    mix-blend-mode: multiply;
+    
+}
+
+.circle-yy {
+    background-color: #dd3156;
+    color: white;
+}
+
+.circle-ya {
+    background-color: #dd3156;
+    color: white;
+}
+
+.circle-sr {
+    background-color: #f0f4f6;
+    color: black;
+}
+
+
+
+.topMenuBox {
+  border-bottom: 1px solid #f1f1f1;  
+}
+
+.topMenu {
+  font-family: "LGSmHaSB", "Lato", "Noto Sans KR", sans-serif;
+
+  font-size: 16px;
+  color: #101010;
+  font-weight: 500;
+  
+}
+
+.main-menu {
+  width: 130px;
+}
+
+.topMenu:hover .sub-menu {
+  display: block;
+}
+
+.sub-menu {
+  display: none;
+}
+
+.sub-menu li {
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+}
+
+
+.utilMenu .link2Eng {
+  width: 20px;
+  background-image: url(../images/icon-lang.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px 20px;
+  display: block;
+}
+
+.utilMenu .search-icon {
+  width: 20px;
+  background-image: url(../images/icon-search.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px 20px;
+}
+
+.utilMenu .menu-icon {
+  width: 18px;
+  background-image: url(../images/icon-menu.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 18px 13px;
+}
+
+
+.utilMenu a {
+  width: 20px;
+  height: 20px;
+}
+
+.bbsTitle {
+	font-size: 1.0rem !important;
+	font-weight: 500 !important;
+}
+
+
+.bbsStrong {
+	font-weight: 400 !important;
+}
+
+.bbsBigFont {
+	font-size: 1.6rem !important;
+	font-weight: 500 !important;
+}
+
+.userView {
+  width: 100%;
+  margin: 0 auto;
+}
+/* .userView div {
+  height: 400px;
+} */
+
+.slick-prev {
+  position: absolute;
+  left: 20px;
+  z-index: 10;
+}
+.slick-next {
+  position: absolute;
+  right: 20px;
+}
+
+iframe {
+  width: 100%;
+  height: 600px;
+}
+
+.footer {
+  background-color: lightgray;
+  
+}
+
+.footer a {
+  color: #bbbbbb;
+}
+
+.footerLinks {
+  font-size: 0.8rem;
+}
+
+.footerNames {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: white;
+}
+
+.address {
+  font-size: 0.8rem;
+}
+
+.copyright {
+  font-size: 0.9rem;
+  color: #bbbbbb;
+}
+
+.socials img {
+  width: 36px;
+  height: 36px;
+}
+.socials li {
+  border-radius: 18px;
+  background-color: gray;
+}
