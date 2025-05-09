@@ -21,5 +21,5 @@ public class UserDto {
 	private String profileImg;
 	private String authGrade;
 	private LocalDateTime crDtTm;
-	private LocalDateTime upDtTm;
+//	private LocalDateTime upDtTm;
 }
