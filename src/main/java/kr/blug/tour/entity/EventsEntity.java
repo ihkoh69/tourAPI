@@ -21,6 +21,7 @@ public class EventsEntity {
 	private Long eventsId; 
 	
 	private String contentId;
+	private String contentTypeId;
 	private String areaCode;
 	private String sigunguCode;
 	private String mapX;
@@ -33,6 +34,9 @@ public class EventsEntity {
 	private String description;
 	private String firstimage;
 	private String firstimage2;
+	private String cat2;
+	private String cat3;
+	private String modifiedtime;
 	private String crdt;   //최초등록일:관광공사
 	private String updt;   //최종수정일:관광공사
 }

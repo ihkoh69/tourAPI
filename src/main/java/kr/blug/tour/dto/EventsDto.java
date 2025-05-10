@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 public class EventsDto {
 	private Long eventsId;   
 	private String contentId;
+	private String contentTypeId;
 	private String areaCode;
 	private String sigunguCode;
 	private String mapX;
@@ -22,6 +23,9 @@ public class EventsDto {
 	private String description;
 	private String firstimage;
 	private String firstimage2;
+	private String cat2;
+	private String cat3;
+	private String modifiedtime;
 	private String crdt;
 	private String updt;
 }
