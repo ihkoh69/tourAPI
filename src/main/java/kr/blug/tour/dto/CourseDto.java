@@ -13,11 +13,13 @@ public class CourseDto {
 	
 	private Long courseId;
 	private Long userId;	
+	private String userNickname;
 	private String courseName;
 	private String description;
 	private String areaCode;
 	private String sigunguCode;
 	private LocalDateTime crdttm;
 	private LocalDateTime updttm;
-
+	
+	
 }
