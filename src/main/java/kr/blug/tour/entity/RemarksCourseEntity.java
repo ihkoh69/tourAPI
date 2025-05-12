@@ -25,8 +25,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="remarks_content")
-public class RemarksContentEntity {
+@Table(name="remarks_course")
+public class RemarksCourseEntity {
 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,13 +41,17 @@ public class RemarksContentEntity {
 		private String firstimage;
 		
 		@Column(length=1000)
-		private String remarksContent;;
+		private String remarksCourse;;
 		private LocalDateTime crdttm;
 
-		//RemarksContent vs UserEntity = N:1
+		//RemarksCourse vs UserEntity = N:1
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name="user_id")
 		private UserEntity user;
 
- }
+		//RemarksCourse vs Course = N:1
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name="course_id")
+		private CourseEntity course;
 
+ }
