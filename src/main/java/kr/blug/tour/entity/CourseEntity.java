@@ -47,5 +47,8 @@ public class CourseEntity {
 	
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<LikesCourseEntity> likesCourse = new ArrayList<>();
+
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<RemarksCourseEntity> remarksCourse = new ArrayList<>();
 	
 }
