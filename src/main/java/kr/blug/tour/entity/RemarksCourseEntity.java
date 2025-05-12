@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,19 +25,33 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="remarks_content")
-public class RemarksContent {
+@Table(name="remarks_course")
+public class RemarksCourseEntity {
 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private Long remarksId;
+		private Long remarksContentId;
 		
 		private String contentId;
-		private String content;
+		private String contentTypeId;
+		private String title;
+		private String addr;
+		private String areaCode;
+		private String sigunguCode;
+		private String firstimage;
+		
+		@Column(length=1000)
+		private String remarksCourse;;
 		private LocalDateTime crdttm;
 
+		//RemarksCourse vs UserEntity = N:1
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name="user_id")
 		private UserEntity user;
+
+		//RemarksCourse vs Course = N:1
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name="course_id")
+		private CourseEntity course;
 
  }

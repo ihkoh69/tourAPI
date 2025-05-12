@@ -42,8 +42,10 @@ public class UserEntity {
 	
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<RemarksContent> remarks_content = new ArrayList<>();
+	private List<RemarksContentEntity> remarks_content = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<RemarksCourseEntity> remarks_course = new ArrayList<>();
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<FavoritesEntity> favorites = new ArrayList<>();
