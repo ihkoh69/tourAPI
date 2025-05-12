@@ -13,7 +13,7 @@ public class LikesContentDto {
 
 	private Long likesContentId;
 	private Long userId;
-	private Long contentId;
+	private String contentId;
 	private String contentTypeId;
 	private String title;
 	private String addr;

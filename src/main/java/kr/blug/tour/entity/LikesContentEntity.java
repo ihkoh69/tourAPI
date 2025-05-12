@@ -26,7 +26,7 @@ public class LikesContentEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long likesContentId;
 	
-	private Long contentId;
+	private String contentId;
 	private String contentTypeId;
 	private String title;
 	private String addr;
