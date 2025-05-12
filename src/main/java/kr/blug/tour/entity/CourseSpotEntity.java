@@ -1,5 +1,6 @@
 package kr.blug.tour.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,8 +26,14 @@ public class CourseSpotEntity {
 	private String contentId;
 	private String contentTypeId;
 	private String title;
+	
+	@Column(length=300)
 	private String addr;
+	
+	@Column(length=300)
 	private String titleImage;
+	
+	@Column(length=2000)
 	private String subImages;
 	private String cat3;
 	private String areaCode;
