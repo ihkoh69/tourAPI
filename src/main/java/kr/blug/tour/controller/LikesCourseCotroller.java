@@ -36,10 +36,21 @@ public class LikesCourseCotroller {
 			@PageableDefault(size=10, page=1, sort="areaCode", direction = Sort.Direction.ASC ) Pageable pageable
 			){
 		
-		Page<LikesCourseDto> myLists =  likesCourseService.listMyLikes(userId, pageable);
+		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, pageable);
 		
-		return ResponseEntity.ok(Map.of("result","success"));
-//		return ResponseEntity.ok(Map.of("result","success", "items", myLists));
+		System.out.println(items.isEmpty());
+		if(!items.isEmpty()) { 
+			return ResponseEntity.ok(Map.of("result","success", 
+					"items", items,
+					"totalPages", items.getTotalPages(),
+					"totoalElements", items.getTotalElements(),				
+					"currentPage", items.getNumber()		));
+		}
+		else {
+			return ResponseEntity.ok(Map.of("result","not_found"));
+			
+		}
+			
 		
 	}
 	

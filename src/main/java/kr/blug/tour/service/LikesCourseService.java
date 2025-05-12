@@ -22,7 +22,6 @@ public class LikesCourseService {
 	public Optional<LikesCourseDto> findByUserAndCourseId(Long userId, Long courseId) {
 		
 		
-		
 		return likesCourseRepository.findByUser_UserIdAndCourse_CourseId(userId, courseId).map(myCourse->{
 			LikesCourseDto dto = new LikesCourseDto();
 
