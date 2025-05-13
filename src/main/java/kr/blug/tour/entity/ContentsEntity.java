@@ -1,15 +1,16 @@
 package kr.blug.tour.entity;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
@@ -17,36 +18,35 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="favorites",
-			  uniqueConstraints = {
-					  @UniqueConstraint(columnNames = {"user_id", "content_id"})
-			  }
-
+@Table(name="contents", 
+		     uniqueConstraints = {
+		    		 @UniqueConstraint(columnNames = {"content_id"})
+		     }
 		)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FavoritesEntity {
 
+public class ContentsEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long favoritesId;
+	private Long contentsRowId;
+	
+	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<LikesContentEntity> likesContents = new ArrayList<>();
 	
 	@Column(name="content_id", nullable = false)
 	private String contentId;
-	private String ContentTypeId;
+	private String contentTypeId;
 	private String title;
 	private String addr;
 	private String areaCode;
 	private String sigunguCode;
+	
+	@Column(length=1000)
 	private String firstimage;
 	private LocalDateTime crdttm;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="user_id")
-	private UserEntity user;
-	//private Long userId;
-	
 	
 	
 }

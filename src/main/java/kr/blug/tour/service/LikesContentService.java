@@ -21,18 +21,17 @@ public class LikesContentService {
 
 	public Optional<LikesContentDto> findByUserAndContent(Long userId, String contentId) {
 		
-		return likesContentRepository.findByUser_UserIdAndContentId(userId, contentId).map(myContent->{
+		return likesContentRepository.findByUser_UserIdAndContents_ContentId(userId, contentId).map(myContent->{
 			LikesContentDto dto = new LikesContentDto();
 
 			dto.setUserId(myContent.getUser().getUserId());
 			dto.setLikesContentId(myContent.getLikesContentId());
-			dto.setContentTypeId(myContent.getContentTypeId());
-			dto.setTitle(myContent.getTitle());
-			dto.setAddr(myContent.getAddr());
-			dto.setAreaCode(myContent.getAreaCode());
-			dto.setSigunguCode(myContent.getSigunguCode());
-			dto.setFirstimage(myContent.getFirstimage());
-			dto.setGoodOrHate(myContent.getGoodOrHate());
+			dto.setContentTypeId(myContent.getContents().getContentTypeId());
+			dto.setTitle(myContent.getContents().getTitle());
+			dto.setAddr(myContent.getContents().getAddr());
+			dto.setAreaCode(myContent.getContents().getAreaCode());
+			dto.setSigunguCode(myContent.getContents().getSigunguCode());
+			dto.setFirstimage(myContent.getContents().getFirstimage());
 			
 			return dto;
 		});
@@ -47,13 +46,13 @@ public class LikesContentService {
 			
 			dto.setUserId(myContent.getUser().getUserId());
 			dto.setLikesContentId(myContent.getLikesContentId());
-			dto.setContentTypeId(myContent.getContentTypeId());
-			dto.setTitle(myContent.getTitle());
-			dto.setAddr(myContent.getAddr());
-			dto.setAreaCode(myContent.getAreaCode());
-			dto.setSigunguCode(myContent.getSigunguCode());
-			dto.setFirstimage(myContent.getFirstimage());
-			dto.setGoodOrHate(myContent.getGoodOrHate());
+			dto.setContentTypeId(myContent.getContents().getContentTypeId());
+			dto.setTitle(myContent.getContents().getTitle());
+			dto.setAddr(myContent.getContents().getAddr());
+			dto.setAreaCode(myContent.getContents().getAreaCode());
+			dto.setSigunguCode(myContent.getContents().getSigunguCode());
+			dto.setFirstimage(myContent.getContents().getFirstimage());
+
 			
 			return dto;
 		});

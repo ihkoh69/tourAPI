@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,13 @@ import lombok.NoArgsConstructor;
 	@Data
 	@AllArgsConstructor
 	@NoArgsConstructor
-	@Table(name="likes_course")
+	@Table(name="likes_course",
+						uniqueConstraints = {
+								@UniqueConstraint(
+										columnNames = {"course_id", "user_id"}
+								)
+						}
+			    )
 	public class LikesCourseEntity {
 		
 		@Id
@@ -31,13 +38,13 @@ import lombok.NoArgsConstructor;
 		private LocalDateTime crdttm;
 		
 		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name="user_id")
+		@JoinColumn(name="user_id", nullable = false)
 		private UserEntity user;
 //		private Long userId;
 		
 		
 		@ManyToOne(fetch = FetchType.LAZY)
-		@JoinColumn(name="course_id")
+		@JoinColumn(name="course_id", nullable = false)
 		private CourseEntity course;
 //		private Long courseId;
 		

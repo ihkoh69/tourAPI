@@ -13,7 +13,7 @@ import kr.blug.tour.entity.LikesContentEntity;
 @Repository
 public interface LikesContentRepository extends JpaRepository<LikesContentEntity, Long> {
 
-	Optional<LikesContentEntity> findByUser_UserIdAndContentId(Long userId, String contentId);
+	Optional<LikesContentEntity> findByUser_UserIdAndContents_ContentId(Long userId, String contentId);
 
 	Page<LikesContentEntity> findByUser_UserId(Long userId, Pageable pageable);
 

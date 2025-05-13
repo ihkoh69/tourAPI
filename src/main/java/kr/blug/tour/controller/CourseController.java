@@ -1,28 +1,45 @@
            package kr.blug.tour.controller;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import kr.blug.tour.dto.CourseDto;
 import kr.blug.tour.entity.CourseEntity;
 import kr.blug.tour.service.CourseService;
 
-@Controller
+@RestController
 public class CourseController {
 	
 	@Autowired
 	private CourseService courseService;
 	
-	public ResponseEntity<Map<String, Object>> listCourses(){
+	@GetMapping("/course/list")
+	public ResponseEntity<Map<String, Object>> listCourses(
+			@PageableDefault(size=10, page=0, sort = "courseName",  direction = Sort.Direction.ASC) Pageable pageable ){  // 소트될 속성명은 엔티티필드명임, db컬럼명이 아님 
 		
-		List<CourseDto> items = courseService.listCourses();
+		Page<CourseDto> items = courseService.listCourses(pageable);
 		
-		return ResponseEntity.ok(Map.of("result","success", "items", items));
-	}
+		if(!items.isEmpty( )) {
+			return ResponseEntity.ok(Map.of("result","success", "items", items));
+			
+		}
+		else {
+			return ResponseEntity.ok(Map.of("result","not_found"));
+			
+		}
+		
+		}
 
 }
