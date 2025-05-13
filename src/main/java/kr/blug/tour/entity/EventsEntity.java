@@ -1,16 +1,22 @@
 package kr.blug.tour.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="events")
+@Table(name="events",
+		     uniqueConstraints = {
+		    		 @UniqueConstraint(columnNames = {"content_id"})
+		     }
+		)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,6 +26,7 @@ public class EventsEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long eventsId; 
 	
+	@Column(nullable = false)
 	private String contentId;
 	private String contentTypeId;
 	private String areaCode;

@@ -33,7 +33,7 @@ public class LikesCourseCotroller {
 	@GetMapping("/likes/course/list")
 	public ResponseEntity<Map<String, Object>> listMyLikes(
 			@RequestParam("userId") Long userId,
-			@PageableDefault(size=10, page=1, sort="areaCode", direction = Sort.Direction.ASC ) Pageable pageable
+			@PageableDefault(size=10, page=0, sort="areaCode", direction = Sort.Direction.ASC ) Pageable pageable
 			){
 		
 		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, pageable);

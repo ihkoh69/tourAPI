@@ -1,9 +1,12 @@
 package kr.blug.tour.service;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import kr.blug.tour.dto.CourseDto;
@@ -16,13 +19,12 @@ public class CourseService {
 	@Autowired
 	private CourseRepository courseRepository;
 
-	public List<CourseDto> listCourses() {
+	public Page<CourseDto> listCourses(Pageable pageable) {
 		
-		List<CourseEntity> courseList = courseRepository.findAll();
+		Page<CourseEntity> courseList = courseRepository.findAll(pageable);
 
-		List<CourseDto> items = new ArrayList<>();
-		
-		for(CourseEntity course : courseList) {
+		return courseList.map(course->{
+			
 			CourseDto dto = new CourseDto();
 			dto.setCourseId(course.getCourseId());
 			dto.setUserId(course.getUser().getUserId());
@@ -32,10 +34,10 @@ public class CourseService {
 			dto.setAreaCode(course.getAreaCode());
 			dto.setSigunguCode(course.getSigunguCode());
 			
-			items.add(dto);
-		}
+			return dto;
+		});
 		
-		return items;
+
 	}
 
 }

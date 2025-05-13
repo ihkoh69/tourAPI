@@ -26,7 +26,7 @@ public class FavoritesController {
 	@GetMapping("/favorites/list")
 	public ResponseEntity<Map<String, Object>> listFavoritesByUserId(
 			@RequestParam(value="userId", required=true) Long userId,
-			@PageableDefault(size=10, page=1, sort="title", direction = Sort.Direction.ASC) Pageable pageable){ // sort에 대입되는 인자는 물리적DB의 컬럼명 user_id가 아니라 Entity의 필드명 userId여야 
+			@PageableDefault(size=10, page=0, sort="title", direction = Sort.Direction.ASC) Pageable pageable){ // sort에 대입되는 인자는 물리적DB의 컬럼명 user_id가 아니라 Entity의 필드명 userId여야 
 		
 		
 		Page<FavoritesDto> items = favoritesService.listByUserId(userId, pageable);

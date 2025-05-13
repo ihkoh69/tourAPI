@@ -11,7 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="user")
+@Table(name="user",
+			 uniqueConstraints = {
+					 @UniqueConstraint(columnNames = "email"),
+					 @UniqueConstraint(columnNames = "nickname")
+			 }
+		)
 public class UserEntity {
 
 	@Id
