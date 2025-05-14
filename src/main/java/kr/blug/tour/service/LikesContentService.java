@@ -24,14 +24,14 @@ public class LikesContentService {
 		return likesContentRepository.findByUser_UserIdAndContents_ContentId(userId, contentId).map(myContent->{
 			LikesContentDto dto = new LikesContentDto();
 
-			dto.setUserId(myContent.getUser().getUserId());
-			dto.setLikesContentId(myContent.getLikesContentId());
-			dto.setContentId(myContent.getContents().getContentId());
-			dto.setContentTypeId(myContent.getContents().getContentTypeId());
+			dto.setUser_id(myContent.getUser().getUserId());
+			dto.setLikes_content_id(myContent.getLikesContentId());
+			dto.setContentid(myContent.getContents().getContentId());
+			dto.setContenttypeid(myContent.getContents().getContentTypeId());
 			dto.setTitle(myContent.getContents().getTitle());
 			dto.setAddr(myContent.getContents().getAddr());
-			dto.setAreaCode(myContent.getContents().getAreaCode());
-			dto.setSigunguCode(myContent.getContents().getSigunguCode());
+			dto.setAreacode(myContent.getContents().getAreaCode());
+			dto.setSigungucode(myContent.getContents().getSigunguCode());
 			dto.setFirstimage(myContent.getContents().getFirstimage());
 			
 			return dto;
@@ -45,14 +45,14 @@ public class LikesContentService {
 			
 			LikesContentDto dto = new LikesContentDto();
 			
-			dto.setUserId(myContent.getUser().getUserId());
-			dto.setLikesContentId(myContent.getLikesContentId());
-			dto.setContentId(myContent.getContents().getContentId());
-			dto.setContentTypeId(myContent.getContents().getContentTypeId());
+			dto.setUser_id(myContent.getUser().getUserId());
+			dto.setLikes_content_id(myContent.getLikesContentId());
+			dto.setContentid(myContent.getContents().getContentId());
+			dto.setContenttypeid(myContent.getContents().getContentTypeId());
 			dto.setTitle(myContent.getContents().getTitle());
 			dto.setAddr(myContent.getContents().getAddr());
-			dto.setAreaCode(myContent.getContents().getAreaCode());
-			dto.setSigunguCode(myContent.getContents().getSigunguCode());
+			dto.setAreacode(myContent.getContents().getAreaCode());
+			dto.setSigungucode(myContent.getContents().getSigunguCode());
 			dto.setFirstimage(myContent.getContents().getFirstimage());
 
 			return dto;

@@ -15,18 +15,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikesContentDto {
 
-	private Long likesContentId;
-	private Long userId;
-
-	private String contentId;	
-	private String contentTypeId;
+	private Long likes_content_id;
+	private Long user_id;
+    private String user_nickname;
+	private String contentid;	
+	private String contenttypeid;
 	private String title;
 	private String addr;
-	private String areaCode;
-	private String sigunguCode;
+	private String areacode;
+	private String sigungucode;
 	private String firstimage;
 	
-	private String goodOrHate;
 	private LocalDateTime crdttm;
 	
 
