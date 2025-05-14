@@ -24,7 +24,7 @@ public class RemarksCourseService {
 	
 	public void remarksCourseInsert(RemarksCourseDto dto) {
 		RemarksCourseEntity remarks = RemarksCourseEntity.builder()
-				.contentId(dto.getContentId())
+//				.contentId(dto.getContentId())
 				.build();
 		
 		remarksCourseRepository.save(remarks);

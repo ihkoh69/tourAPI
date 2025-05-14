@@ -11,16 +11,16 @@ import lombok.NoArgsConstructor;
 public class RemarksContentResDto {
 	
 //	private Long remarksContentId;
-	private Long userId;
-	private String contentId;
-	private String contentTypeId;
+	private Long user_id;
+	private String contentid;
+	private String contentypeid;
 	private String title;
 	private String addr;
-	private String areaCode;
-	private String sigunguCode;
+	private String areacode;
+	private String sigungucode;
 	private String firstimage;
 	
 	@Column(length=1000)
-	private String remarksContent;
+	private String remarks_content;
 
 }
