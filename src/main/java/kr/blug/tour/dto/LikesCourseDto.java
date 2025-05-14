@@ -12,10 +12,13 @@ import lombok.NoArgsConstructor;
 public class LikesCourseDto {
 
 	private Long likes_course_id;
-	private Long user_id;
 	private Long course_id;
 	private String course_name;
 	private String course_description;
+	private Long writer_userid;
+	private String writer_nickname;
+	private Long user_id;
+	private String user_nickname;
 	private String areacode;
 	private String sigungucode;
 	private Long likes_count;

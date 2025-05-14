@@ -26,4 +26,46 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 //	@Query(value = "SELECT count(*) FROM likes_course WHERE user_id = :userId AND course_id = :courseId", nativeQuery = true)
 //	long  countNativeByuserIdAndCourseId(@Param("userId") Long userId, @Param("courseId") Long courseId);
 
+	
+	@Query("SELECT l FROM LikesCourseEntity l JOIN l.course c WHERE l.user.userId = :userId ORDER BY c.areaCode ASC")
+	Page<LikesCourseEntity> findByUserIdOrderByCourseAreaCode(@Param("userId") Long userId, Pageable pageable);
+	
+	
+	
+	//countQuery는 반드시 group by 된 course_id의 수만 세도록 따로 작성해줘야 함.
+	@Query(
+		    value = """
+		        SELECT 
+		            a.course_id AS courseId,
+		            a.user_id AS writerUserId,
+		            u.nickname AS writerNickname,
+		            a.area_code AS areaCode,
+		            a.sigungu_code AS sigunguCode,
+		            a.course_name AS courseName,
+		            a.description AS description,
+		            a.crdttm AS crdttm,
+		            a.updttm AS updttm,
+		            c.cnt AS likesCount
+		        FROM (
+		            SELECT course_id, COUNT(*) AS cnt
+		            FROM likes_course
+		            GROUP BY course_id
+		        ) c
+		        JOIN course a ON a.course_id = c.course_id
+		        JOIN user u ON a.user_id = u.user_id
+		        ORDER BY c.cnt DESC
+		        """,
+		    countQuery = """
+		        SELECT COUNT(*) FROM (
+		            SELECT course_id
+		            FROM likes_course
+		            GROUP BY course_id
+		        ) AS counted
+		        """,
+		    nativeQuery = true
+		)
+		Page<ProjectionLikesCourseCount> listCoursesOrderByLikesCountDesc(Pageable pageable);
+	
+	
+	
 }
