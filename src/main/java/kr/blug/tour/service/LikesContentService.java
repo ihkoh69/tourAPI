@@ -26,6 +26,7 @@ public class LikesContentService {
 
 			dto.setUserId(myContent.getUser().getUserId());
 			dto.setLikesContentId(myContent.getLikesContentId());
+			dto.setContentId(myContent.getContents().getContentId());
 			dto.setContentTypeId(myContent.getContents().getContentTypeId());
 			dto.setTitle(myContent.getContents().getTitle());
 			dto.setAddr(myContent.getContents().getAddr());
@@ -46,6 +47,7 @@ public class LikesContentService {
 			
 			dto.setUserId(myContent.getUser().getUserId());
 			dto.setLikesContentId(myContent.getLikesContentId());
+			dto.setContentId(myContent.getContents().getContentId());
 			dto.setContentTypeId(myContent.getContents().getContentTypeId());
 			dto.setTitle(myContent.getContents().getTitle());
 			dto.setAddr(myContent.getContents().getAddr());
@@ -53,7 +55,6 @@ public class LikesContentService {
 			dto.setSigunguCode(myContent.getContents().getSigunguCode());
 			dto.setFirstimage(myContent.getContents().getFirstimage());
 
-			
 			return dto;
 		});
 		

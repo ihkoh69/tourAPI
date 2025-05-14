@@ -25,12 +25,17 @@ public class LikesCourseService {
 		return likesCourseRepository.findByUser_UserIdAndCourse_CourseId(userId, courseId).map(myCourse->{
 			LikesCourseDto dto = new LikesCourseDto();
 
-			dto.setLikesCourseId(myCourse.getLikesCourseId());
-			dto.setUserId(myCourse.getUser().getUserId());
-			dto.setCourseId(myCourse.getCourse().getCourseId());
-			dto.setAreaCode(myCourse.getAreaCode());
-			dto.setSigunguCode(myCourse.getSigunguCode());
-			dto.setGoodOrHate(myCourse.getGoodOrHate());
+//			dto.setLikes_count(likesCourseRepository.countNativeByuserIdAndCourseId(userId,courseId));
+			dto.setLikes_count(likesCourseRepository.countByCourseId(courseId));
+				
+			dto.setLikes_course_id(myCourse.getLikesCourseId());
+			dto.setUser_id(myCourse.getUser().getUserId());
+			dto.setCourse_id(myCourse.getCourse().getCourseId());
+			dto.setCourse_name(myCourse.getCourse().getCourseName());
+			dto.setCourse_description(myCourse.getCourse().getDescription());
+			dto.setAreacode(myCourse.getCourse().getAreaCode());
+			dto.setSigungucode(myCourse.getCourse().getSigunguCode());
+
 			
 			return dto;
 		});
@@ -61,12 +66,14 @@ public class LikesCourseService {
 			
 			LikesCourseDto dto = new LikesCourseDto();
 			
-			dto.setLikesCourseId(entity.getLikesCourseId());
-			dto.setUserId(entity.getUser().getUserId());
-			dto.setCourseId(entity.getCourse().getCourseId());
-			dto.setAreaCode(entity.getAreaCode());
-			dto.setSigunguCode(entity.getSigunguCode());
-			dto.setGoodOrHate(entity.getGoodOrHate());
+			dto.setLikes_course_id(entity.getLikesCourseId());
+			dto.setUser_id(entity.getUser().getUserId());
+			dto.setCourse_id(entity.getCourse().getCourseId());
+			dto.setCourse_name(entity.getCourse().getCourseName());
+			dto.setCourse_description(entity.getCourse().getDescription());
+			dto.setAreacode(entity.getCourse().getAreaCode());
+			dto.setSigungucode(entity.getCourse().getSigunguCode());
+
 			
 			return dto;
 		});
