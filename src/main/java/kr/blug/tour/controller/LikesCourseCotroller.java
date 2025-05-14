@@ -32,7 +32,7 @@ public class LikesCourseCotroller {
 	
 	@GetMapping("/likes/course/list")
 	public ResponseEntity<Map<String, Object>> listMyLikes(
-			@RequestParam("userId") Long userId,
+			@RequestParam("user_id") Long userId,
 			@PageableDefault(size=10, page=0, sort="areaCode", direction = Sort.Direction.ASC ) Pageable pageable
 			){
 		
@@ -57,8 +57,8 @@ public class LikesCourseCotroller {
 	
 	@GetMapping("/likes/course/check")
 	public ResponseEntity<Map<String, Object>> findByUserIdAndCourseId(
-			@RequestParam("userId") Long  userId,
-			@RequestParam("courseId") Long courseId
+			@RequestParam("user_id") Long  userId,
+			@RequestParam("course_id") Long courseId
 			) {
 		
 

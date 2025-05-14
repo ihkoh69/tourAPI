@@ -42,7 +42,7 @@ public class LikesContentController {
 	@GetMapping("/likes/content/list")
 	public ResponseEntity<Map<String, Object>> listByUser(
 				@RequestParam("userId") Long userId,
-				@PageableDefault(size=10, page=0, sort = "title", direction = Sort.Direction.ASC) Pageable pageable
+				@PageableDefault(size=10, page=0) Pageable pageable
 			) {
 		
 		Page<LikesContentDto> items = likesContentService.listByUser(userId, pageable);

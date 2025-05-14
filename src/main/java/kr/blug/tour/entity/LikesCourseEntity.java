@@ -32,9 +32,9 @@ import lombok.NoArgsConstructor;
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long likesCourseId;
 		
-		private String areaCode;
-		private String sigunguCode;
-		private String goodOrHate;
+//		private String areaCode;
+//		private String sigunguCode;
+//		private String goodOrHate;
 		private LocalDateTime crdttm;
 		
 		@ManyToOne(fetch = FetchType.LAZY)

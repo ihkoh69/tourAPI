@@ -11,12 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class LikesCourseDto {
 
-	private Long likesCourseId;
-	private Long userId;
-	private Long courseId;
-	private String areaCode;
-	private String sigunguCode;
-	private String goodOrHate;
+	private Long likes_course_id;
+	private Long user_id;
+	private Long course_id;
+	private String course_name;
+	private String course_description;
+	private String areacode;
+	private String sigungucode;
+	private Long likes_count;
 	private LocalDateTime crdttm;
 	
 }
