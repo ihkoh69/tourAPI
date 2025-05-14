@@ -28,47 +28,35 @@ public class RemarksContentService {
 	
 	public void remarksContentInsert(RemarksContentDto dto) {
 		RemarksContentEntity remarks = RemarksContentEntity.builder()
-				.contentId(dto.getContentId())
+//				.contents(dto.getContentid())
 				.build();		
 		remarksContentRepository.save(remarks);
 	}
 
-	public Optional<RemarksContentDto> findByUserAndContent(Long userId, String contentId) {	
-		return remarksContentRepository.findByUser_UserIdAndContentId(userId, contentId)
-				.map(item->{
-					RemarksContentDto dto = new RemarksContentDto();	
-					
-					dto.setRemarksContentId(item.getRemarksContentId());
-					dto.setUserId(item.getUser().getUserId());
-					dto.setContentId(item.getContentId());	
-					dto.setTitle(item.getTitle());
-					dto.setAddr(item.getAddr());
-					dto.setAreaCode(item.getAreaCode());
-					dto.setSigunguCode(item.getSigunguCode());
-					dto.setFirstimage(item.getFirstimage());
-					dto.setRemarksContent(item.getRemarksContent());	
-					
-					return dto;
-				});
-	}
+//	public Optional<RemarksContentDto> findByUserAndContentid(Long user_id, String contentid) {	
+//		return remarksContentRepository.findByUser_User_idAndContents_Contentid(user_id, contentid)
+//				.map(item->{
+//					RemarksContentDto dto = new RemarksContentDto();	
+//					
+//					
+//					dto.setRemarkscontentid(item.getRemarkscontentid());
+//					dto.setRemarksContent(item.getRemarksContent());	
+//					dto.setuserid(item.getUser().getuserid());
+//
+//					
+//					return dto;
+//				});
+//	}
 
-	public Page<RemarksContentDto> listByUser(Long userId, Pageable pageable) {		
-		return remarksContentRepository.findByUser_UserId(userId, pageable)
-				.map(item->{
-					RemarksContentDto dto = new RemarksContentDto();
-					
-					dto.setRemarksContentId(item.getRemarksContentId());
-					dto.setUserId(item.getUser().getUserId());
-					dto.setContentId(item.getContentId());	
-					dto.setTitle(item.getTitle());
-					dto.setAddr(item.getAddr());
-					dto.setAreaCode(item.getAreaCode());
-					dto.setSigunguCode(item.getSigunguCode());
-					dto.setFirstimage(item.getFirstimage());
-					dto.setRemarksContent(item.getRemarksContent());	
-			return dto; 
-		});
+//	public Page<RemarksContentDto> listByUser(Long userid, Pageable pageable) {		
+//		return remarksContentRepository.findByUser_userid(userid, pageable)
+//				.map(item->{
+//					RemarksContentDto dto = new RemarksContentDto();
+//					
+//					
+//			return dto; 
+//		});
 	
-	}				
+	}			
 
-}
+

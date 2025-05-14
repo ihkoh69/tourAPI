@@ -46,20 +46,20 @@ public class RemarksContentController {
 	}
 	  
 	//조회
-	@GetMapping("/check")
-	public ResponseEntity<Map<String, Object>> findByUserAndContent(
-			@RequestParam("userId") Long userId,
-			@RequestParam("contentId") String contentId){
-			
-		Optional<RemarksContentDto> dto = remarksContentService
-				.findByUserAndContent(userId, contentId);
-		if(dto.isPresent()) {
-			return ResponseEntity.ok(Map.of("result", "success","data",dto));
-		}
-		else {
-			return ResponseEntity.ok(Map.of("result", "not_found"));
-		}
-	}
+//	@GetMapping("/check")
+//	public ResponseEntity<Map<String, Object>> findByUserAndContent(
+//			@RequestParam("user_id") Long user_id,
+//			@RequestParam("content_id") String contentid){
+//			
+//		Optional<RemarksContentDto> dto = remarksContentService
+//				.findByUserAndContentid(user_id, contentid);
+//		if(dto.isPresent()) {
+//			return ResponseEntity.ok(Map.of("result", "success","data",dto));
+//		}
+//		else {
+//			return ResponseEntity.ok(Map.of("result", "not_found"));
+//		}
+//	}
 	
 	//total list 현재 작동 안함
 //	@GetMapping("/list")
@@ -69,23 +69,23 @@ public class RemarksContentController {
 //	}
 	
 	//pagination
-	@GetMapping("/list")
-	public ResponseEntity<Map<String, Object>> listByUser(
-			@RequestParam("userId") Long userId,
-			@PageableDefault(size=10, page=1, sort = "title", direction = Sort.Direction.ASC) Pageable pageable
-		) {
-		Page<RemarksContentDto> items = remarksContentService.listByUser(userId, pageable);
-		
-		if(!items.isEmpty()) {
-			return ResponseEntity.ok(Map.of("result", "success",
-					"items",items,
-					"totalPages", items.getTotalPages(),
-					"totoalElements", items.getTotalElements(),				
-					"currentPage", items.getNumber()		
-					));
-		}
-		else {
-			return ResponseEntity.ok(Map.of("result", "not_found"));
-		}
-	}
+//	@GetMapping("/list")
+//	public ResponseEntity<Map<String, Object>> listByUser(
+//			@RequestParam("user_id") Long user_id,
+//			@PageableDefault(size=10, page=1, sort = "title", direction = Sort.Direction.ASC) Pageable pageable
+//		) {
+//		Page<RemarksContentDto> items = remarksContentService.listByUser(user_id, pageable);
+//		
+//		if(!items.isEmpty()) {
+//			return ResponseEntity.ok(Map.of("result", "success",
+//					"items",items,
+//					"totalPages", items.getTotalPages(),
+//					"totoalElements", items.getTotalElements(),				
+//					"currentPage", items.getNumber()		
+//					));
+//		}
+//		else {
+//			return ResponseEntity.ok(Map.of("result", "not_found"));
+//		}
+//	}
 }

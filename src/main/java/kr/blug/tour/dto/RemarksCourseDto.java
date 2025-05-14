@@ -1,7 +1,5 @@
 package kr.blug.tour.dto;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,18 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RemarksCourseDto {
 
-	private Long remarksContentId;
-	private Long userId;
-	private String contentId;
-	private String contentTypeId;
-	private String title;
-	private String addr;
-	private String areaCode;
-	private String sigunguCode;
-	private String firstimage;
-	
+	private Long remarks_course_id;
+	private Long user_id;
 	@Column(length=1000)
-	private String remarksCourse;
+	private String remarks_course;
 	
-	private LocalDateTime crdttm;
+	private Long course_id;
+	private String course_name;
+
+
 }
