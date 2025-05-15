@@ -16,6 +16,7 @@ public class CourseDto {
 	private String user_nickname;
 	private String course_name;
 	private String description;
+	private Long shared_count;
 	private String areacode;
 	private String sigungucode;
 	private LocalDateTime crdttm;

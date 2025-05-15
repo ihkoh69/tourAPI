@@ -26,10 +26,11 @@ public class FavoritesController {
 	@GetMapping("/favorites/list")
 	public ResponseEntity<Map<String, Object>> listFavoritesByUserId(
 			@RequestParam(value="user_id", required=true) Long userId,
-			@PageableDefault(size=10, page=0, sort="title", direction = Sort.Direction.ASC) Pageable pageable){ // sort에 대입되는 인자는 물리적DB의 컬럼명 user_id가 아니라 Entity의 필드명 userId여야 
+			@RequestParam(value="contenttypeid", required=true) String contentTypeId,
+			@PageableDefault(size=10, page=0, sort="crdttm", direction = Sort.Direction.ASC) Pageable pageable){ // sort에 대입되는 인자는 물리적DB의 컬럼명 user_id가 아니라 Entity의 필드명 userId여야 
 		
 		
-		Page<FavoritesDto> items = favoritesService.listByUserId(userId, pageable);
+		Page<FavoritesDto> items = favoritesService.listByUserIdAndContentTypeId(userId, contentTypeId, pageable);
 		
 		return ResponseEntity.ok(Map.of(
 				"result", "success", 

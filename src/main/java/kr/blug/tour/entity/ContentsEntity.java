@@ -32,9 +32,7 @@ public class ContentsEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long contentsRowId;
-	
-	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<LikesContentEntity> likesContents = new ArrayList<>();
+
 	
 	@Column(name="content_id", nullable = false)
 	private String contentId;
@@ -49,4 +47,11 @@ public class ContentsEntity {
 	private LocalDateTime crdttm;
 	
 	
+	
+	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<LikesContentEntity> likesContents = new ArrayList<>();	
+	
+		
+	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<FavoritesEntity> favorites = new ArrayList<>();	
 }

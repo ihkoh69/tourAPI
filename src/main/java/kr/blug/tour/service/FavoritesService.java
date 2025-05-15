@@ -20,9 +20,9 @@ public class FavoritesService {
 	@Autowired
 	private FavoritesRepository favoritesRepository;
 
-	public Page<FavoritesDto> listByUserId(Long userId, Pageable pageable) {
+	public Page<FavoritesDto> listByUserIdAndContentTypeId(Long userId, String contentTypeId, Pageable pageable) {
 		
-		Page<FavoritesEntity> favoritesPage = favoritesRepository.findAllByUser_UserId(userId, pageable);
+		Page<FavoritesEntity> favoritesPage = favoritesRepository.findByUser_UserIdAndContents_ContentTypeIdOrderByCrdttmDesc(userId, contentTypeId, pageable);
 		
 		return favoritesPage.map(record->{
 			FavoritesDto dto = new FavoritesDto();
@@ -30,13 +30,13 @@ public class FavoritesService {
 			dto.setFavorites_id(record.getFavoritesId());
 			dto.setUser_id(record.getUser().getUserId());
 			dto.setUser_nickname(record.getUser().getNickname());
-			dto.setContentid(record.getContentId());
-			dto.setContenttypeid(record.getContentTypeId());
-			dto.setTitle(record.getTitle());
-			dto.setAddr(record.getAddr());
-			dto.setAreacode(record.getAreaCode());
-			dto.setSigungucode(record.getSigunguCode());
-			dto.setFirstimage(record.getFirstimage());
+			dto.setContentid(record.getContents().getContentId());
+			dto.setContenttypeid(record.getContents().getContentTypeId());
+			dto.setTitle(record.getContents().getTitle());
+			dto.setAddr(record.getContents().getAddr());
+			dto.setAreacode(record.getContents().getAreaCode());
+			dto.setSigungucode(record.getContents().getSigunguCode());
+			dto.setFirstimage(record.getContents().getFirstimage());
 			
 			return dto;
 		});
