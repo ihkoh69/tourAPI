@@ -26,13 +26,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Table(name="remarks_course",
-//uniqueConstraints = {
-//		@UniqueConstraint(
-//				columnNames = {"course_id", "user_id"}
-//		)
-//	}
-//)
+@Table(name="remarks_course",
+uniqueConstraints = {
+		@UniqueConstraint(
+				columnNames = {"course_id", "user_id"}
+		)
+	}
+)
 
 public class RemarksCourseEntity {
 

@@ -16,12 +16,12 @@ import kr.blug.tour.entity.RemarksContentEntity;
 @Repository
 public interface RemarksContentRepository extends JpaRepository<RemarksContentEntity, Long> {
 
-//	Optional<RemarksContentEntity> findByUser_User_idAndContents_Contentid(Long user_id, String contentid);
 
 	
-//	@Query("select t from RemarksContentEntity t left join fetch t.content_id where t.id = :id")
-//	Optional<RemarksContentEntity> findById(@Param("id") Long id);
+	@Query("select t from RemarksContentEntity t left join fetch t.content_id where t.id = :id")
+	Optional<RemarksContentEntity> findById(@Param("id") Long id);
 
+//	Optional<RemarksContentEntity> findByUser_User_idAndContents_Contentid(Long user_id, String contentid);
 //	Optional<RemarksContentEntity> findByUser_UserIdAndContents_ContentId(Long userid, String contentid);
 //	Page<RemarksContentEntity> findByUser_UserId(Long userid, Pageable pageable);
 

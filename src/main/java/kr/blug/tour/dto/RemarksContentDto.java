@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 public class RemarksContentDto {
 
 	private Long remarks_content_id;
-	private Long user_id;
-	@Column(length=1000)
 	private String remarks_content;
 	
+	private Long user_id;
+
 	private String contentid;
 	private String title;
+	private String contenttypeid;
 	
-
 }
