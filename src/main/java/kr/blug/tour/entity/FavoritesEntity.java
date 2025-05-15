@@ -32,14 +32,23 @@ public class FavoritesEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long favoritesId;
 	
-	@Column(name="content_id", nullable = false)
-	private String contentId;
-	private String ContentTypeId;
-	private String title;
-	private String addr;
-	private String areaCode;
-	private String sigunguCode;
-	private String firstimage;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name= "content_id",  referencedColumnName = "content_id", nullable = false)
+	private ContentsEntity contents;
+	//private String contentId;
+	
+//	@Column(name="content_id", nullable = false)
+//	private String contentId;
+//	
+//	private String contentTypeId;
+//	private String title;
+//	private String addr;
+//	private String areaCode;
+//	private String sigunguCode;
+//	private String firstimage;
+	
+	
 	private LocalDateTime crdttm;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
