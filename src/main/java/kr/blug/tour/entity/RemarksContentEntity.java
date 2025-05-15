@@ -26,11 +26,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-//@Table(name="remarks_content",
-//uniqueConstraints = {
-//		  @UniqueConstraint(columnNames = {"content_id", "user_id"})
-//		}
-//	)
+@Table(name="remarks_content",
+uniqueConstraints = {
+		  @UniqueConstraint(columnNames = {"content_id", "user_id"})
+		}
+	)
 public class RemarksContentEntity {
 
 		@Id
@@ -51,5 +51,7 @@ public class RemarksContentEntity {
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name="content_id", referencedColumnName = "content_id", nullable = false)
 		private ContentsEntity contents;
- }
+
+}
+
 

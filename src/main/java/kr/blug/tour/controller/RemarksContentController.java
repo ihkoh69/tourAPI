@@ -36,30 +36,30 @@ public class RemarksContentController {
 	private RemarksContentService remarksContentService;
 	
 	//create
-	@PostMapping("/")
-	public String remarksContentCreate(
-			@RequestBody RemarksContentDto remarksContentDto
-			){		
-		System.out.println(remarksContentDto);		
-		remarksContentService.remarksContentInsert(remarksContentDto);		
-		return null;	
-	}
+//	@PostMapping("/")
+//	public String remarksContentCreate(
+//			@RequestBody RemarksContentDto remarksContentDto
+//			){		
+//		System.out.println(remarksContentDto);		
+//		remarksContentService.remarksContentInsert(remarksContentDto);		
+//		return null;	
+//	}
 	  
 	//조회
-//	@GetMapping("/check")
-//	public ResponseEntity<Map<String, Object>> findByUserAndContent(
-//			@RequestParam("user_id") Long user_id,
-//			@RequestParam("content_id") String contentid){
-//			
-//		Optional<RemarksContentDto> dto = remarksContentService
-//				.findByUserAndContentid(user_id, contentid);
-//		if(dto.isPresent()) {
-//			return ResponseEntity.ok(Map.of("result", "success","data",dto));
-//		}
-//		else {
-//			return ResponseEntity.ok(Map.of("result", "not_found"));
-//		}
-//	}
+	@GetMapping("/check")
+	public ResponseEntity<Map<String, Object>> findByUserAndContent(
+			@RequestParam("user_id") Long user_id,
+			@RequestParam("content_id") String contentid){
+			
+		Optional<RemarksContentDto> dto = remarksContentService
+				.findByUserAndContentid(user_id, contentid);
+		if(dto.isPresent()) {
+			return ResponseEntity.ok(Map.of("result", "success","data",dto));
+		}
+		else {
+			return ResponseEntity.ok(Map.of("result", "not_found"));
+		}
+	}
 	
 	//total list 현재 작동 안함
 //	@GetMapping("/list")
