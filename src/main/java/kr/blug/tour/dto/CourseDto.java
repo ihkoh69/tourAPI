@@ -11,13 +11,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CourseDto {
 	
-	private Long courseId;
-	private Long userId;	
-	private String userNickname;
-	private String courseName;
+	private Long course_id;
+	private Long user_id;	
+	private String user_nickname;
+	private String course_name;
 	private String description;
-	private String areaCode;
-	private String sigunguCode;
+	private String areacode;
+	private String sigungucode;
 	private LocalDateTime crdttm;
 	private LocalDateTime updttm;
 	

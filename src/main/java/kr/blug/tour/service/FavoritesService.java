@@ -27,15 +27,15 @@ public class FavoritesService {
 		return favoritesPage.map(record->{
 			FavoritesDto dto = new FavoritesDto();
 			
-			dto.setFavoritesId(record.getFavoritesId());
-			dto.setUserId(record.getUser().getUserId());
-			dto.setUserNickName(record.getUser().getNickname());
-			dto.setContentId(record.getContentId());
-			dto.setContentTypeId(record.getContentTypeId());
+			dto.setFavorites_id(record.getFavoritesId());
+			dto.setUser_id(record.getUser().getUserId());
+			dto.setUser_nickname(record.getUser().getNickname());
+			dto.setContentid(record.getContentId());
+			dto.setContenttypeid(record.getContentTypeId());
 			dto.setTitle(record.getTitle());
 			dto.setAddr(record.getAddr());
-			dto.setAreaCode(record.getAreaCode());
-			dto.setSigunguCode(record.getSigunguCode());
+			dto.setAreacode(record.getAreaCode());
+			dto.setSigungucode(record.getSigunguCode());
 			dto.setFirstimage(record.getFirstimage());
 			
 			return dto;
