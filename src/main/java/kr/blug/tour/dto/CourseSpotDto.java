@@ -1,15 +1,17 @@
 package kr.blug.tour.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CourseSpotDto {
-	private Long courseSpotId;
 	
+	private Long courseSpotId;	
 	private Long courseId;
 	
 	private String contentId;
@@ -17,8 +19,6 @@ public class CourseSpotDto {
 	private String title;
 	private String addr;
 	private String titleImage;
-	private String subImages;
-	private String cat3;
 	private String areaCode;
 	private String sigunguCode;
 }

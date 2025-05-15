@@ -37,7 +37,6 @@ public class CourseEntity {
 	private Long sharedCount = 0L;  // 공유된 횟수, Column 어노테이션에서는 default 값을 쓸 수 없다.
 	private String areaCode;
 	private String sigunguCode;
-	private LocalDateTime crdttm;
 	private LocalDateTime updttm;
 
 

@@ -18,5 +18,6 @@ public interface FavoritesRepository extends JpaRepository<FavoritesEntity, Long
 
 	Page<FavoritesEntity> findByUser_UserIdAndContents_ContentTypeIdOrderByCrdttmDesc(Long userId, String contentTypeId, Pageable pageable);
 	
+	boolean existsByUser_UserIdAndContents_ContentId(Long userId, String contentId);
 	
 }

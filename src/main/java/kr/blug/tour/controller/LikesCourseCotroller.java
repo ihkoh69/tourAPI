@@ -62,41 +62,41 @@ public class LikesCourseCotroller {
 	}
 	
 	
-	// 사용하지않음. 
-	@GetMapping("/likes/course/mylist")
-	public ResponseEntity<Map<String, Object>> listMyLikes(
-			@RequestParam("user_id") Long userId,
-			@PageableDefault(size=10, page=0) Pageable pageable
-//			@PageableDefault(size=10, page=0, sort="areaCode", direction = Sort.Direction.ASC ) Pageable pageable   /* @PageableDefault(sort = "중첩 필드")에서 중첩 필드(course.areaCode 등)는 사용할 수 없음 */
-			){
-		
-						// LikesCourseEntity에 포함된 아래내용에 따라 course객체를 사용하여 course.areaCode의 형태로 참조
-//						@ManyToOne(fetch = FetchType.LAZY)
-//						@JoinColumn(name="course_id", nullable = false)
-//						private CourseEntity course;
-		
-		Sort sort = Sort.by(Sort.Direction.ASC,"course.areaCode");
-		Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-		
-		
-//		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, pageable);
-		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, sortedPageable);
-		
-		System.out.println(items.isEmpty());
-		if(!items.isEmpty()) { 
-			return ResponseEntity.ok(Map.of("result","success", 
-					"items", items.getContent(),
-					"totalPages", items.getTotalPages(),
-					"totoalElements", items.getTotalElements(),				
-					"currentPage", items.getNumber()		));
-		}
-		else {
-			return ResponseEntity.ok(Map.of("result","not_found"));
-			
-		}	
-		
-	}
-	
+//	// 사용하지않음. 
+//	@GetMapping("/likes/course/mylist")
+//	public ResponseEntity<Map<String, Object>> listMyLikes(
+//			@RequestParam("user_id") Long userId,
+//			@PageableDefault(size=10, page=0) Pageable pageable
+////			@PageableDefault(size=10, page=0, sort="areaCode", direction = Sort.Direction.ASC ) Pageable pageable   /* @PageableDefault(sort = "중첩 필드")에서 중첩 필드(course.areaCode 등)는 사용할 수 없음 */
+//			){
+//		
+//						// LikesCourseEntity에 포함된 아래내용에 따라 course객체를 사용하여 course.areaCode의 형태로 참조
+////						@ManyToOne(fetch = FetchType.LAZY)
+////						@JoinColumn(name="course_id", nullable = false)
+////						private CourseEntity course;
+//		
+//		Sort sort = Sort.by(Sort.Direction.ASC,"course.areaCode");
+//		Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+//		
+//		
+////		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, pageable);
+//		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, sortedPageable);
+//		
+//		System.out.println(items.isEmpty());
+//		if(!items.isEmpty()) { 
+//			return ResponseEntity.ok(Map.of("result","success", 
+//					"items", items.getContent(),
+//					"totalPages", items.getTotalPages(),
+//					"totoalElements", items.getTotalElements(),				
+//					"currentPage", items.getNumber()		));
+//		}
+//		else {
+//			return ResponseEntity.ok(Map.of("result","not_found"));
+//			
+//		}	
+//		
+//	}
+//	
 	
 	@GetMapping("/likes/course/check")
 	public ResponseEntity<Map<String, Object>> findByUserIdAndCourseId(

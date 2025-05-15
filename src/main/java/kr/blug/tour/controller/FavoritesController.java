@@ -11,10 +11,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.blug.tour.dto.FavoritesDto;
+import kr.blug.tour.dto.FavoritesSaveDto;
+import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.service.FavoritesService;
 
 @RestController
@@ -22,6 +26,16 @@ public class FavoritesController {
 
 	@Autowired
 	private FavoritesService favoritesService;
+	
+	
+    @PostMapping("/favorites/save")
+    public ResponseEntity<Map<String,Object>> addFavorite(@RequestBody FavoritesSaveDto dto) {
+    	
+        SaveResponseDto result = favoritesService.saveFavorite(dto);
+
+        return ResponseEntity.ok(Map.of("result", result));
+        
+    }
 	
 	@GetMapping("/favorites/list")
 	public ResponseEntity<Map<String, Object>> listFavoritesByUserId(
