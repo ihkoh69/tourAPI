@@ -46,12 +46,13 @@ public class ContentsEntity {
 	private String firstimage;
 	private LocalDateTime crdttm;
 	
-	
-	
-	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<LikesContentEntity> likesContents = new ArrayList<>();	
-	
 		
 	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<LikesContentEntity> likesContents = new ArrayList<>();	
+			
+	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FavoritesEntity> favorites = new ArrayList<>();	
+	
+	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL,orphanRemoval = true)
+	private List<CourseSpotEntity> courseSpot = new ArrayList<>();
 }

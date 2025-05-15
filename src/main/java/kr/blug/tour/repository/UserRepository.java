@@ -8,4 +8,6 @@ import kr.blug.tour.entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
 
+	UserEntity findByUserId(Long userId);
+
 }

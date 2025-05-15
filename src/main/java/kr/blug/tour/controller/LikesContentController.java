@@ -42,7 +42,7 @@ public class LikesContentController {
 	
 	@GetMapping("/likes/content/mylist")
 	public ResponseEntity<Map<String, Object>> listByUser(
-				@RequestParam("userId") Long userId,
+				@RequestParam("user_id") Long userId,
 				@PageableDefault(size=10, page=0) Pageable pageable
 			) {
 		

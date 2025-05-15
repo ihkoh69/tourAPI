@@ -22,27 +22,37 @@ public class CourseSpotEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long courseSpotId;
+	private Long priorityNo;
 	
-	private String contentId;
-	private String contentTypeId;
-	private String title;
 	
-	@Column(length=300)
-	private String addr;
+	@ManyToOne(fetch=FetchType.LAZY)
+	@JoinColumn(name="content_id")
+	private ContentsEntity contents;	
+	//private String contentId;
 	
-	@Column(length=300)
-	private String titleImage;
-	
-	@Column(length=2000)
-	private String subImages;
-	private String cat3;
-	private String areaCode;
-	private String sigunguCode;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="course_id")
 	private CourseEntity course;
 //	private Long courseId;
+	
+	
+//	private String contentTypeId;
+//	private String title;
+//	
+//	@Column(length=300)
+//	private String addr;
+//	
+//	@Column(length=300)
+//	private String titleImage;
+//	
+//	@Column(length=2000)
+//	private String subImages;
+//	private String cat3;
+//	private String areaCode;
+//	private String sigunguCode;
+	
+
 	
 	
 
