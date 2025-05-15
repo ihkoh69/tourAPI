@@ -11,15 +11,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FavoritesDto {
 
-	private Long favoritesId;
-	private Long userId;
-	private String userNickName;
-	private String contentId;
-	private String ContentTypeId;
+	private Long favorites_id;
+	private Long user_id;
+	private String user_nickname;
+	private String contentid;
+	private String contenttypeid;
 	private String title;
 	private String addr;
-	private String areaCode;
-	private String sigunguCode;
+	private String areacode;
+	private String sigungucode;
 	private String firstimage;
 	private LocalDateTime crdttm;
 	

@@ -1,5 +1,6 @@
 package kr.blug.tour.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ import kr.blug.tour.dto.LikesContentDto;
 import kr.blug.tour.dto.LikesCourseDto;
 import kr.blug.tour.entity.LikesContentEntity;
 import kr.blug.tour.repository.LikesContentRepository;
+import kr.blug.tour.repository.ProjectionLikesCotentCount;
+import kr.blug.tour.repository.ProjectionLikesCourseCount;
 
 @Service
 public class LikesContentService {
@@ -59,5 +62,50 @@ public class LikesContentService {
 		});
 		
 	}
+
+	public Page<LikesContentDto> listLikesContentAll(Pageable pageable, String areaCode, String sigunguCode,
+			Long userId) {
+		
+Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId);
+		
+		page.getContent().forEach(item -> {
+		    System.out.println(item.getTitle() + " / 좋아요 수: " + item.getLikesCount());
+		});	
+		
+
+//		Page<LikesCourseDto> dtoPage = page.map(course -> new LikesCourseDto()
+//		);
+		
+		Page<LikesContentDto> dtoPage = page.map(item -> {
+				LikesContentDto dto = new LikesContentDto();
+				
+				
+				
+				
+				
+//				dto.setLikes_content_id();
+
+				dto.setContentid(item.getContentId());
+				dto.setContenttypeid(item.getContentTypeId());
+				dto.setTitle(item.getTitle());
+				dto.setAddr(item.getAddr());
+				dto.setAreacode(item.getAreaCode());
+				dto.setSigungucode(item.getSigunguCode());
+				dto.setFirstimage(item.getFirstimage());
+				dto.setLikes_count(item.getLikesCount());
+				
+	
+	//			private LocalDateTime crdttm;
+				
+				
+				return dto;
+			}
+		);
+
+		
+		return dtoPage;
+
+	}
+
 
 }

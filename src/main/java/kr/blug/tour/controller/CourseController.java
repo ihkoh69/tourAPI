@@ -31,9 +31,12 @@ public class CourseController {
 		
 		Page<CourseDto> items = courseService.listCourses(pageable);
 		
-		if(!items.isEmpty( )) {
-			return ResponseEntity.ok(Map.of("result","success", "items", items));
-			
+		if(!items.getContent().isEmpty()) {
+			return ResponseEntity.ok(Map.of("result","success",  
+					"items", items.getContent(),
+					"totalPages", items.getTotalPages(),
+					"totoalElements", items.getTotalElements(),				
+					"currentPage", items.getNumber()		));
 		}
 		else {
 			return ResponseEntity.ok(Map.of("result","not_found"));

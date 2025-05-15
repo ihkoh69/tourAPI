@@ -26,13 +26,13 @@ public class CourseService {
 		return courseList.map(course->{
 			
 			CourseDto dto = new CourseDto();
-			dto.setCourseId(course.getCourseId());
-			dto.setUserId(course.getUser().getUserId());
-			dto.setUserNickname(course.getUser().getNickname());
-			dto.setCourseName(course.getCourseName());
+			dto.setCourse_id(course.getCourseId());
+			dto.setUser_id(course.getUser().getUserId());
+			dto.setUser_nickname(course.getUser().getNickname());
+			dto.setCourse_name(course.getCourseName());
 			dto.setDescription(course.getDescription());
-			dto.setAreaCode(course.getAreaCode());
-			dto.setSigunguCode(course.getSigunguCode());
+			dto.setAreacode(course.getAreaCode());
+			dto.setSigungucode(course.getSigunguCode());
 			
 			return dto;
 		});

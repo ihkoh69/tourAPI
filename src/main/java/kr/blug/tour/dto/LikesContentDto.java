@@ -25,6 +25,7 @@ public class LikesContentDto {
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;
+	private Long likes_count;
 	
 	private LocalDateTime crdttm;
 	

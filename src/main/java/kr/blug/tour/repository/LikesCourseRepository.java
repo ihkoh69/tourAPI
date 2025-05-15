@@ -37,8 +37,8 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		    value = """
 		        SELECT 
 		            a.course_id AS courseId,
-		            a.user_id AS writerUserId,
-		            u.nickname AS writerNickname,
+		            w.user_id AS writerUserId,
+		            w.nickname AS writerNickname,
 		            a.area_code AS areaCode,
 		            a.sigungu_code AS sigunguCode,
 		            a.course_name AS courseName,
@@ -47,25 +47,34 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		            a.updttm AS updttm,
 		            c.cnt AS likesCount
 		        FROM (
-		            SELECT course_id, COUNT(*) AS cnt
-		            FROM likes_course
-		            GROUP BY course_id
+		            SELECT lc.course_id, COUNT(*) AS cnt
+					FROM likes_course lc
+					JOIN user u1 ON lc.user_id = u1.user_id
+					WHERE (:userId IS NULL OR lc.user_id = :userId)
+					GROUP BY lc.course_id		            
 		        ) c
 		        JOIN course a ON a.course_id = c.course_id
-		        JOIN user u ON a.user_id = u.user_id
+		        JOIN user w ON a.user_id = w.user_id		        
+		         WHERE (:areaCode IS NULL OR a.area_code = :areaCode) AND (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode)
 		        ORDER BY c.cnt DESC
 		        """,
 		    countQuery = """
 		        SELECT COUNT(*) FROM (
-		            SELECT course_id
-		            FROM likes_course
-		            GROUP BY course_id
+		            SELECT lc.course_id
+		            FROM likes_course lc
+		            JOIN course c on lc.course_id = c.course_id
+		            WHERE (:userId IS NULL OR lc.user_id = :userId) AND 
+		                  (:areaCode IS NULL OR c.area_code = :areaCode) AND 
+		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode)
+		            GROUP BY lc.course_id
 		        ) AS counted
 		        """,
 		    nativeQuery = true
 		)
-		Page<ProjectionLikesCourseCount> listCoursesOrderByLikesCountDesc(Pageable pageable);
-	
+		Page<ProjectionLikesCourseCount> listCoursesOrderByLikesCountDesc(Pageable pageable, 
+				@Param("areaCode")  String areaCode, 
+				@Param("sigunguCode")  String sigunguCode, 
+				@Param("userId")  Long userId);
 	
 	
 }

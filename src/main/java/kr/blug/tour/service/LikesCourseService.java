@@ -118,10 +118,10 @@ public class LikesCourseService {
 	}
 
 
-	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable) {
+	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable, String areaCode, String sigunguCode, Long userId) {
 		
 		
-		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable);
+		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId);
 		
 		page.getContent().forEach(course -> {
 		    System.out.println(course.getCourseName() + " / 좋아요 수: " + course.getLikesCount());

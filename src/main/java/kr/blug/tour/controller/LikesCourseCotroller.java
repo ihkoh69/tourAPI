@@ -34,22 +34,36 @@ public class LikesCourseCotroller {
 	@Autowired
 	private LikesCourseService likesCourseService;
 	
-	@GetMapping("/likes/course/listAll")
+	@GetMapping("/likes/course/list")
 	public ResponseEntity<Map<String, Object>> listLikesCourseAll(
+				@RequestParam(name="areacode", required = false) String areaCode,
+				@RequestParam(name="sigungucode", required = false) String sigunguCode,
+				@RequestParam(name="user_id", required = false) Long userId,
 				@PageableDefault(size=10, page=0) Pageable pageable
 			) {
 		
-		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable);
+//		if(areaCode == null) areaCode = "%";
+//		if(sigunguCode == null) sigunguCode  = "%";
+//		if(userId == null) userId = "%";
+		
+		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable, areaCode, sigunguCode, userId);
 		if(!items.isEmpty()) {
 		
-			return ResponseEntity.ok(Map.of("result", "success", "items", items));
+			return ResponseEntity.ok(Map.of(
+					"result", "success", "items", items,
+					"totalPages", items.getTotalPages(),
+					"totoalElements", items.getTotalElements(),				
+					"currentPage", items.getNumber()		
+					));
 		}
 		else {
 			return ResponseEntity.ok(Map.of("result","not_found"));
 		}
 	}
 	
-	@GetMapping("/likes/course/list")
+	
+	// 사용하지않음. 
+	@GetMapping("/likes/course/mylist")
 	public ResponseEntity<Map<String, Object>> listMyLikes(
 			@RequestParam("user_id") Long userId,
 			@PageableDefault(size=10, page=0) Pageable pageable
@@ -71,7 +85,7 @@ public class LikesCourseCotroller {
 		System.out.println(items.isEmpty());
 		if(!items.isEmpty()) { 
 			return ResponseEntity.ok(Map.of("result","success", 
-					"items", items,
+					"items", items.getContent(),
 					"totalPages", items.getTotalPages(),
 					"totoalElements", items.getTotalElements(),				
 					"currentPage", items.getNumber()		));
@@ -79,8 +93,7 @@ public class LikesCourseCotroller {
 		else {
 			return ResponseEntity.ok(Map.of("result","not_found"));
 			
-		}
-			
+		}	
 		
 	}
 	
