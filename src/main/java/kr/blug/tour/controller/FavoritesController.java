@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,6 +36,18 @@ public class FavoritesController {
 
         return ResponseEntity.ok(Map.of("result", result));
         
+    }
+    
+    @DeleteMapping("/favorites/delete")
+    public ResponseEntity<Map<String, Object>> deleteFavorite(
+    		@RequestParam(value="user_id", required=true) Long userId,
+    		@RequestParam(value="contentid", required=true) String contentId)
+    {
+    	
+    	SaveResponseDto result = favoritesService.deleteByUserIdAndContentId(userId, contentId);
+    	
+    	return ResponseEntity.ok(Map.of("result", result));
+
     }
 	
 	@GetMapping("/favorites/list")

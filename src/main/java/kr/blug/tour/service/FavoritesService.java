@@ -97,9 +97,27 @@ public class FavoritesService {
 		    favorite.setCrdttm(LocalDateTime.now());
 
 		    FavoritesEntity saved = favoritesRepository.save(favorite);
-
+		    
 		    return new SaveResponseDto(true, "saved", "favorites_id", saved.getFavoritesId());
+
 		}
+
+	public SaveResponseDto deleteByUserIdAndContentId(Long userId, String contentId) {
+		
+		FavoritesEntity entity =  favoritesRepository.findByUser_UserIdAndContents_ContentId(userId, contentId);
+		
+		if(entity != null) {
+			Long favoritesId = entity.getFavoritesId();   //지우기 전에 id를 먼저 저장해 둠
+			
+			favoritesRepository.delete(entity);			
+	        return new SaveResponseDto(true, "deleted", "favorites_id", favoritesId);
+		}
+		else {
+			return new SaveResponseDto(false, "not_found", null, null);
+
+	    }
+	
+	}
 
 	
 //	public List<FavoritesDto> listByUserId(Long userId) {

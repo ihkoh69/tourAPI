@@ -40,28 +40,32 @@ public class LikesContentController {
 		}
 	}
 	
-	@GetMapping("/likes/content/mylist")
-	public ResponseEntity<Map<String, Object>> listByUser(
-				@RequestParam("user_id") Long userId,
-				@PageableDefault(size=10, page=0) Pageable pageable
-			) {
-		
-		Page<LikesContentDto> items = likesContentService.listByUser(userId, pageable);
-		
-		if(!items.isEmpty()) {
-			return ResponseEntity.ok(Map.of("result", "success", 
-					
-					"items", items,
-					"totalPages", items.getTotalPages(),
-					"totoalElements", items.getTotalElements(),				
-					"currentPage", items.getNumber()		
-					));
-		}
-		else {
-			return ResponseEntity.ok(Map.of("result", "not_found"));
-		}
-		
-	}
+	
+	
+	
+	//미사용 아래 메서드로 대
+//	@GetMapping("/likes/content/mylist")
+//	public ResponseEntity<Map<String, Object>> listByUser(
+//				@RequestParam("user_id") Long userId,
+//				@PageableDefault(size=10, page=0) Pageable pageable
+//			) {
+//		
+//		Page<LikesContentDto> items = likesContentService.listByUser(userId, pageable);
+//		
+//		if(!items.isEmpty()) {
+//			return ResponseEntity.ok(Map.of("result", "success", 
+//					
+//					"items", items,
+//					"totalPages", items.getTotalPages(),
+//					"totoalElements", items.getTotalElements(),				
+//					"currentPage", items.getNumber()		
+//					));
+//		}
+//		else {
+//			return ResponseEntity.ok(Map.of("result", "not_found"));
+//		}
+//		
+//	}
 	
 
 	@GetMapping("/likes/content/list")
