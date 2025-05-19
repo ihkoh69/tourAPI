@@ -14,6 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -52,6 +53,8 @@ public class CourseEntity {
 	private List<LikesCourseEntity> likesCourse = new ArrayList<>();
 
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OrderBy("id asc") //댓글정렬
 	private List<RemarksCourseEntity> remarksCourse = new ArrayList<>();
+//	private List<RemarksCourseEntity> remarksCourse;
 	
 }
