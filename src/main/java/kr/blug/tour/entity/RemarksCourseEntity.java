@@ -42,11 +42,11 @@ public class RemarksCourseEntity {
 		
 		private LocalDateTime crdttm;
 		
-		@Column(length=1000)
-		private String remarksCourse;;
+		@Column(columnDefinition = "TEXT", nullable=false)
+		private String remarksCourse; //댓글내용
 
 		//RemarksCourse vs UserEntity = N:1
-		@ManyToOne(fetch = FetchType.LAZY)
+		@ManyToOne(fetch = FetchType.LAZY)   
 		@JoinColumn(name="user_id", nullable = false)
 		private UserEntity user;
 
@@ -54,5 +54,10 @@ public class RemarksCourseEntity {
 		@ManyToOne(fetch = FetchType.LAZY)
 		@JoinColumn(name="course_id", nullable = false)
 		private CourseEntity course;
-
+		
+		//댓글수정
+		public void update(String remarkscourse) {
+			this.remarksCourse = remarksCourse;
+		}
+		
  }

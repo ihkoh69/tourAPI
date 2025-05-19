@@ -1,7 +1,8 @@
-package kr.blug.tour.dto;
+ package kr.blug.tour.dto;
 
 import java.time.LocalDateTime;
 
+import kr.blug.tour.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,4 +23,15 @@ public class UserDto {
 	private String authGrade;
 	private LocalDateTime crDtTm;
 //	private LocalDateTime upDtTm;
+	
+	public UserEntity toEntity() {
+		UserEntity user = UserEntity.builder()
+				.userId(userId)
+				.nickname(nickname)
+				.email(email)
+				.profileImg(profileImg)
+				.build();
+		return user;
+	}
+	 
 }

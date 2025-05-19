@@ -24,9 +24,11 @@ public class RemarksContentDto {
 	private String remarks_content;
 	
 	private Long user_id;
-
+	private String nickname;
 	private String contentid;
 	private String contenttypeid;
+	private String contenttypename;
 	private String title;
-	
+	private String areacode;
+	private String sigungucode;
 }
