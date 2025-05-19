@@ -16,7 +16,7 @@ import kr.blug.tour.entity.LikesCourseEntity;
 @Repository
 public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, Long>{
 
-	Optional<LikesCourseEntity> findByUser_UserIdAndCourse_CourseId(Long userId, Long courseId);
+
 
 	Page<LikesCourseEntity> findAllByUser_UserId(Long userId, Pageable pageable);
 	
@@ -75,6 +75,13 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 				@Param("areaCode")  String areaCode, 
 				@Param("sigunguCode")  String sigunguCode, 
 				@Param("userId")  Long userId);
+
+	boolean existsByUser_UserIdAndCourse_CourseId(Long userId, Long courseId);
+
+	Optional<LikesCourseEntity> findByUser_UserIdAndCourse_CourseIdOrderByCrdttmDesc(Long userId, Long courseId);
+	
+	LikesCourseEntity findByUser_UserIdAndCourse_CourseId(Long userId, Long courseId);
+
 	
 	
 }
