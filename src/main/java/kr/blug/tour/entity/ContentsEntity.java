@@ -55,4 +55,8 @@ public class ContentsEntity {
 	
 	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<CourseSpotEntity> courseSpot = new ArrayList<>();
+
+	@OneToMany(mappedBy = "contents", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<RemarksContentEntity> remarksContents = new ArrayList<>();	
+		
 }
