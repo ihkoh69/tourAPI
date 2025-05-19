@@ -15,7 +15,7 @@ import kr.blug.tour.entity.LikesContentEntity;
 @Repository
 public interface LikesContentRepository extends JpaRepository<LikesContentEntity, Long> {
 
-	Optional<LikesContentEntity> findByUser_UserIdAndContents_ContentId(Long userId, String contentId);
+	Optional<LikesContentEntity> findByUser_UserIdAndContents_ContentIdOrderByCrdttm(Long userId, String contentId);
 
 	Page<LikesContentEntity> findByUser_UserId(Long userId, Pageable pageable);
 
@@ -63,5 +63,9 @@ public interface LikesContentRepository extends JpaRepository<LikesContentEntity
 				@Param("areaCode")  String areaCode, 
 				@Param("sigunguCode")  String sigunguCode, 
 				@Param("userId")  Long userId);
+
+	LikesContentEntity findByUser_UserIdAndContents_ContentId(Long userId, String contentId);
+
+	boolean existsByUser_UserIdAndContents_ContentId(Long user_id, String contentid);
 
 }
