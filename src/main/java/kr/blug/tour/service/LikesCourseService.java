@@ -11,20 +11,33 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import kr.blug.tour.dto.LikesCourseDto;
+import kr.blug.tour.dto.SaveResponseDto;
+import kr.blug.tour.entity.ContentsEntity;
+import kr.blug.tour.entity.CourseEntity;
+import kr.blug.tour.entity.LikesContentEntity;
 import kr.blug.tour.entity.LikesCourseEntity;
+import kr.blug.tour.entity.UserEntity;
+import kr.blug.tour.repository.CourseRepository;
 import kr.blug.tour.repository.LikesCourseRepository;
 import kr.blug.tour.repository.ProjectionLikesCourseCount;
+import kr.blug.tour.repository.UserRepository;
 
 @Service
 public class LikesCourseService {
 
 	@Autowired
 	private LikesCourseRepository likesCourseRepository;
+	
+	@Autowired
+	private CourseRepository courseRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	public Optional<LikesCourseDto> findByUserAndCourseId(Long userId, Long courseId) {
 		
 		
-		return likesCourseRepository.findByUser_UserIdAndCourse_CourseId(userId, courseId).map(myCourse->{
+		return likesCourseRepository.findByUser_UserIdAndCourse_CourseIdOrderByCrdttmDesc(userId, courseId).map(myCourse->{
 			LikesCourseDto dto = new LikesCourseDto();
 
 //			dto.setLikes_count(likesCourseRepository.countNativeByuserIdAndCourseId(userId,courseId));
@@ -156,6 +169,60 @@ public class LikesCourseService {
 	}
 
 
+	public SaveResponseDto saveLikesCourse(Long userId, Long courseId) {
+
+		// 1. 이미 좋아요 표시한 내용이 있는지 검사 user_id, contentid
+		boolean isExists = likesCourseRepository.existsByUser_UserIdAndCourse_CourseId(userId, courseId);
+		
+		if(isExists) {
+			return new SaveResponseDto(false, "record already exists", null, null);
+		}
+		
+		// 2. 유효한(존재하는) 사용자인지 확인 user_id
+		
+		Optional<UserEntity> optionalUser = userRepository.findById(userId);
+		if(optionalUser.isEmpty()) {
+			return new SaveResponseDto(false, "user not exists", null, null);
+		}
+		UserEntity user = optionalUser.get();
+		
+		// 3. 저장되어 있는 컨텐츠 여부 확인 미존재시 에   course_id
+		Optional<CourseEntity> optionalCourse = courseRepository.findById(courseId);
+		if(optionalCourse.isEmpty()) {
+			return new SaveResponseDto(false, "course not exists", null, null);
+		}
+		CourseEntity course = optionalCourse.get();
+		
+		// 4. likesContent에 좋아요 데이터 저장	
+
+		
+		LikesCourseEntity likesCourseEntity = new LikesCourseEntity();
+		likesCourseEntity.setUser(user);;
+		likesCourseEntity.setCourse(course);
+		likesCourseEntity.setCrdttm(LocalDateTime.now());
+		
+		LikesCourseEntity saved = likesCourseRepository.save(likesCourseEntity);
+		
+		return new SaveResponseDto(true, "saved", "likes_course_id", saved.getLikesCourseId());
+
+		
+	}
+
+	public SaveResponseDto deleteByUserIdAndCourseId(Long userId, Long courseId) {
+		
+		LikesCourseEntity entity = likesCourseRepository.findByUser_UserIdAndCourse_CourseId(userId, courseId);
+		if(entity != null) {
+			Long likesCourseId = entity.getLikesCourseId();
+			
+			likesCourseRepository.delete(entity);
+			return new SaveResponseDto(true, "deleted", "likes_course_id", likesCourseId);
+		}
+		else
+		{
+			return new SaveResponseDto(false, "not_found", null, null);
+		}
+
+	}
 		
 	
 }

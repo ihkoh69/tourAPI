@@ -12,7 +12,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +23,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import kr.blug.tour.dto.LikesCourseDto;
+import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.CourseEntity;
+import kr.blug.tour.entity.LikesCourseEntity;
 import kr.blug.tour.entity.LikesCourseEntity;
 import kr.blug.tour.service.LikesCourseService;
 import lombok.extern.log4j.Log4j2;
@@ -33,6 +38,29 @@ public class LikesCourseCotroller {
 	
 	@Autowired
 	private LikesCourseService likesCourseService;
+	
+	@PostMapping("/likes/course/save")
+	public ResponseEntity<Map<String, Object>> addLikesCourse(
+				@RequestParam(name="user_id", required = true) Long userId,
+				@RequestParam(name="course_id", required = true) Long courseId
+			) {
+		
+		SaveResponseDto result = likesCourseService.saveLikesCourse(userId, courseId);
+		
+		return ResponseEntity.ok(Map.of("result", result));
+				
+	}
+	
+	@DeleteMapping("/likes/course/delete")
+	public ResponseEntity<Map<String, Object>> deleteLikesCourse(
+				@RequestParam(name="user_id", required = true) Long userId,
+				@RequestParam(name="course_id", required = true)  Long courseId
+			) {
+		
+		SaveResponseDto result = likesCourseService.deleteByUserIdAndCourseId(userId, courseId);
+		
+		return ResponseEntity.ok(Map.of("result", result));
+	}
 	
 	@GetMapping("/likes/course/list")
 	public ResponseEntity<Map<String, Object>> listLikesCourseAll(
@@ -85,7 +113,7 @@ public class LikesCourseCotroller {
 //		System.out.println(items.isEmpty());
 //		if(!items.isEmpty()) { 
 //			return ResponseEntity.ok(Map.of("result","success", 
-//					"items", items.getContent(),
+//					"items", items.getCourse(),
 //					"totalPages", items.getTotalPages(),
 //					"totoalElements", items.getTotalElements(),				
 //					"currentPage", items.getNumber()		));
