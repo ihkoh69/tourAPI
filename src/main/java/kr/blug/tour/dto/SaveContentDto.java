@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FavoritesSaveDto {
+public class SaveContentDto {
 
 	private Long user_id;
 	private String contentid;

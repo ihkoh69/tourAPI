@@ -11,6 +11,10 @@ public interface ContentsRepository extends JpaRepository<ContentsEntity, Long> 
 
 	Optional<ContentsEntity> findByContentId(String contentId);
 
+	boolean existsByContentId(String contentid);
+
+	ContentsEntity getByContentId(String contentid);
+
 
 
 }

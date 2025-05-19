@@ -1,7 +1,6 @@
 package kr.blug.tour.service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +8,31 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+
 import kr.blug.tour.dto.LikesContentDto;
-import kr.blug.tour.dto.LikesCourseDto;
+import kr.blug.tour.dto.SaveContentDto;
+import kr.blug.tour.dto.SaveResponseDto;
+import kr.blug.tour.entity.ContentsEntity;
 import kr.blug.tour.entity.LikesContentEntity;
-import kr.blug.tour.repository.LikesContentRepository;
-import kr.blug.tour.repository.ProjectionLikesCotentCount;
-import kr.blug.tour.repository.ProjectionLikesCourseCount;
+import kr.blug.tour.entity.UserEntity;
+import kr.blug.tour.repository.*;
 
 @Service
 public class LikesContentService {
-	
+
 	@Autowired
 	private LikesContentRepository likesContentRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private ContentsRepository contentsRepository;
+
 
 	public Optional<LikesContentDto> findByUserAndContent(Long userId, String contentId) {
 		
-		return likesContentRepository.findByUser_UserIdAndContents_ContentId(userId, contentId).map(myContent->{
+		return likesContentRepository.findByUser_UserIdAndContents_ContentIdOrderByCrdttm(userId, contentId).map(myContent->{
 			LikesContentDto dto = new LikesContentDto();
 
 			dto.setUser_id(myContent.getUser().getUserId());
@@ -104,6 +112,98 @@ Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrder
 
 		
 		return dtoPage;
+
+	}
+
+	public SaveResponseDto saveLikesContent(SaveContentDto dto) {
+		
+	
+		// 1. 이미 좋아요 표시한 내용이 있는지 검사 user_id, contentid
+		boolean isExists = likesContentRepository.existsByUser_UserIdAndContents_ContentId(dto.getUser_id(), dto.getContentid());
+		
+		if(isExists) {
+			return new SaveResponseDto(false, "record already exists", null, null);
+		}
+		
+		// 2. 유효한(존재하는) 사용자인지 확인 user_id
+		
+//		isExists = userRepository.existsById(dto.getUser_id());
+//		if(!isExists) {
+//			return new SaveResponseDto(false, "user not exists", null, null);
+//		}
+//		UserEntity user = userRepository.findByUserId(dto.getUser_id());
+		
+		Optional<UserEntity> optionalUser = userRepository.findById(dto.getUser_id());
+		if(optionalUser.isEmpty()) {
+			return new SaveResponseDto(false, "user not exists", null, null);
+		}
+		UserEntity user = optionalUser.get();
+		
+		
+		// 3. 저장되어 있는 컨텐츠 여부 확인 미존재시 컨텐츠를 미리 등록   contentid
+//		isExists = contentsRepository.existsByContentId(dto.getContentid());
+//		ContentsEntity content;
+//		
+//		if(!isExists) { //3.1 존재하지 않으면 저장한다.
+//			ContentsEntity entity = new ContentsEntity();
+//			entity.setContentId(dto.getContentid());
+//			entity.setContentTypeId(dto.getContenttypeid());
+//			entity.setTitle(dto.getTitle());
+//			entity.setAddr(dto.getAddr());
+//			entity.setAreaCode(dto.getAreacode());
+//			entity.setSigunguCode(dto.getSigungucode());
+//			entity.setFirstimage(dto.getFirstimage());
+//			entity.setCrdttm(LocalDateTime.now());
+//
+//			content = contentsRepository.save(entity);
+//		}
+//		else {
+//			content = contentsRepository.getByContentId(dto.getContentid());
+//		}
+		ContentsEntity content = contentsRepository.findByContentId(dto.getContentid())
+				.orElseGet(()->{
+					ContentsEntity newContent = new ContentsEntity();
+					
+					newContent.setContentId(dto.getContentid());
+					newContent.setContentTypeId(dto.getContenttypeid());
+					newContent.setTitle(dto.getTitle());
+					newContent.setAddr(dto.getAddr());
+					newContent.setAreaCode(dto.getAreacode());
+					newContent.setSigunguCode(dto.getSigungucode());
+					newContent.setFirstimage(dto.getFirstimage());
+					newContent.setCrdttm(LocalDateTime.now());
+					
+					return contentsRepository.save(newContent);					
+				});
+		
+		
+		
+		// 4. likesContent에 좋아요 데이터 저장	
+
+		
+		LikesContentEntity likesContentEntity = new LikesContentEntity();
+		likesContentEntity.setUser(user);;
+		likesContentEntity.setContents(content);
+		likesContentEntity.setCrdttm(LocalDateTime.now());
+		
+		LikesContentEntity saved = likesContentRepository.save(likesContentEntity);
+		
+		return new SaveResponseDto(true, "saved", "likes_content_id", saved.getLikesContentId());
+	}
+
+	public SaveResponseDto deleteByUserIdAndContentId(Long userId, String contentId) {
+		
+		LikesContentEntity entity = likesContentRepository.findByUser_UserIdAndContents_ContentId(userId, contentId);
+		if(entity != null) {
+			Long likesContentId = entity.getLikesContentId();
+			
+			likesContentRepository.delete(entity);
+			return new SaveResponseDto(true, "deleted", "likes_content_id", likesContentId);
+		}
+		else
+		{
+			return new SaveResponseDto(false, "not_found", null, null);
+		}
 
 	}
 

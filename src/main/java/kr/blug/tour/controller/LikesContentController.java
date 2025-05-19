@@ -10,13 +10,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.blug.tour.dto.LikesContentDto;
 import kr.blug.tour.dto.LikesCourseDto;
+import kr.blug.tour.dto.SaveContentDto;
+import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.service.LikesContentService;
 
 @RestController
@@ -24,6 +29,29 @@ public class LikesContentController {
 
 	@Autowired
 	private LikesContentService likesContentService;
+	
+	
+	
+	@PostMapping("/likes/content/save")
+	public ResponseEntity<Map<String, Object>> saveLikesContent(
+    		@RequestBody SaveContentDto dto) {
+
+		        SaveResponseDto result = likesContentService.saveLikesContent(dto);
+
+		        return ResponseEntity.ok(Map.of("result", result));
+	}
+	
+	@DeleteMapping("/likes/content/delete")
+	public ResponseEntity<Map<String, Object>> deleteLikesContent(
+				@RequestParam(name="user_id", required = true) Long userId,
+				@RequestParam(name="contentid", required = true)  String contentId
+			) {
+		
+		SaveResponseDto result = likesContentService.deleteByUserIdAndContentId(userId, contentId);
+		
+		return ResponseEntity.ok(Map.of("result", result));
+	}
+	
 	
 	@GetMapping("/likes/content/check")
 	public ResponseEntity<Map<String, Object>> findByUserAndContent(

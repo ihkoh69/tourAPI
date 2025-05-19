@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import kr.blug.tour.dto.CourseDto;
 import kr.blug.tour.dto.FavoritesDto;
-import kr.blug.tour.dto.FavoritesSaveDto;
+import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.ContentsEntity;
 import kr.blug.tour.entity.FavoritesEntity;
@@ -57,7 +57,7 @@ public class FavoritesService {
 		
 	}
 
-	public SaveResponseDto saveFavorite(FavoritesSaveDto dto) {
+	public SaveResponseDto saveFavorite(SaveContentDto dto) {
 			Long userId = dto.getUser_id();
 			String contentId = dto.getContentid();
 			

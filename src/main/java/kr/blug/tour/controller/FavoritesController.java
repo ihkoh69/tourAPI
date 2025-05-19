@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.blug.tour.dto.FavoritesDto;
-import kr.blug.tour.dto.FavoritesSaveDto;
+import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.service.FavoritesService;
 
@@ -30,7 +30,8 @@ public class FavoritesController {
 	
 	
     @PostMapping("/favorites/save")
-    public ResponseEntity<Map<String,Object>> addFavorite(@RequestBody FavoritesSaveDto dto) {
+    public ResponseEntity<Map<String,Object>> addFavorite(
+    		@RequestBody SaveContentDto dto) {
     	
         SaveResponseDto result = favoritesService.saveFavorite(dto);
 
