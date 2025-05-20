@@ -46,20 +46,20 @@ public class RemarksContentController {
 //	}
 	  
 	//조회
-	@GetMapping("/check")
-	public ResponseEntity<Map<String, Object>> findByUserAndContent(
-			@RequestParam("user_id") Long user_id,
-			@RequestParam("content_id") String contentid){
-			
-		Optional<RemarksContentDto> dto = remarksContentService
-				.findByUserAndContentid(user_id, contentid);
-		if(dto.isPresent()) {
-			return ResponseEntity.ok(Map.of("result", "success","data",dto));
-		}
-		else {
-			return ResponseEntity.ok(Map.of("result", "not_found"));
-		}
-	}
+//	@GetMapping("/check")
+//	public ResponseEntity<Map<String, Object>> findByUserAndContent(
+//			@RequestParam("user_id") Long user_id,
+//			@RequestParam("content_id") String contentid){
+//			
+//		Optional<RemarksContentDto> dto = remarksContentService
+//				.findByUserAndContentid(user_id, contentid);
+//		if(dto.isPresent()) {
+//			return ResponseEntity.ok(Map.of("result", "success","data",dto));
+//		}
+//		else {
+//			return ResponseEntity.ok(Map.of("result", "not_found"));
+//		}
+//	}
 	
 	//total list 현재 작동 안함
 //	@GetMapping("/list")
@@ -80,7 +80,7 @@ public class RemarksContentController {
 //			return ResponseEntity.ok(Map.of("result", "success",
 //					"items",items,
 //					"totalPages", items.getTotalPages(),
-//					"totoalElements", items.getTotalElements(),				
+//					"totalElements", items.getTotalElements(),				
 //					"currentPage", items.getNumber()		
 //					));
 //		}
