@@ -80,7 +80,7 @@ public class LikesCourseCotroller {
 			return ResponseEntity.ok(Map.of(
 					"result", "success", "items", items,
 					"totalPages", items.getTotalPages(),
-					"totoalElements", items.getTotalElements(),				
+					"totalElements", items.getTotalElements(),				
 					"currentPage", items.getNumber()		
 					));
 		}
@@ -115,7 +115,7 @@ public class LikesCourseCotroller {
 //			return ResponseEntity.ok(Map.of("result","success", 
 //					"items", items.getCourse(),
 //					"totalPages", items.getTotalPages(),
-//					"totoalElements", items.getTotalElements(),				
+//					"totalElements", items.getTotalElements(),				
 //					"currentPage", items.getNumber()		));
 //		}
 //		else {

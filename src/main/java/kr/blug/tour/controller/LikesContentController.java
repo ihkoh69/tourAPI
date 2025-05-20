@@ -85,7 +85,7 @@ public class LikesContentController {
 //					
 //					"items", items,
 //					"totalPages", items.getTotalPages(),
-//					"totoalElements", items.getTotalElements(),				
+//					"totalElements", items.getTotalElements(),				
 //					"currentPage", items.getNumber()		
 //					));
 //		}
@@ -114,7 +114,7 @@ public class LikesContentController {
 			return ResponseEntity.ok(Map.of(
 					"result", "success", "items", items,
 					"totalPages", items.getTotalPages(),
-					"totoalElements", items.getTotalElements(),				
+					"totalElements", items.getTotalElements(),				
 					"currentPage", items.getNumber()		
 					));
 		}
