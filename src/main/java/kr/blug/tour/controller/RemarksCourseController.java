@@ -38,6 +38,7 @@ public class RemarksCourseController {
 			@PageableDefault(size=10, page=0) Pageable pageable
 			){
 		Page<RemarksCourseDto> items = remarksCourseService.listRemarksCourseAll(pageable, userId, nickname);
+		
 		if(!items.isEmpty()) {
 			return ResponseEntity.ok(Map.of(
 					"result", "success", "items", items,

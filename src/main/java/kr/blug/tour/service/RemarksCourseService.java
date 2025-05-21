@@ -30,13 +30,13 @@ public class RemarksCourseService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Transactional(readOnly = true)
-	public List<RemarksCourseDto.Response> getRemarksByUserAndCourse(Long userId, Long courseId) {
-        List<RemarksCourseEntity> entities = remarksCourseRepository.findByUserUserIdAndCourseCourseId(userId, courseId);
-        return entities.stream()
-                .map(RemarksCourseDto.Response::new)
-                .collect(Collectors.toList());
-    }
+//	@Transactional(readOnly = true)
+//	public List<RemarksCourseDto.Response> getRemarksByUserAndCourse(Long userId, Long courseId) {
+//        List<RemarksCourseEntity> entities = remarksCourseRepository.findByUserUserIdAndCourseCourseId(userId, courseId);
+//        return entities.stream()
+//                .map(RemarksCourseDto.Response::new)
+//                .collect(Collectors.toList());
+//    }
 
 	
 	
