@@ -64,7 +64,7 @@ public class FavoritesController {
 				"result", "success", 
 				"items", items.getContent(),
 				"totalPages", items.getTotalPages(),
-				"totoalElements", items.getTotalElements(),				
+				"totalElements", items.getTotalElements(),				
 				"currentPage", items.getNumber()				
 				));
 	}

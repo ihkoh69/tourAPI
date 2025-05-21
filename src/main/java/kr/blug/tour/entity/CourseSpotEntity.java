@@ -26,7 +26,8 @@ public class CourseSpotEntity {
 	
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name="content_id")
+	
+	@JoinColumn(name="content_id", referencedColumnName = "content_id")
 	private ContentsEntity contents;	
 	//private String contentId;
 	
