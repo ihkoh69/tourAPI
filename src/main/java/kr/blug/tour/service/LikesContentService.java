@@ -72,9 +72,9 @@ public class LikesContentService {
 	}
 
 	public Page<LikesContentDto> listLikesContentAll(Pageable pageable, String areaCode, String sigunguCode,
-			Long userId) {
+			Long userId, String contentTypeId) {
 		
-Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId);
+Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, contentTypeId);
 		
 		page.getContent().forEach(item -> {
 		    System.out.println(item.getTitle() + " / 좋아요 수: " + item.getLikesCount());

@@ -50,12 +50,16 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		            SELECT lc.course_id, COUNT(*) AS cnt
 					FROM likes_course lc
 					JOIN user u1 ON lc.user_id = u1.user_id
-					WHERE (:userId IS NULL OR lc.user_id = :userId)
+					JOIN course course ON lc.course_id = course.course_id
+					WHERE (:userId IS NULL OR lc.user_id = :userId) AND 
+					              (:writeUserId IS NULL OR course.user_id = :writeUserId)
 					GROUP BY lc.course_id		            
 		        ) c
 		        JOIN course a ON a.course_id = c.course_id
 		        JOIN user w ON a.user_id = w.user_id		        
-		         WHERE (:areaCode IS NULL OR a.area_code = :areaCode) AND (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode)
+		         WHERE (:areaCode IS NULL OR a.area_code = :areaCode) AND 
+		                       (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode) AND
+		                       (:writeUserId IS NULL OR a.user_id = :writeUserId)
 		        ORDER BY c.cnt DESC
 		        """,
 		    countQuery = """
@@ -63,9 +67,10 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		            SELECT lc.course_id
 		            FROM likes_course lc
 		            JOIN course c on lc.course_id = c.course_id
-		            WHERE (:userId IS NULL OR lc.user_id = :userId) AND 
+		            WHERE (:userId IS NULL OR lc.user_id = :userId) AND        
 		                  (:areaCode IS NULL OR c.area_code = :areaCode) AND 
-		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode)
+		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode) AND
+		                  (:writeUserId IS NULL OR c.user_id = :writeUserId)
 		            GROUP BY lc.course_id
 		        ) AS counted
 		        """,
@@ -74,7 +79,8 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		Page<ProjectionLikesCourseCount> listCoursesOrderByLikesCountDesc(Pageable pageable, 
 				@Param("areaCode")  String areaCode, 
 				@Param("sigunguCode")  String sigunguCode, 
-				@Param("userId")  Long userId);
+				@Param("userId")  Long userId, 
+				@Param("writeUserId") Long writeUserId);
 
 	boolean existsByUser_UserIdAndCourse_CourseId(Long userId, Long courseId);
 

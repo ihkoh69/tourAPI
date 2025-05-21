@@ -33,7 +33,7 @@ public class LikesCourseService {
 	
 	@Autowired
 	private UserRepository userRepository;
-
+	
 	public Optional<LikesCourseDto> findByUserAndCourseId(Long userId, Long courseId) {
 		
 		
@@ -131,10 +131,14 @@ public class LikesCourseService {
 	}
 
 
-	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable, String areaCode, String sigunguCode, Long userId) {
+	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable, String areaCode, String sigunguCode, Long userId, Long writeUserId) {
 		
 		
-		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId);
+		
+		// userId : 로그인한 사용자 id
+		// writeUserId : 여행코스를 만든 사용자id
+		
+		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, writeUserId);
 		
 		page.getContent().forEach(course -> {
 		    System.out.println(course.getCourseName() + " / 좋아요 수: " + course.getLikesCount());
@@ -186,7 +190,7 @@ public class LikesCourseService {
 		}
 		UserEntity user = optionalUser.get();
 		
-		// 3. 저장되어 있는 컨텐츠 여부 확인 미존재시 에   course_id
+		// 3. 저장되어 있는 여행코스 존재 여부 확인, 미존재시 에러반환
 		Optional<CourseEntity> optionalCourse = courseRepository.findById(courseId);
 		if(optionalCourse.isEmpty()) {
 			return new SaveResponseDto(false, "course not exists", null, null);

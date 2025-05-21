@@ -34,8 +34,19 @@ public class FavoritesController {
     		@RequestBody SaveContentDto dto) {
     	
         SaveResponseDto result = favoritesService.saveFavorite(dto);
-
-        return ResponseEntity.ok(Map.of("result", result));
+        
+        if(result.isSuccess()) {
+        	return ResponseEntity.ok(Map.of(
+        			"result", "success", 
+        			"message", result.getMessage(), 
+        			"id_name", result.getId_name(), 
+        			"value", result.getId() ));
+        } 
+        else {
+        	return ResponseEntity.ok(Map.of(
+        			"result", result.getMessage()));
+        }
+        
         
     }
     
@@ -47,7 +58,17 @@ public class FavoritesController {
     	
     	SaveResponseDto result = favoritesService.deleteByUserIdAndContentId(userId, contentId);
     	
-    	return ResponseEntity.ok(Map.of("result", result));
+        if(result.isSuccess()) {
+        	return ResponseEntity.ok(Map.of(
+        			"result", "success", 
+        			"message", result.getMessage(), 
+        			"id_name", result.getId_name(), 
+        			"value", result.getId() ));
+        } 
+        else {
+        	return ResponseEntity.ok(Map.of(
+        			"result", result.getMessage()));
+        }
 
     }
 	
