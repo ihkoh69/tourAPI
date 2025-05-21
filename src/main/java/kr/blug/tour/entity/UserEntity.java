@@ -37,7 +37,7 @@ public class UserEntity {
 	private String email;
 	private String password;
 	private String nickname;
-	private String profileImg;
+	private String profileImg; 
 	private String authGrade;
 	private LocalDateTime crdttm;
 	private LocalDateTime updttm;
