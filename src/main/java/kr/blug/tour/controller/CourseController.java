@@ -34,7 +34,8 @@ public class CourseController {
 		Page<CourseDto> items = courseService.listCourses(user_id, pageable);
 		
 		if(!items.getContent().isEmpty()) {
-			return ResponseEntity.ok(Map.of("result","success",  
+			return ResponseEntity.ok(Map.of(
+					"result","success",  
 					"items", items.getContent(),
 					"totalPages", items.getTotalPages(),
 					"totalElements", items.getTotalElements(),				

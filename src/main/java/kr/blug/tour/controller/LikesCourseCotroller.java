@@ -41,25 +41,64 @@ public class LikesCourseCotroller {
 	
 	@PostMapping("/likes/course/save")
 	public ResponseEntity<Map<String, Object>> addLikesCourse(
-				@RequestParam(name="user_id", required = true) Long userId,
-				@RequestParam(name="course_id", required = true) Long courseId
+				@RequestParam(name="user_id", required = false) Long userId,
+				@RequestParam(name="course_id", required = false) Long courseId
 			) {
+		
+		
+		if(userId == null) {
+			return ResponseEntity.ok(Map.of("result", "error - parameter user_id is required"));				
+		}
+		
+		if(courseId == null) {
+			return ResponseEntity.ok(Map.of("result", "error - parameter course_id is required"));	
+		}
 		
 		SaveResponseDto result = likesCourseService.saveLikesCourse(userId, courseId);
 		
-		return ResponseEntity.ok(Map.of("result", result));
+        if(result.isSuccess()) {
+        	return ResponseEntity.ok(Map.of(
+        			"result", "success", 
+        			"message", result.getMessage(), 
+        			"id_name", result.getId_name(), 
+        			"value", result.getId() ));
+        } 
+        else {
+        	return ResponseEntity.ok(Map.of(
+        			"result", result.getMessage()));
+        }
 				
 	}
 	
 	@DeleteMapping("/likes/course/delete")
 	public ResponseEntity<Map<String, Object>> deleteLikesCourse(
-				@RequestParam(name="user_id", required = true) Long userId,
-				@RequestParam(name="course_id", required = true)  Long courseId
+				@RequestParam(name="user_id", required = false) Long userId,
+				@RequestParam(name="course_id", required = false)  Long courseId
 			) {
+		
+		
+		if(userId == null) {
+			return ResponseEntity.ok(Map.of("result", "error - parameter user_id is required"));				
+		}
+		
+		if(courseId == null) {
+			return ResponseEntity.ok(Map.of("result", "error - parameter course_id is required"));	
+		}
+		
 		
 		SaveResponseDto result = likesCourseService.deleteByUserIdAndCourseId(userId, courseId);
 		
-		return ResponseEntity.ok(Map.of("result", result));
+        if(result.isSuccess()) {
+        	return ResponseEntity.ok(Map.of(
+        			"result", "success", 
+        			"message", result.getMessage(), 
+        			"id_name", result.getId_name(), 
+        			"value", result.getId() ));
+        } 
+        else {
+        	return ResponseEntity.ok(Map.of(
+        			"result", result.getMessage()));
+        }
 	}
 	
 	@GetMapping("/likes/course/list")
@@ -67,18 +106,18 @@ public class LikesCourseCotroller {
 				@RequestParam(name="areacode", required = false) String areaCode,
 				@RequestParam(name="sigungucode", required = false) String sigunguCode,
 				@RequestParam(name="user_id", required = false) Long userId,
+				@RequestParam(name="write_user_id", required = false) Long writeUserId,
 				@PageableDefault(size=10, page=0) Pageable pageable
 			) {
-		
-//		if(areaCode == null) areaCode = "%";
-//		if(sigunguCode == null) sigunguCode  = "%";
-//		if(userId == null) userId = "%";
-		
-		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable, areaCode, sigunguCode, userId);
+
+		// writeUserId = 여행코스를 만든 유저
+		// userId = 로그인한 유저(좋아요를 선택한 유저)
+		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable, areaCode, sigunguCode, userId, writeUserId);
 		if(!items.isEmpty()) {
 		
 			return ResponseEntity.ok(Map.of(
-					"result", "success", "items", items,
+					"result", "success", 
+					"items", items,
 					"totalPages", items.getTotalPages(),
 					"totalElements", items.getTotalElements(),				
 					"currentPage", items.getNumber()		
@@ -90,7 +129,7 @@ public class LikesCourseCotroller {
 	}
 	
 	
-//	// 사용하지않음. 
+//	// 사용하지않음. 구버전 
 //	@GetMapping("/likes/course/mylist")
 //	public ResponseEntity<Map<String, Object>> listMyLikes(
 //			@RequestParam("user_id") Long userId,
@@ -128,10 +167,9 @@ public class LikesCourseCotroller {
 	
 	@GetMapping("/likes/course/check")
 	public ResponseEntity<Map<String, Object>> findByUserIdAndCourseId(
-			@RequestParam("user_id") Long  userId,
-			@RequestParam("course_id") Long courseId
+			@RequestParam(name = "user_id", required = false) Long  userId,
+			@RequestParam(name = "course_id", required = false) Long courseId
 			) {
-		
 
 		
 		Optional<LikesCourseDto> dto =  likesCourseService.findByUserAndCourseId(userId, courseId);
@@ -140,7 +178,9 @@ public class LikesCourseCotroller {
 		
 		if(dto.isPresent()) {
 			
-			return ResponseEntity.ok(Map.of("result", "success", "item", dto));
+			return ResponseEntity.ok(Map.of(
+					"result", "success", 
+					"item", dto));
 		}
 		else
 		{

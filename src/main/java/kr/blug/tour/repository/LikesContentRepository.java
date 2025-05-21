@@ -24,27 +24,29 @@ public interface LikesContentRepository extends JpaRepository<LikesContentEntity
 	//countQuery는 반드시 group by 된 course_id의 수만 세도록 따로 작성해줘야 함.
 	@Query(
 		    value = """
-		        SELECT 
-		            a.contents_row_id  AS contentsRowId,
-		            a.content_id AS contentId,
-		            a.content_type_id AS contentTypeId,
-		            a.area_code AS areaCode,
-		            a.sigungu_code AS sigunguCode,
-		            a.addr AS addr,
-		            a.title AS title,
-		            a.firstimage AS firstimage,
-		            a.crdttm AS crdttm,
-		            c.cnt AS likesCount
-		        FROM (
-		            SELECT lc.content_id, COUNT(*) AS cnt
-					FROM likes_content lc
-					JOIN user u1 ON lc.user_id = u1.user_id
-					WHERE (:userId IS NULL OR lc.user_id = :userId)
-					GROUP BY lc.content_id		            
-		        ) c
-		        JOIN contents a ON a.content_id = c.content_id
-		         WHERE (:areaCode IS NULL OR a.area_code = :areaCode) AND (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode)
-		        ORDER BY c.cnt DESC
+				SELECT
+				    a.contents_row_id  AS contentsRowId,
+				    a.content_id AS contentId,
+				    a.content_type_id AS contentTypeId,
+				    a.area_code AS areaCode,
+				    a.sigungu_code AS sigunguCode,
+				    a.addr AS addr,
+				    a.title AS title,
+				    a.firstimage AS firstimage,
+				    a.crdttm AS crdttm,
+				    c.cnt AS likesCount
+				FROM (
+				    SELECT lc.content_id, COUNT(*) AS cnt
+				    FROM likes_content lc
+				    JOIN user u1 ON lc.user_id = u1.user_id
+				    WHERE (:userId IS NULL OR lc.user_id = :userId)
+				    GROUP BY lc.content_id
+				) c
+				JOIN contents a ON a.content_id = c.content_id
+				WHERE (:areaCode IS NULL OR a.area_code = :areaCode)
+				  AND (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode)
+				  AND (:contentTypeId IS NULL OR a.content_type_id = :contentTypeId)
+				ORDER BY c.cnt DESC
 		        """,
 		    countQuery = """
 		        SELECT COUNT(*) FROM (
@@ -53,7 +55,8 @@ public interface LikesContentRepository extends JpaRepository<LikesContentEntity
 		            JOIN contents c on lc.content_id = c.content_id
 		            WHERE (:userId IS NULL OR lc.user_id = :userId) AND 
 		                  (:areaCode IS NULL OR c.area_code = :areaCode) AND 
-		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode)
+		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode) AND
+		                  (:contentTypeId IS NULL OR c.content_type_id = :contentTypeId) 
 		            GROUP BY lc.content_id
 		        ) AS counted
 		        """,
@@ -62,7 +65,9 @@ public interface LikesContentRepository extends JpaRepository<LikesContentEntity
 		Page<ProjectionLikesCotentCount> listContentsOrderByLikesCountDesc(Pageable pageable, 
 				@Param("areaCode")  String areaCode, 
 				@Param("sigunguCode")  String sigunguCode, 
-				@Param("userId")  Long userId);
+				@Param("userId")  Long userId, 
+				@Param("contentTypeId") String contentTypeId
+			    );
 
 	LikesContentEntity findByUser_UserIdAndContents_ContentId(Long userId, String contentId);
 
