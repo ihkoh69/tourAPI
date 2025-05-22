@@ -1,5 +1,7 @@
 package kr.blug.tour.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,11 +24,8 @@ public class CourseSpotEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long courseSpotId;
-	private Long priorityNo;
 	
-	
-	@ManyToOne(fetch=FetchType.LAZY)
-	
+	@ManyToOne(fetch=FetchType.LAZY)	
 	@JoinColumn(name="content_id", referencedColumnName = "content_id")
 	private ContentsEntity contents;	
 	//private String contentId;
@@ -35,24 +34,12 @@ public class CourseSpotEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="course_id")
 	private CourseEntity course;
-//	private Long courseId;
+	//	private Long courseId;
+	private LocalDateTime crdttm;
 	
+
 	
-//	private String contentTypeId;
-//	private String title;
-//	
-//	@Column(length=300)
-//	private String addr;
-//	
-//	@Column(length=300)
-//	private String titleImage;
-//	
-//	@Column(length=2000)
-//	private String subImages;
-//	private String cat3;
-//	private String areaCode;
-//	private String sigunguCode;
-	
+
 
 	
 	

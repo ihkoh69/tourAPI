@@ -11,14 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CourseSpotDto {
 	
-	private Long courseSpotId;	
-	private Long courseId;
+	private Long course_spot_id;	
+	private Long course_id;
 	
-	private String contentId;
-	private String contentTypeId;
+	private String contentid;
+	private String contenttypeid;
 	private String title;
 	private String addr;
 	private String titleImage;
-	private String areaCode;
-	private String sigunguCode;
+	private String areacode;
+	private String sigungucode;
+	private String firstimage;
 }
