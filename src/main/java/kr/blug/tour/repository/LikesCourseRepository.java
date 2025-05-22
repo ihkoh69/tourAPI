@@ -59,7 +59,7 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		        JOIN user w ON a.user_id = w.user_id		        
 		         WHERE (:areaCode IS NULL OR a.area_code = :areaCode) AND 
 		                       (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode) AND
-		                       (:writeUserId IS NULL OR a.user_id = :writeUserId)
+		                       (:creatorUserId IS NULL OR a.user_id = :creatorUserId)
 		        ORDER BY c.cnt DESC
 		        """,
 		    countQuery = """
@@ -70,7 +70,7 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		            WHERE (:userId IS NULL OR lc.user_id = :userId) AND        
 		                  (:areaCode IS NULL OR c.area_code = :areaCode) AND 
 		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode) AND
-		                  (:writeUserId IS NULL OR c.user_id = :writeUserId)
+		                  (:creatorUserId IS NULL OR c.user_id = :creatorUserId)
 		            GROUP BY lc.course_id
 		        ) AS counted
 		        """,
@@ -80,7 +80,7 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 				@Param("areaCode")  String areaCode, 
 				@Param("sigunguCode")  String sigunguCode, 
 				@Param("userId")  Long userId, 
-				@Param("writeUserId") Long writeUserId);
+				@Param("creatorUserId") Long creatorUserId);
 
 	boolean existsByUser_UserIdAndCourse_CourseId(Long userId, Long courseId);
 

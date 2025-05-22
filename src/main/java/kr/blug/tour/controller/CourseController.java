@@ -12,11 +12,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.blug.tour.dto.CourseDto;
+import kr.blug.tour.dto.SaveCourseDto;
+import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.CourseEntity;
 import kr.blug.tour.service.CourseService;
 
@@ -26,9 +31,36 @@ public class CourseController {
 	@Autowired
 	private CourseService courseService;
 	
+	
+	@PostMapping("/course/save")
+	public ResponseEntity<Map<String, Object>> saveCourse(
+			@RequestBody SaveCourseDto dto
+			)
+	{	
+		SaveResponseDto result = courseService.saveCourse(dto);		
+		
+		return ResponseEntity.ok(Map.of("result", result));
+	}
+	
+	
+	@DeleteMapping("/course/delete")
+	public ResponseEntity<Map<String, Object>> deleteCourse(
+			@RequestParam(name="course_id", required = false) Long courseId
+			) {
+		
+		if(courseId == null) return ResponseEntity.ok(Map.of("result", "course_id is required"));
+		
+		SaveResponseDto result = courseService.deleteCourse(courseId);
+		
+		return ResponseEntity.ok(Map.of("result", result ));
+	}
+	
+	
+	
+	
 	@GetMapping("/course/list")
 	public ResponseEntity<Map<String, Object>> listCourses(
-			@RequestParam(name="user_id", required = false) Long user_id,
+			@RequestParam(name="creator_user_id", required = false) Long user_id,
 			@PageableDefault(size=10, page=0, sort = "courseName",  direction = Sort.Direction.ASC) Pageable pageable ){  // 소트될 속성명은 엔티티필드명임, db컬럼명이 아님 
 		
 		Page<CourseDto> items = courseService.listCourses(user_id, pageable);

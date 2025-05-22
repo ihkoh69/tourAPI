@@ -1,6 +1,7 @@
 package kr.blug.tour.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,19 +10,18 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LikesCourseDto {
+public class SaveCourseDto {
 
-	private Long likes_course_id;
 	private Long course_id;
-	private String course_name;
-	private String course_description;
-	private Long creator_user_id;
+	private Long creator_user_id;	
 	private String creator_nickname;
-	private Long user_id;
-	private String user_nickname;
+	private String course_name;
+	private String description;
+	private Long shared_count;
 	private String areacode;
 	private String sigungucode;
-	private Long likes_count;
-	private LocalDateTime crdttm;
+	private List<CourseSpotDto> contents;
+	private LocalDateTime updttm;
 	
+
 }

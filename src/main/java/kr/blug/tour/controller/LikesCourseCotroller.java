@@ -106,13 +106,13 @@ public class LikesCourseCotroller {
 				@RequestParam(name="areacode", required = false) String areaCode,
 				@RequestParam(name="sigungucode", required = false) String sigunguCode,
 				@RequestParam(name="user_id", required = false) Long userId,
-				@RequestParam(name="write_user_id", required = false) Long writeUserId,
+				@RequestParam(name="creator_user_id", required = false) Long creatorUserId,
 				@PageableDefault(size=10, page=0) Pageable pageable
 			) {
 
 		// writeUserId = 여행코스를 만든 유저
 		// userId = 로그인한 유저(좋아요를 선택한 유저)
-		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable, areaCode, sigunguCode, userId, writeUserId);
+		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable, areaCode, sigunguCode, userId, creatorUserId);
 		if(!items.isEmpty()) {
 		
 			return ResponseEntity.ok(Map.of(

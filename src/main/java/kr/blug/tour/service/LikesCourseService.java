@@ -90,8 +90,8 @@ public class LikesCourseService {
 			dto.setLikes_course_id(entity.getLikesCourseId());
 			dto.setUser_id(entity.getUser().getUserId());           //좋아요를 선택한 유저  
 			dto.setUser_nickname(entity.getUser().getNickname()); //좋아요를 선택한 유저   
-			dto.setWriter_userid(entity.getCourse().getUser().getUserId());     // course를 작성한 유저  
-			dto.setWriter_nickname(entity.getCourse().getUser().getNickname());  // course를 작성한 유저  
+			dto.setCreator_user_id(entity.getCourse().getUser().getUserId());     // course를 작성한 유저  
+			dto.setCreator_nickname(entity.getCourse().getUser().getNickname());  // course를 작성한 유저  
 			dto.setCourse_id(entity.getCourse().getCourseId());
 			dto.setLikes_count(likesCourseRepository.countByCourseId(dto.getCourse_id()));
 			
@@ -131,14 +131,14 @@ public class LikesCourseService {
 	}
 
 
-	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable, String areaCode, String sigunguCode, Long userId, Long writeUserId) {
+	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable, String areaCode, String sigunguCode, Long userId, Long creatorUserId) {
 		
 		
 		
 		// userId : 로그인한 사용자 id
 		// writeUserId : 여행코스를 만든 사용자id
 		
-		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, writeUserId);
+		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, creatorUserId);
 		
 		page.getContent().forEach(course -> {
 		    System.out.println(course.getCourseName() + " / 좋아요 수: " + course.getLikesCount());
@@ -154,8 +154,8 @@ public class LikesCourseService {
 				dto.setCourse_id(course.getCourseId());
 				dto.setCourse_name(course.getCourseName());
 				dto.setCourse_description(course.getDescription());
-				dto.setWriter_userid(course.getWriterUserId());
-				dto.setWriter_nickname(course.getWriterNickname());
+				dto.setCreator_user_id(course.getWriterUserId());
+				dto.setCreator_nickname(course.getWriterNickname());
 				dto.setAreacode(course.getAreaCode());
 				dto.setSigungucode(course.getSigunguCode());
 				dto.setLikes_count(course.getLikesCount());

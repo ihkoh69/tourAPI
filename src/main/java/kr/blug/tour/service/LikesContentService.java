@@ -141,6 +141,11 @@ Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrder
 		
 		
 		// 3. 저장되어 있는 컨텐츠 여부 확인 미존재시 컨텐츠를 미리 등록   contentid
+		
+		
+		//********************************************************************
+		// Optional 미적용 시 작성했던 코드
+		//***********************************************************************
 //		isExists = contentsRepository.existsByContentId(dto.getContentid());
 //		ContentsEntity content;
 //		
@@ -160,6 +165,8 @@ Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrder
 //		else {
 //			content = contentsRepository.getByContentId(dto.getContentid());
 //		}
+		
+		
 		ContentsEntity content = contentsRepository.findByContentId(dto.getContentid())
 				.orElseGet(()->{
 					ContentsEntity newContent = new ContentsEntity();
