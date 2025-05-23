@@ -32,12 +32,12 @@ public class RemarksCourseController {
 	
 	//read
 	@GetMapping("/list")
-	public ResponseEntity<Map<String, Object>> listRemarksCourseAll(
+	public ResponseEntity<Map<String, Object>> listRemarksCourse(
 			@RequestParam(name="user_id", required = false) Long userId,
-			@RequestParam(name="user_nickname", required = false) String nickname,
+			@RequestParam(name="course_id", required = false) Long courseId,
 			@PageableDefault(size=10, page=0) Pageable pageable
 			){
-		Page<RemarksCourseDto> items = remarksCourseService.listRemarksCourseAll(pageable, userId, nickname);
+		Page<RemarksCourseDto> items = remarksCourseService.listRemarksCourse(pageable, userId, courseId);
 		
 		if(!items.isEmpty()) {
 			return ResponseEntity.ok(Map.of(

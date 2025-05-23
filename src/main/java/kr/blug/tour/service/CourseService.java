@@ -83,7 +83,7 @@ public class CourseService {
 				spot.setContentid(spotEntity.getContents().getContentId());
 				spot.setContenttypeid(spotEntity.getContents().getContentTypeId());
 				spot.setTitle(spotEntity.getContents().getTitle());
-				spot.setAddr(spotEntity.getContents().getAddr());
+				spot.setAddr1(spotEntity.getContents().getAddr());
 				spot.setAreacode(spotEntity.getContents().getAreaCode());
 				spot.setSigungucode(spotEntity.getContents().getSigunguCode());
 				spot.setFirstimage(spotEntity.getContents().getFirstimage());
@@ -138,7 +138,7 @@ public class CourseService {
 				contentEntity.setContentId(spot.getContentid());
 				contentEntity.setContentTypeId(spot.getContenttypeid());
 				contentEntity.setTitle(spot.getTitle());
-				contentEntity.setAddr(spot.getAddr());
+				contentEntity.setAddr(spot.getAddr1());
 				contentEntity.setAreaCode(spot.getAreacode());
 				contentEntity.setSigunguCode(spot.getSigungucode());
 				contentEntity.setFirstimage(spot.getFirstimage());

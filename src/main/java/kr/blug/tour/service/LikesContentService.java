@@ -40,7 +40,7 @@ public class LikesContentService {
 			dto.setContentid(myContent.getContents().getContentId());
 			dto.setContenttypeid(myContent.getContents().getContentTypeId());
 			dto.setTitle(myContent.getContents().getTitle());
-			dto.setAddr(myContent.getContents().getAddr());
+			dto.setAddr1(myContent.getContents().getAddr());
 			dto.setAreacode(myContent.getContents().getAreaCode());
 			dto.setSigungucode(myContent.getContents().getSigunguCode());
 			dto.setFirstimage(myContent.getContents().getFirstimage());
@@ -61,7 +61,7 @@ public class LikesContentService {
 			dto.setContentid(myContent.getContents().getContentId());
 			dto.setContenttypeid(myContent.getContents().getContentTypeId());
 			dto.setTitle(myContent.getContents().getTitle());
-			dto.setAddr(myContent.getContents().getAddr());
+			dto.setAddr1(myContent.getContents().getAddr());
 			dto.setAreacode(myContent.getContents().getAreaCode());
 			dto.setSigungucode(myContent.getContents().getSigunguCode());
 			dto.setFirstimage(myContent.getContents().getFirstimage());
@@ -74,7 +74,7 @@ public class LikesContentService {
 	public Page<LikesContentDto> listLikesContentAll(Pageable pageable, String areaCode, String sigunguCode,
 			Long userId, String contentTypeId) {
 		
-Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, contentTypeId);
+		Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, contentTypeId);
 		
 		page.getContent().forEach(item -> {
 		    System.out.println(item.getTitle() + " / 좋아요 수: " + item.getLikesCount());
@@ -96,7 +96,7 @@ Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrder
 				dto.setContentid(item.getContentId());
 				dto.setContenttypeid(item.getContentTypeId());
 				dto.setTitle(item.getTitle());
-				dto.setAddr(item.getAddr());
+				dto.setAddr1(item.getAddr());
 				dto.setAreacode(item.getAreaCode());
 				dto.setSigungucode(item.getSigunguCode());
 				dto.setFirstimage(item.getFirstimage());
@@ -174,7 +174,7 @@ Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrder
 					newContent.setContentId(dto.getContentid());
 					newContent.setContentTypeId(dto.getContenttypeid());
 					newContent.setTitle(dto.getTitle());
-					newContent.setAddr(dto.getAddr());
+					newContent.setAddr(dto.getAddr1());
 					newContent.setAreaCode(dto.getAreacode());
 					newContent.setSigunguCode(dto.getSigungucode());
 					newContent.setFirstimage(dto.getFirstimage());

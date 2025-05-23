@@ -26,24 +26,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name="remarks_course",
-uniqueConstraints = {
-		@UniqueConstraint(
-				columnNames = {"course_id", "user_id"}
-		)
-	}
-)
-
+@Table(name="remarks_course")
 public class RemarksCourseEntity {
 
 		@Id
 		@GeneratedValue(strategy = GenerationType.IDENTITY)
 		private Long remarksCourseId;
 		
-		private LocalDateTime crdttm;
+		private LocalDateTime crdttm; //작성시 또는 수정시
 		
-		@Column(columnDefinition = "TEXT", nullable=false)
-		private String remarksCourse; //댓글내용
+		@Column(columnDefinition = "TEXT", nullable=false, length=1000)
+		private String comment; //댓글내용
 
 		//RemarksCourse vs UserEntity = N:1
 		@ManyToOne(fetch = FetchType.LAZY)   
@@ -55,9 +48,4 @@ public class RemarksCourseEntity {
 		@JoinColumn(name="course_id", nullable = false)
 		private CourseEntity course;
 		
-		//댓글수정
-		public void update(String remarkscourse) {
-			this.remarksCourse = remarksCourse;
-		}
-		
- }
+	 }
