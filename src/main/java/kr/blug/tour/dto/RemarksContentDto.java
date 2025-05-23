@@ -8,18 +8,15 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class RemarksContentDto {
 
 	private Long remarks_content_id;
-	private String remarks_content;
+	private String contentid;	
 	
 	private Long user_id;
-	private String nickname;
-	private String contentid;
-	private String contenttypeid;
-	private String contenttypename;
-	private String title;
-	private String areacode;
-	private String sigungucode;
+	private String user_nickname;
+
+	private String comment;
+
+	private String crdttm;
 }

@@ -13,7 +13,7 @@ public class SaveContentDto {
 	private String contentid;
 	private String contenttypeid;
 	private String title;
-	private String addr;
+	private String addr1;
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;

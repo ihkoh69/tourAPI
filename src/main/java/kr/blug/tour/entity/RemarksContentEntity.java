@@ -25,12 +25,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Table(name="remarks_content",
-uniqueConstraints = {
-		  @UniqueConstraint(columnNames = {"content_id", "user_id"})
-		}
-	)
+@Table(name="remarks_content")
 public class RemarksContentEntity {
 
 		@Id
@@ -39,8 +34,8 @@ public class RemarksContentEntity {
 		
 		private LocalDateTime crdttm;
 		
-		@Column(length=1000)
-		private String remarksContent;;
+		@Column(columnDefinition = "TEXT", nullable=false, length=1000)
+		private String comment; //댓글내용
 
 		//RemarksContent vs UserEntity = N:1
 		@ManyToOne(fetch = FetchType.LAZY)

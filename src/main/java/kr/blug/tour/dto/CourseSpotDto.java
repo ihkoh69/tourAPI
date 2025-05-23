@@ -17,7 +17,7 @@ public class CourseSpotDto {
 	private String contentid;
 	private String contenttypeid;
 	private String title;
-	private String addr;
+	private String addr1;
 	private String titleImage;
 	private String areacode;
 	private String sigungucode;
