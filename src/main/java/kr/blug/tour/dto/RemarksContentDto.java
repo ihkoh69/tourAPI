@@ -1,5 +1,7 @@
 package kr.blug.tour.dto;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +20,5 @@ public class RemarksContentDto {
 
 	private String comment;
 
-	private String crdttm;
+	private LocalDateTime crdttm;
 }

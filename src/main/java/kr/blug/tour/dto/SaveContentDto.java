@@ -18,4 +18,6 @@ public class SaveContentDto {
 	private String sigungucode;
 	private String firstimage;
 	
+	private String comment;  // remarks/content 저장시에만 사용
+	
 }
