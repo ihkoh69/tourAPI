@@ -8,14 +8,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.blug.tour.dto.RemarksCourseDto;
+import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.RemarksCourseEntity;
 import kr.blug.tour.service.RemarksCourseService;
 import lombok.RequiredArgsConstructor;
@@ -51,10 +54,26 @@ public class RemarksCourseController {
 		}				
 	}
 	
+	@PostMapping("/save")
+	public ResponseEntity<Map<String, Object>> saveRemarksCourse(
+				@RequestBody RemarksCourseDto dto
+			){
+		
+		SaveResponseDto result = remarksCourseService.saveRemarksCourse(dto);
+		
+		return ResponseEntity.ok(Map.of("result", result));		
+	}
 	
+	@DeleteMapping("/delete")
+	public ResponseEntity<Map<String, Object>> deleteRemarksCourse(
+				@RequestParam(name="remarks_course_id", required = false) Long remarksCourseId
+		) {
+		
+		if(remarksCourseId == null) return ResponseEntity.ok(Map.of("result", "remarks_course_id is required"));		
+		
+		SaveResponseDto result = remarksCourseService.deleteRemarksCourse(remarksCourseId);
 	
-
+		return ResponseEntity.ok(Map.of("result", result));		
+	}
 	
-	
-
 }

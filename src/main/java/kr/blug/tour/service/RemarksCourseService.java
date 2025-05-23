@@ -1,5 +1,6 @@
 package kr.blug.tour.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,7 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import kr.blug.tour.dto.LikesContentDto;
 import kr.blug.tour.dto.RemarksCourseDto;
+import kr.blug.tour.dto.SaveResponseDto;
+import kr.blug.tour.entity.CourseEntity;
 import kr.blug.tour.entity.RemarksCourseEntity;
+import kr.blug.tour.entity.UserEntity;
 import kr.blug.tour.repository.CourseRepository;
 import kr.blug.tour.repository.ProjectionLikesCotentCount;
 import kr.blug.tour.repository.ProjectionRemarksCourse;
@@ -59,6 +63,41 @@ public class RemarksCourseService {
 		return dtoPage;
 
 		
+	}
+
+	public SaveResponseDto saveRemarksCourse(RemarksCourseDto dto) {
+
+		//1. 유저가 존재하는지 검사한다.
+		Optional<UserEntity>  user = userRepository.findById(dto.getUser_id());
+		if(user.isEmpty()) {
+			return new SaveResponseDto(false, "invalid user_id",null, null);	
+		}
+		
+		//2. 여행코스가 유효한지 검사한다.
+		Optional<CourseEntity> course = courseRepository.findById(dto.getCourse_id());
+		if(course.isEmpty() ) {
+			return new SaveResponseDto(false, "invalid course_id",null, null);				
+		}
+		
+		RemarksCourseEntity remark = new RemarksCourseEntity();
+		
+		remark.setUser(user.get());
+		remark.setCourse(course.get());
+		remark.setComment(dto.getComment());
+		remark.setCrdttm(LocalDateTime.now());
+		
+		RemarksCourseEntity savedRemark = remarksCourseRepository.save(remark);		
+		
+		return new SaveResponseDto(true, "saved", "remarks_course_id", savedRemark.getRemarksCourseId());	
+	}
+
+	public SaveResponseDto deleteRemarksCourse(Long remarksCourseId) {
+		
+		Optional<RemarksCourseEntity> remark = remarksCourseRepository.findById(remarksCourseId);
+		if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null);
+		
+		remarksCourseRepository.delete(remark.get());
+		return new SaveResponseDto(true, "deleted", "remarks_course_id", remark.get().getRemarksCourseId());
 	}
 	
 }

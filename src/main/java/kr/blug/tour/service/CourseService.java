@@ -110,7 +110,10 @@ public class CourseService {
 		// 1. 유효한  user_id 인지 여
 		boolean isExists = userRepository.existsByUserId(dto.getCreator_user_id());
 		
-		if(!isExists) {
+		
+		Optional<UserEntity> user = userRepository.findByUserId(dto.getCreator_user_id());
+		
+		if(user.isEmpty()) {
 			return new SaveResponseDto(false, "invalid user_id", null, null);
 		}
 		
@@ -159,13 +162,9 @@ public class CourseService {
 
 		
 		CourseEntity course = new CourseEntity();
+
 		
-//		UserEntity user = new UserEntity();
-//		user.setUserId(dto.getCreator_user_id());  // user객체의 다른 컬럼이 null 로 세팅되지만 참조 객체일뿐이므로 user테이블 데이터에 영향은 없다.
-		
-		UserEntity user = userRepository.findByUserId(dto.getCreator_user_id());
-		
-		course.setUser(user);
+		course.setUser(user.get());
 		course.setCourseName(dto.getCourse_name());
 		course.setDescription(dto.getDescription());
 		course.setSharedCount(0L);
