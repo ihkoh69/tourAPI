@@ -9,14 +9,16 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.blug.tour.dto.RemarksCommentUpdateDto;
 import kr.blug.tour.dto.RemarksContentDto;
-import kr.blug.tour.dto.RemarksCourseDto;
 import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.service.RemarksContentService;
@@ -72,6 +74,29 @@ public class RemarksContentController {
 		SaveResponseDto result = remarksContentService.deleteRemarksContent(remarksContentId);
 		
 		return ResponseEntity.ok(Map.of("result",result));
+	}
+	
+	@GetMapping("/count")
+	public ResponseEntity<Map<String, Object>> countRemarksContent(
+			@RequestParam(name="user_id", required = false) Long userId,
+			@RequestParam(name="contentid", required = false) String contentId
+		){
+		
+		Long cnt = remarksContentService.countRemarksContent(userId, contentId);
+		return ResponseEntity.ok(Map.of("result", "success", "count", cnt));
+	}
+	
+	@PatchMapping("/update/{remarks_content_id}")
+	public ResponseEntity<Map<String, Object>> updateRemarksContent(
+				@PathVariable("remarks_content_id") Long remarksContentId,
+				@RequestBody RemarksCommentUpdateDto dto
+			) {
+		
+			if(remarksContentId == null) ResponseEntity.ok(Map.of("result", "remarks_content_id is required"));
+			SaveResponseDto result = remarksContentService.updateCommentById(remarksContentId, dto); 
+		
+		return ResponseEntity.ok(Map.of("result", result));
+		
 	}
 
 }

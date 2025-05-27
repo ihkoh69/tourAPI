@@ -35,32 +35,33 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 	//countQuery는 반드시 group by 된 course_id의 수만 세도록 따로 작성해줘야 함.
 	@Query(
 		    value = """
-		        SELECT 
-		            a.course_id AS courseId,
-		            w.user_id AS writerUserId,
-		            w.nickname AS writerNickname,
-		            a.area_code AS areaCode,
-		            a.sigungu_code AS sigunguCode,
-		            a.course_name AS courseName,
-		            a.description AS description,
-		            a.crdttm AS crdttm,
-		            a.updttm AS updttm,
-		            c.cnt AS likesCount
-		        FROM (
-		            SELECT lc.course_id, COUNT(*) AS cnt
-					FROM likes_course lc
-					JOIN user u1 ON lc.user_id = u1.user_id
-					JOIN course course ON lc.course_id = course.course_id
-					WHERE (:userId IS NULL OR lc.user_id = :userId) AND 
-					              (:writeUserId IS NULL OR course.user_id = :writeUserId)
-					GROUP BY lc.course_id		            
-		        ) c
-		        JOIN course a ON a.course_id = c.course_id
-		        JOIN user w ON a.user_id = w.user_id		        
-		         WHERE (:areaCode IS NULL OR a.area_code = :areaCode) AND 
-		                       (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode) AND
-		                       (:creatorUserId IS NULL OR a.user_id = :creatorUserId)
-		        ORDER BY c.cnt DESC
+				SELECT 
+				    a.course_id AS courseId,
+				    w.user_id AS writerUserId,
+				    w.nickname AS writerNickname,
+				    a.area_code AS areaCode,
+				    a.sigungu_code AS sigunguCode,
+				    a.course_name AS courseName,
+				    a.description AS description,
+				    a.crdttm AS crdttm,
+				    a.updttm AS updttm,
+				    stat.cnt AS likesCount
+				FROM (
+				    SELECT lc.course_id, COUNT(*) AS cnt
+				    FROM likes_course lc
+				    GROUP BY lc.course_id
+				) stat
+				JOIN course a ON a.course_id = stat.course_id
+				JOIN user w ON a.user_id = w.user_id
+				WHERE (:userId IS NULL OR EXISTS (
+				    SELECT 1 FROM likes_course l2 
+				    WHERE l2.course_id = a.course_id AND l2.user_id = :userId
+				))
+				AND (:areaCode IS NULL OR a.area_code = :areaCode)
+				AND (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode)
+				AND (:creatorUserId IS NULL OR a.user_id = :creatorUserId)
+				AND (:courseId IS NULL OR a.course_id = :courseId)
+				ORDER BY stat.cnt DESC
 		        """,
 		    countQuery = """
 		        SELECT COUNT(*) FROM (
@@ -70,7 +71,9 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 		            WHERE (:userId IS NULL OR lc.user_id = :userId) AND        
 		                  (:areaCode IS NULL OR c.area_code = :areaCode) AND 
 		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode) AND
-		                  (:creatorUserId IS NULL OR c.user_id = :creatorUserId)
+		                  (:creatorUserId IS NULL OR c.user_id = :creatorUserId) AND
+		                  (:courseId IS NULL OR c.course_id = :courseId) AND
+		                  (:userId IS NULL OR lc.user_id = :userId)
 		            GROUP BY lc.course_id
 		        ) AS counted
 		        """,
@@ -80,7 +83,8 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 				@Param("areaCode")  String areaCode, 
 				@Param("sigunguCode")  String sigunguCode, 
 				@Param("userId")  Long userId, 
-				@Param("creatorUserId") Long creatorUserId);
+				@Param("creatorUserId") Long creatorUserId,
+				@Param("courseId") Long courseId);
 
 	boolean existsByUser_UserIdAndCourse_CourseId(Long userId, Long courseId);
 
@@ -88,6 +92,8 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 	
 	LikesCourseEntity findByUser_UserIdAndCourse_CourseId(Long userId, Long courseId);
 
-	
+	Long countByCourse_CourseId(Long courseId);
+
+
 	
 }

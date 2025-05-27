@@ -35,4 +35,23 @@ public interface RemarksContentRepository extends JpaRepository<RemarksContentEn
 					@Param("contentId")  String contentId
 				    );
 
+
+		
+		@Query(
+				value = """
+					    SELECT COUNT(*) FROM remarks_content rc
+					    WHERE (:userId IS NULL OR rc.user_id = :userId)
+					      AND (:contentId IS NULL OR rc.content_id = :contentId)
+						""",
+				nativeQuery = true
+			
+				
+				)
+			long countByOptionalUserAndContent(
+			    @Param("userId") Long userId,
+			    @Param("contentId") String contentId
+			);
+		
+		
+		
 }
