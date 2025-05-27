@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
+import kr.blug.tour.dto.LikesContentCheckDto;
 import kr.blug.tour.dto.LikesContentDto;
 import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveResponseDto;
@@ -30,23 +30,26 @@ public class LikesContentService {
 	private ContentsRepository contentsRepository;
 
 
-	public Optional<LikesContentDto> findByUserAndContent(Long userId, String contentId) {
+	public LikesContentCheckDto findByUserAndContent(Long userId, String contentId) {
 		
-		return likesContentRepository.findByUser_UserIdAndContents_ContentIdOrderByCrdttm(userId, contentId).map(myContent->{
-			LikesContentDto dto = new LikesContentDto();
+		
+		LikesContentCheckDto dto = new LikesContentCheckDto();
+		
+		
+		Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+		Boolean isMine = likesContentRepository.existsByUser_UserIdAndContents_ContentId(userId, contentId);
+		
+		dto.setUser_id(userId);
+		dto.setContentid(contentId);
+		dto.setLikes_count(likesCount);
+		dto.setMy_check(isMine);
 
-			dto.setUser_id(myContent.getUser().getUserId());
-			dto.setLikes_content_id(myContent.getLikesContentId());
-			dto.setContentid(myContent.getContents().getContentId());
-			dto.setContenttypeid(myContent.getContents().getContentTypeId());
-			dto.setTitle(myContent.getContents().getTitle());
-			dto.setAddr1(myContent.getContents().getAddr());
-			dto.setAreacode(myContent.getContents().getAreaCode());
-			dto.setSigungucode(myContent.getContents().getSigunguCode());
-			dto.setFirstimage(myContent.getContents().getFirstimage());
+		
+//		return likesContentRepository.findByUser_UserIdAndContents_ContentIdOrderByCrdttm(userId, contentId).map(myContent->{
+
 			
-			return dto;
-		});
+		return dto;
+
 	}
 
 	public Page<LikesContentDto> listByUser(Long userId, Pageable pageable) {
@@ -72,9 +75,11 @@ public class LikesContentService {
 	}
 
 	public Page<LikesContentDto> listLikesContentAll(Pageable pageable, String areaCode, String sigunguCode,
-			Long userId, String contentTypeId) {
+			String contentTypeId, String contentId, Long userId) {
 		
-		Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, contentTypeId);
+		Page<ProjectionLikesCotentCount> page = likesContentRepository.listContentsOrderByLikesCountDesc(pageable, areaCode, sigunguCode, contentTypeId, contentId, userId);
+		
+		System.out.println("-------------------------------------- user_id -------------------------------");
 		
 		page.getContent().forEach(item -> {
 		    System.out.println(item.getTitle() + " / 좋아요 수: " + item.getLikesCount());
@@ -122,7 +127,8 @@ public class LikesContentService {
 		boolean isExists = likesContentRepository.existsByUser_UserIdAndContents_ContentId(dto.getUser_id(), dto.getContentid());
 		
 		if(isExists) {
-			return new SaveResponseDto(false, "record already exists", null, null);
+			Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
+			return new SaveResponseDto(false, "record already exists", null, null, likesCount);
 		}
 		
 		// 2. 유효한(존재하는) 사용자인지 확인 user_id
@@ -135,7 +141,8 @@ public class LikesContentService {
 		
 		Optional<UserEntity> optionalUser = userRepository.findById(dto.getUser_id());
 		if(optionalUser.isEmpty()) {
-			return new SaveResponseDto(false, "user not exists", null, null);
+			Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
+			return new SaveResponseDto(false, "user not exists", null, null, likesCount);
 		}
 		UserEntity user = optionalUser.get();
 		
@@ -143,29 +150,7 @@ public class LikesContentService {
 		// 3. 저장되어 있는 컨텐츠 여부 확인 미존재시 컨텐츠를 미리 등록   contentid
 		
 		
-		//********************************************************************
-		// Optional 미적용 시 작성했던 코드
-		//***********************************************************************
-//		isExists = contentsRepository.existsByContentId(dto.getContentid());
-//		ContentsEntity content;
-//		
-//		if(!isExists) { //3.1 존재하지 않으면 저장한다.
-//			ContentsEntity entity = new ContentsEntity();
-//			entity.setContentId(dto.getContentid());
-//			entity.setContentTypeId(dto.getContenttypeid());
-//			entity.setTitle(dto.getTitle());
-//			entity.setAddr(dto.getAddr());
-//			entity.setAreaCode(dto.getAreacode());
-//			entity.setSigunguCode(dto.getSigungucode());
-//			entity.setFirstimage(dto.getFirstimage());
-//			entity.setCrdttm(LocalDateTime.now());
-//
-//			content = contentsRepository.save(entity);
-//		}
-//		else {
-//			content = contentsRepository.getByContentId(dto.getContentid());
-//		}
-		
+
 		
 		ContentsEntity content = contentsRepository.findByContentId(dto.getContentid())
 				.orElseGet(()->{
@@ -195,9 +180,15 @@ public class LikesContentService {
 		
 		LikesContentEntity saved = likesContentRepository.save(likesContentEntity);
 		
-		return new SaveResponseDto(true, "saved", "likes_content_id", saved.getLikesContentId());
+		Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
+		
+		return new SaveResponseDto(true, "saved", "likes_content_id", saved.getLikesContentId(), likesCount);
 	}
 
+	
+	
+	
+	
 	public SaveResponseDto deleteByUserIdAndContentId(Long userId, String contentId) {
 		
 		LikesContentEntity entity = likesContentRepository.findByUser_UserIdAndContents_ContentId(userId, contentId);
@@ -205,11 +196,13 @@ public class LikesContentService {
 			Long likesContentId = entity.getLikesContentId();
 			
 			likesContentRepository.delete(entity);
-			return new SaveResponseDto(true, "deleted", "likes_content_id", likesContentId);
+			Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+			return new SaveResponseDto(true, "deleted", "likes_content_id", likesContentId, likesCount);
 		}
 		else
 		{
-			return new SaveResponseDto(false, "not_found", null, null);
+			Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+			return new SaveResponseDto(false, "not_found", null, null,likesCount);
 		}
 
 	}

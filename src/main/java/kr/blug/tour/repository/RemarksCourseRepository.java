@@ -45,4 +45,19 @@ public interface RemarksCourseRepository extends JpaRepository<RemarksCourseEnti
 					@Param("userId")  Long userId, 
 					@Param("courseId")  Long courseId
 				    );
+
+		@Query(
+				value = """
+					    SELECT COUNT(*) FROM remarks_course rc
+					    WHERE (:userId IS NULL OR rc.user_id = :userId)
+					      AND (:courseId IS NULL OR rc.course_id = :courseId)
+						""",
+				nativeQuery = true
+			
+				
+				)
+			long countByOptionalUserAndContent(
+			    @Param("userId") Long userId,
+			    @Param("courseId") Long courseId
+			);
 }

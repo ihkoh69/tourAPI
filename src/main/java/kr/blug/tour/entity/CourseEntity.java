@@ -57,4 +57,7 @@ public class CourseEntity {
 	private List<RemarksCourseEntity> remarksCourse = new ArrayList<>();
 //	private List<RemarksCourseEntity> remarksCourse;
 	
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ItineraryEntity> itinerary = new ArrayList<>();
+	
 }

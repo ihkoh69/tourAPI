@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import kr.blug.tour.dto.LikesCourseCheckDto;
 import kr.blug.tour.dto.LikesCourseDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.ContentsEntity;
@@ -34,43 +35,22 @@ public class LikesCourseService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public Optional<LikesCourseDto> findByUserAndCourseId(Long userId, Long courseId) {
+	public LikesCourseCheckDto findByUserAndCourseId(Long userId, Long courseId) {
 		
 		
-		return likesCourseRepository.findByUser_UserIdAndCourse_CourseIdOrderByCrdttmDesc(userId, courseId).map(myCourse->{
-			LikesCourseDto dto = new LikesCourseDto();
-
-//			dto.setLikes_count(likesCourseRepository.countNativeByuserIdAndCourseId(userId,courseId));
-			dto.setLikes_count(likesCourseRepository.countByCourseId(courseId));
-				
-			dto.setLikes_course_id(myCourse.getLikesCourseId());
-			dto.setUser_id(myCourse.getUser().getUserId());
-			dto.setCourse_id(myCourse.getCourse().getCourseId());
-			dto.setCourse_name(myCourse.getCourse().getCourseName());
-			dto.setCourse_description(myCourse.getCourse().getDescription());
-			dto.setAreacode(myCourse.getCourse().getAreaCode());
-			dto.setSigungucode(myCourse.getCourse().getSigunguCode());
-
+		LikesCourseCheckDto dto = new LikesCourseCheckDto();
+		
+		Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);
+		boolean my_check = likesCourseRepository.existsByUser_UserIdAndCourse_CourseId(userId, courseId);
+		
+		dto.setCourse_id(courseId);
+		dto.setLikes_count(likesCount);
+		
+		dto.setUser_id(userId);
+		dto.setMy_check(my_check);
+		
 			
-			return dto;
-		});
-
-		
-//		if(myCourse) {
-//				LikesCourseDto dto = new LikesCourseDto();
-//				
-//				dto.setLikesCourseId(myCourse.getLikesCourseId());
-//				dto.setUserId(myCourse.getUser().getUserId());
-//				dto.setCourseId(myCourse.getCourse().getCourseId());
-//				dto.setAreaCode(myCourse.getAreaCode());
-//				dto.setSigunguCode(myCourse.getSigunguCode());
-//				dto.setGoodOrHate(myCourse.getGoodOrHate());
-//				
-//				return dto;
-//			}
-//			else {
-//				return null;
-//			}	
+		return dto;
 
 	}
 
@@ -104,41 +84,18 @@ public class LikesCourseService {
 			return dto;
 		});
 		
-		
-//		if(lists.isPresent()) {
-//			for()
-//		
-//		}
-//		else {
-//		}
-//		
-//
-//				LikesCourseDto dto = new LikesCourseDto();
-//				
-//				dto.setLikesCourseId(entity.getLikesCourseId());
-//				dto.setUserId(entity.getUser().getUserId());
-//				dto.setCourseId(entity.getCourse().getCourseId());
-//				dto.setAreaCode(entity.getAreaCode());
-//				dto.setSigunguCode(entity.getSigunguCode());
-//				dto.setGoodOrHate(entity.getGoodOrHate());
-//				
-//				return dto;
-//			
-//			});
-		
-
 			
 	}
 
 
-	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable, String areaCode, String sigunguCode, Long userId, Long creatorUserId) {
+	public Page<LikesCourseDto> listLikesCourseAll(Pageable pageable, String areaCode, String sigunguCode, Long userId, Long creatorUserId, Long courseId) {
 		
 		
 		
 		// userId : 로그인한 사용자 id
 		// writeUserId : 여행코스를 만든 사용자id
 		
-		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, creatorUserId);
+		Page<ProjectionLikesCourseCount> page = likesCourseRepository.listCoursesOrderByLikesCountDesc(pageable, areaCode, sigunguCode, userId, creatorUserId, courseId);
 		
 		page.getContent().forEach(course -> {
 		    System.out.println(course.getCourseName() + " / 좋아요 수: " + course.getLikesCount());
@@ -179,21 +136,23 @@ public class LikesCourseService {
 		boolean isExists = likesCourseRepository.existsByUser_UserIdAndCourse_CourseId(userId, courseId);
 		
 		if(isExists) {
-			return new SaveResponseDto(false, "record already exists", null, null);
+			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);
+			return new SaveResponseDto(false, "record already exists", null, null, likesCount);
 		}
 		
 		// 2. 유효한(존재하는) 사용자인지 확인 user_id
 		
 		Optional<UserEntity> optionalUser = userRepository.findById(userId);
 		if(optionalUser.isEmpty()) {
-			return new SaveResponseDto(false, "user not exists", null, null);
+			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);
+			return new SaveResponseDto(false, "user not exists", null, null, likesCount);
 		}
 		UserEntity user = optionalUser.get();
 		
 		// 3. 저장되어 있는 여행코스 존재 여부 확인, 미존재시 에러반환
 		Optional<CourseEntity> optionalCourse = courseRepository.findById(courseId);
 		if(optionalCourse.isEmpty()) {
-			return new SaveResponseDto(false, "course not exists", null, null);
+			return new SaveResponseDto(false, "course not exists", null, null,null);
 		}
 		CourseEntity course = optionalCourse.get();
 		
@@ -207,7 +166,8 @@ public class LikesCourseService {
 		
 		LikesCourseEntity saved = likesCourseRepository.save(likesCourseEntity);
 		
-		return new SaveResponseDto(true, "saved", "likes_course_id", saved.getLikesCourseId());
+		Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);		
+		return new SaveResponseDto(true, "saved", "likes_course_id", saved.getLikesCourseId(), likesCount);
 
 		
 	}
@@ -219,11 +179,14 @@ public class LikesCourseService {
 			Long likesCourseId = entity.getLikesCourseId();
 			
 			likesCourseRepository.delete(entity);
-			return new SaveResponseDto(true, "deleted", "likes_course_id", likesCourseId);
+			
+			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);	
+			return new SaveResponseDto(true, "deleted", "likes_course_id", likesCourseId, courseId);
 		}
 		else
 		{
-			return new SaveResponseDto(false, "not_found", null, null);
+			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);	
+			return new SaveResponseDto(false, "not_found", null, null, courseId);
 		}
 
 	}

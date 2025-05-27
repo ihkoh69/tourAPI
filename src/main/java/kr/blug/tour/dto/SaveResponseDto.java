@@ -19,4 +19,6 @@ public class SaveResponseDto {
 	private String id_name;
 	private Long id;
 	
+	private Long likes_count;
+	
 }

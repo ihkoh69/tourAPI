@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import kr.blug.tour.dto.LikesCourseCheckDto;
 import kr.blug.tour.dto.LikesCourseDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.CourseEntity;
@@ -107,12 +108,13 @@ public class LikesCourseCotroller {
 				@RequestParam(name="sigungucode", required = false) String sigunguCode,
 				@RequestParam(name="user_id", required = false) Long userId,
 				@RequestParam(name="creator_user_id", required = false) Long creatorUserId,
+				@RequestParam(name="course_id", required = false) Long courseId,
 				@PageableDefault(size=10, page=0) Pageable pageable
 			) {
 
 		// writeUserId = 여행코스를 만든 유저
 		// userId = 로그인한 유저(좋아요를 선택한 유저)
-		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable, areaCode, sigunguCode, userId, creatorUserId);
+		Page<LikesCourseDto> items = likesCourseService.listLikesCourseAll(pageable, areaCode, sigunguCode, userId, creatorUserId, courseId);
 		if(!items.isEmpty()) {
 		
 			return ResponseEntity.ok(Map.of(
@@ -129,41 +131,6 @@ public class LikesCourseCotroller {
 	}
 	
 	
-//	// 사용하지않음. 구버전 
-//	@GetMapping("/likes/course/mylist")
-//	public ResponseEntity<Map<String, Object>> listMyLikes(
-//			@RequestParam("user_id") Long userId,
-//			@PageableDefault(size=10, page=0) Pageable pageable
-////			@PageableDefault(size=10, page=0, sort="areaCode", direction = Sort.Direction.ASC ) Pageable pageable   /* @PageableDefault(sort = "중첩 필드")에서 중첩 필드(course.areaCode 등)는 사용할 수 없음 */
-//			){
-//		
-//						// LikesCourseEntity에 포함된 아래내용에 따라 course객체를 사용하여 course.areaCode의 형태로 참조
-////						@ManyToOne(fetch = FetchType.LAZY)
-////						@JoinColumn(name="course_id", nullable = false)
-////						private CourseEntity course;
-//		
-//		Sort sort = Sort.by(Sort.Direction.ASC,"course.areaCode");
-//		Pageable sortedPageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
-//		
-//		
-////		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, pageable);
-//		Page<LikesCourseDto> items =  likesCourseService.listMyLikes(userId, sortedPageable);
-//		
-//		System.out.println(items.isEmpty());
-//		if(!items.isEmpty()) { 
-//			return ResponseEntity.ok(Map.of("result","success", 
-//					"items", items.getCourse(),
-//					"totalPages", items.getTotalPages(),
-//					"totalElements", items.getTotalElements(),				
-//					"currentPage", items.getNumber()		));
-//		}
-//		else {
-//			return ResponseEntity.ok(Map.of("result","not_found"));
-//			
-//		}	
-//		
-//	}
-//	
 	
 	@GetMapping("/likes/course/check")
 	public ResponseEntity<Map<String, Object>> findByUserIdAndCourseId(
@@ -172,20 +139,14 @@ public class LikesCourseCotroller {
 			) {
 
 		
-		Optional<LikesCourseDto> dto =  likesCourseService.findByUserAndCourseId(userId, courseId);
-		
-		log.info("Checking like: userId={}, courseId={}, found={}", userId, courseId, dto.isPresent());
-		
-		if(dto.isPresent()) {
-			
-			return ResponseEntity.ok(Map.of(
-					"result", "success", 
-					"item", dto));
+		if(userId == null || courseId == null) {
+			return ResponseEntity.ok(Map.of("result", "error", "err_msg", "유저id와 여행코스id는 반드시 입력해야 합니다."));				
 		}
-		else
-		{
-			return ResponseEntity.ok(Map.of("result", "not_found"));				
-		}
+		
+		LikesCourseCheckDto dto =  likesCourseService.findByUserAndCourseId(userId, courseId);
+		
+
+		return ResponseEntity.ok(Map.of("result", "success", "items", dto));				
 	
     }
 	

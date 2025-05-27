@@ -20,6 +20,7 @@ import kr.blug.tour.entity.FavoritesEntity;
 import kr.blug.tour.entity.UserEntity;
 import kr.blug.tour.repository.ContentsRepository;
 import kr.blug.tour.repository.FavoritesRepository;
+import kr.blug.tour.repository.LikesContentRepository;
 import kr.blug.tour.repository.UserRepository;
 
 @Service
@@ -33,6 +34,9 @@ public class FavoritesService {
 	
 	@Autowired
 	private ContentsRepository contentsRepository;
+	
+	@Autowired
+	private LikesContentRepository likesContentRepository;
 
 	public Page<FavoritesDto> listByUserIdAndContentTypeId(Long userId, String contentTypeId, Pageable pageable) {
 		
@@ -64,13 +68,15 @@ public class FavoritesService {
 		    // 1. 이미 존재하는지 확인
 		    boolean exists = favoritesRepository.existsByUser_UserIdAndContents_ContentId(userId, contentId);
 		    if (exists) {
-		        return new SaveResponseDto(false, "data already exists", null, null);
+		    	Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+		        return new SaveResponseDto(false, "data already exists", null, null, likesCount);
 		    }
 
 		    // 2. 사용자 존재 여부 확인
 		    Optional<UserEntity> optionalUser = userRepository.findById(userId);
 		    if (optionalUser.isEmpty()) {
-		        return new SaveResponseDto(false, "user not exists", null, null);
+		    	Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+		        return new SaveResponseDto(false, "user not exists", null, null, likesCount);
 		    }
 		    UserEntity user = optionalUser.get();
 
@@ -98,7 +104,8 @@ public class FavoritesService {
 
 		    FavoritesEntity saved = favoritesRepository.save(favorite);
 		    
-		    return new SaveResponseDto(true, "saved", "favorites_id", saved.getFavoritesId());
+		    Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+		    return new SaveResponseDto(true, "saved", "favorites_id", saved.getFavoritesId(), likesCount);
 
 		}
 
@@ -109,40 +116,17 @@ public class FavoritesService {
 		if(entity != null) {
 			Long favoritesId = entity.getFavoritesId();   //지우기 전에 id를 먼저 저장해 둠
 			
-			favoritesRepository.delete(entity);			
-	        return new SaveResponseDto(true, "deleted", "favorites_id", favoritesId);
+			favoritesRepository.delete(entity);	
+			Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+	        return new SaveResponseDto(true, "deleted", "favorites_id", favoritesId, likesCount);
 		}
 		else {
-			return new SaveResponseDto(false, "not_found", null, null);
+			Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
+			return new SaveResponseDto(false, "not_found", null, null, likesCount);
 
 	    }
 	
 	}
 
-	
-//	public List<FavoritesDto> listByUserId(Long userId) {
-//		
-//		List<FavoritesEntity> favorites = favoritesRepository.findAllByUser_UserId(userId);
-//		
-//		List<FavoritesDto> items = new ArrayList<>();
-//		
-//		for(FavoritesEntity record : favorites) {
-//			FavoritesDto dto = new FavoritesDto();
-//			
-//			dto.setFavoritesId(record.getFavoritesId());
-//			dto.setUserId(record.getUser().getUserId());
-//			dto.setUserNickName(record.getUser().getNickname());
-//			dto.setContentId(record.getContentId());
-//			dto.setContentTypeId(record.getContentTypeId());
-//			dto.setTitle(record.getTitle());
-//			dto.setAddr(record.getAddr());
-//			dto.setAreaCode(record.getAreaCode());
-//			dto.setSigunguCode(record.getSigunguCode());
-//			dto.setFirstimage(record.getFirstimage());
-//			
-//			items.add(dto);
-//		}
-//		
-//		return items;
-//	}
+
 }

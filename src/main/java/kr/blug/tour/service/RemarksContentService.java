@@ -15,14 +15,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import kr.blug.tour.dto.RemarksCommentUpdateDto;
 import kr.blug.tour.dto.RemarksContentDto;
 import kr.blug.tour.dto.RemarksCourseDto;
 import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.ContentsEntity;
 import kr.blug.tour.entity.RemarksContentEntity;
+import kr.blug.tour.entity.RemarksCourseEntity;
 import kr.blug.tour.entity.UserEntity;
 import kr.blug.tour.repository.ContentsRepository;
+import kr.blug.tour.repository.LikesContentRepository;
 import kr.blug.tour.repository.ProjectionRemarksContent;
 import kr.blug.tour.repository.ProjectionRemarksCourse;
 import kr.blug.tour.repository.RemarksContentRepository;
@@ -39,6 +42,9 @@ public class RemarksContentService {
 		
 		@Autowired
 		ContentsRepository contentsRepository;
+		
+		@Autowired
+		LikesContentRepository likesContentRepository;
 
 		
 
@@ -80,7 +86,8 @@ public class RemarksContentService {
 			Optional<UserEntity> user = userRepository.findByUserId(dto.getUser_id());
 			if(user.isEmpty()) {
 				//user_id가 존재하지 않으면 실패 메시지 리
-				return new SaveResponseDto(false, "invalid user_id", null, null);
+				Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
+				return new SaveResponseDto(false, "invalid user_id", null, null, likesCount);
 			}
 			
 			//2. 여행지가 존재하는지 검사하여 없으면 새로 저장한다.
@@ -114,7 +121,8 @@ public class RemarksContentService {
 			
 			RemarksContentEntity savedRemark= remarksContentRepository.save(remark);
 			
-			return new SaveResponseDto(true, "saved", "remarks_content_id", savedRemark.getRemarksContentId());
+			Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
+			return new SaveResponseDto(true, "saved", "remarks_content_id", savedRemark.getRemarksContentId(), likesCount);
 		}
 
 
@@ -122,13 +130,32 @@ public class RemarksContentService {
 		public SaveResponseDto deleteRemarksContent(Long remarksContentId) {
 			
 			Optional<RemarksContentEntity> remark = remarksContentRepository.findById(remarksContentId);
-			if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null);
+			if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null, null);
 			
 			remarksContentRepository.delete(remark.get());
-			return new SaveResponseDto(true, "deleted", "remarks_content_id", remark.get().getRemarksContentId());
+			return new SaveResponseDto(true, "deleted", "remarks_content_id", remark.get().getRemarksContentId(), null);
 		}
 
 
-				
+
+		public Long countRemarksContent(Long userId, String contentId) {
+	
+			return remarksContentRepository.countByOptionalUserAndContent(userId, contentId);
+		}
+
+
+		public SaveResponseDto updateCommentById(Long remarksContentId, RemarksCommentUpdateDto dto) {
+			
+			
+			// 1. 해당 id의 레코드가 있는지 검사한다.
+			Optional<RemarksContentEntity> remark = remarksContentRepository.findById(remarksContentId);
+			if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null, null);
+			
+			RemarksContentEntity comment = remark.get();
+			comment.setComment(dto.getComment());
+			remarksContentRepository.save(comment);
+			
+			return new SaveResponseDto(true, "updated", "remarks_content_id", comment.getRemarksContentId(), null);
+		}				
 		
 }

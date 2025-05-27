@@ -24,6 +24,7 @@ import kr.blug.tour.entity.UserEntity;
 import kr.blug.tour.repository.ContentsRepository;
 import kr.blug.tour.repository.CourseRepository;
 import kr.blug.tour.repository.CourseSpotRepository;
+import kr.blug.tour.repository.LikesCourseRepository;
 import kr.blug.tour.repository.UserRepository;
 
 @Service
@@ -42,6 +43,9 @@ public class CourseService {
 	
 	@Autowired
 	private ContentsRepository contentsRepository;
+	
+	@Autowired
+	private LikesCourseRepository likesCourseRepository;
 
     CourseService(WebConfig webConfig) {
         this.webConfig = webConfig;
@@ -114,7 +118,8 @@ public class CourseService {
 		Optional<UserEntity> user = userRepository.findByUserId(dto.getCreator_user_id());
 		
 		if(user.isEmpty()) {
-			return new SaveResponseDto(false, "invalid user_id", null, null);
+			Long likesCount = likesCourseRepository.countByCourse_CourseId(dto.getCourse_id());	
+			return new SaveResponseDto(false, "invalid user_id", null, null, likesCount);
 		}
 		
 		//2. Contents 들이 존재하는지 검사, 없다면 새로 저장
@@ -202,7 +207,8 @@ public class CourseService {
 			
 		}
 		
-		return new SaveResponseDto(true, "saved", "course_id", savedCourse.getCourseId());
+		Long likesCount = likesCourseRepository.countByCourse_CourseId(dto.getCourse_id());	
+		return new SaveResponseDto(true, "saved", "course_id", savedCourse.getCourseId(), likesCount);
 	}
 
 	public SaveResponseDto deleteCourse(Long courseId) {
@@ -226,11 +232,13 @@ public class CourseService {
 			
 			courseRepository.deleteById(courseId);
 			System.out.println("여행코스 정보 마스터 " + courseId + "를 삭제합니다. ");
-			return new SaveResponseDto(true, "deleted", "course_id", courseId);
+			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);	
+			return new SaveResponseDto(true, "deleted", "course_id", courseId, likesCount);
 			
 		}
 		else {
-			return new SaveResponseDto(false, "not_found", null, null);
+			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);	
+			return new SaveResponseDto(false, "not_found", null, null, likesCount);
 		}
 		
 	}
