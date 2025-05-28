@@ -3,11 +3,13 @@ package kr.blug.tour.service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import kr.blug.tour.dto.LikesCourseCheckDto;
@@ -132,12 +134,23 @@ public class LikesCourseService {
 
 	public SaveResponseDto saveLikesCourse(Long userId, Long courseId) {
 
+		
+		
+		if(userId == null) {
+			return new SaveResponseDto(false, "유저id는 필수 파라미터입니다.");				
+		}
+		
+		if(courseId == null) {
+			return new SaveResponseDto(false, "코스id는 필수 파라미터입니다.");		
+		}
+				
+		
 		// 1. 이미 좋아요 표시한 내용이 있는지 검사 user_id, contentid
 		boolean isExists = likesCourseRepository.existsByUser_UserIdAndCourse_CourseId(userId, courseId);
 		
 		if(isExists) {
 			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);
-			return new SaveResponseDto(false, "record already exists", null, null, likesCount);
+			return new SaveResponseDto(false, "record already exists", likesCount);
 		}
 		
 		// 2. 유효한(존재하는) 사용자인지 확인 user_id
@@ -145,14 +158,14 @@ public class LikesCourseService {
 		Optional<UserEntity> optionalUser = userRepository.findById(userId);
 		if(optionalUser.isEmpty()) {
 			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);
-			return new SaveResponseDto(false, "user not exists", null, null, likesCount);
+			return new SaveResponseDto(false, "user not exists", likesCount);
 		}
 		UserEntity user = optionalUser.get();
 		
 		// 3. 저장되어 있는 여행코스 존재 여부 확인, 미존재시 에러반환
 		Optional<CourseEntity> optionalCourse = courseRepository.findById(courseId);
 		if(optionalCourse.isEmpty()) {
-			return new SaveResponseDto(false, "course not exists", null, null,null);
+			return new SaveResponseDto(false, "course not exists",null);
 		}
 		CourseEntity course = optionalCourse.get();
 		
@@ -174,6 +187,16 @@ public class LikesCourseService {
 
 	public SaveResponseDto deleteByUserIdAndCourseId(Long userId, Long courseId) {
 		
+		
+		if(userId == null) {
+			return new SaveResponseDto(false, "유저id는 필수 파라미터입니다.");				
+		}
+		
+		if(courseId == null) {
+			return new SaveResponseDto(false, "코스id는 필수 파라미터입니다.");				
+		}
+		
+		
 		LikesCourseEntity entity = likesCourseRepository.findByUser_UserIdAndCourse_CourseId(userId, courseId);
 		if(entity != null) {
 			Long likesCourseId = entity.getLikesCourseId();
@@ -186,7 +209,7 @@ public class LikesCourseService {
 		else
 		{
 			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);	
-			return new SaveResponseDto(false, "not_found", null, null, courseId);
+			return new SaveResponseDto(false, "not_found", courseId);
 		}
 
 	}

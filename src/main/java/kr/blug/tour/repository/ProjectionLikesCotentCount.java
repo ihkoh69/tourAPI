@@ -1,5 +1,7 @@
 package kr.blug.tour.repository;
 
+import java.time.LocalDateTime;
+
 public interface ProjectionLikesCotentCount {
 
      Long  getContentsRowId();
@@ -10,6 +12,6 @@ public interface ProjectionLikesCotentCount {
      String getAddr();
      String getTitle();
      String getFirstimage();
-     String getCrdttm();
+     LocalDateTime getCrdttm();
      Long getLikesCount();
 }

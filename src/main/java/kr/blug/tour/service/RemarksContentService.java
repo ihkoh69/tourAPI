@@ -87,7 +87,7 @@ public class RemarksContentService {
 			if(user.isEmpty()) {
 				//user_id가 존재하지 않으면 실패 메시지 리
 				Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
-				return new SaveResponseDto(false, "invalid user_id", null, null, likesCount);
+				return new SaveResponseDto(false, "invalid user_id", likesCount);
 			}
 			
 			//2. 여행지가 존재하는지 검사하여 없으면 새로 저장한다.
@@ -130,10 +130,10 @@ public class RemarksContentService {
 		public SaveResponseDto deleteRemarksContent(Long remarksContentId) {
 			
 			Optional<RemarksContentEntity> remark = remarksContentRepository.findById(remarksContentId);
-			if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null, null);
+			if(remark.isEmpty()) return new SaveResponseDto(false, "not_found");
 			
 			remarksContentRepository.delete(remark.get());
-			return new SaveResponseDto(true, "deleted", "remarks_content_id", remark.get().getRemarksContentId(), null);
+			return new SaveResponseDto(true, "deleted", "remarks_content_id", remark.get().getRemarksContentId());
 		}
 
 
@@ -149,13 +149,13 @@ public class RemarksContentService {
 			
 			// 1. 해당 id의 레코드가 있는지 검사한다.
 			Optional<RemarksContentEntity> remark = remarksContentRepository.findById(remarksContentId);
-			if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null, null);
+			if(remark.isEmpty()) return new SaveResponseDto(false, "DB에 해당하는 remarks_content_id가 없습니다.");
 			
 			RemarksContentEntity comment = remark.get();
 			comment.setComment(dto.getComment());
 			remarksContentRepository.save(comment);
 			
-			return new SaveResponseDto(true, "updated", "remarks_content_id", comment.getRemarksContentId(), null);
+			return new SaveResponseDto(true, "updated", "remarks_content_id", comment.getRemarksContentId());
 		}				
 		
 }

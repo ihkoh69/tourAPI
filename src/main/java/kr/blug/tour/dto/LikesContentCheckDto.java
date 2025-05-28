@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class LikesContentCheckDto {
 	
 	private Long user_id;
-	private boolean my_check;
+	private Boolean my_check;
 
 	private String contentid;
 	private Long likes_count;

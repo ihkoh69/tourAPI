@@ -112,10 +112,7 @@ public class LikesContentController {
 				@RequestParam(name="user_id", required = false) Long userId,
 				@PageableDefault(size=10, page=0) Pageable pageable
 			) {
-		
-//		if(areaCode == null) areaCode = "%";
-//		if(sigunguCode == null) sigunguCode  = "%";
-//		if(userId == null) userId = "%";
+
 		
 		System.out.println("contentTypeId = " + contentTypeId);
 		

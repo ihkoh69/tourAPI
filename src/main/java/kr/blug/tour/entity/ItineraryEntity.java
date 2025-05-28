@@ -10,26 +10,32 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
+@Getter
+@Setter
 @Table(name="itinerary")
 public class ItineraryEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long itineraryId;
 	
-	private String title;
 	private String startDate;
 	private String endDate;
-	private boolean isVisited;
-	private String generalReview;
+	private Boolean isVisited;
+	private String review;
 	private LocalDateTime crdttm;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
