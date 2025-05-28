@@ -11,10 +11,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-
+import jakarta.transaction.Transactional;
 import kr.blug.tour.config.WebConfig;
+import kr.blug.tour.controller.UserController;
 import kr.blug.tour.dto.CourseDto;
 import kr.blug.tour.dto.CourseSpotDto;
+import kr.blug.tour.dto.CourseUpdateDto;
+import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveCourseDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.ContentsEntity;
@@ -29,6 +32,8 @@ import kr.blug.tour.repository.UserRepository;
 
 @Service
 public class CourseService {
+
+    private final UserController userController;
 
     private final WebConfig webConfig;
 	
@@ -47,10 +52,13 @@ public class CourseService {
 	@Autowired
 	private LikesCourseRepository likesCourseRepository;
 
-    CourseService(WebConfig webConfig) {
+    CourseService(WebConfig webConfig, UserController userController) {
         this.webConfig = webConfig;
+        this.userController = userController;
     }
 
+    
+    
 	public Page<CourseDto> listCourses(Long user_id, Pageable pageable) {
 		
 		Page<CourseEntity> courseList ;
@@ -81,7 +89,6 @@ public class CourseService {
 			for(CourseSpotEntity spotEntity : course.getCourseSpots()) {
 				CourseSpotDto spot = new CourseSpotDto();
 
-				spot.setCourse_id(spotEntity.getCourse().getCourseId());
 				spot.setCourse_spot_id(spotEntity.getCourseSpotId());
 				
 				spot.setContentid(spotEntity.getContents().getContentId());
@@ -91,13 +98,13 @@ public class CourseService {
 				spot.setAreacode(spotEntity.getContents().getAreaCode());
 				spot.setSigungucode(spotEntity.getContents().getSigunguCode());
 				spot.setFirstimage(spotEntity.getContents().getFirstimage());
-				
+
 				spotlists.add(spot);
 				System.out.println(spotEntity.getContents().getTitle());
 
 			}
 				
-			
+			System.out.println(spotlists.toString());
 			dto.setContents(spotlists);
 			
 			
@@ -119,26 +126,27 @@ public class CourseService {
 		
 		if(user.isEmpty()) {
 			Long likesCount = likesCourseRepository.countByCourse_CourseId(dto.getCourse_id());	
-			return new SaveResponseDto(false, "invalid user_id", null, null, likesCount);
+			return new SaveResponseDto(false, "invalid user_id", likesCount);
 		}
 		
 		//2. Contents 들이 존재하는지 검사, 없다면 새로 저장
 		
-		List<CourseSpotDto> contents = dto.getContents();
+		List<SaveContentDto> contents = dto.getContents();
 		
 		
 		String areaCode = null;
 		String sigunguCode = null;
 		
-		for(CourseSpotDto spot : contents) {
+		for(SaveContentDto spot : contents) {
 			//2.1 컨텐츠 존재여부 검사
 			isExists = contentsRepository.existsByContentId(spot.getContentid());
 			
-			// 전달 받은 제일 마지막 컨텐츠의 지역코드를 대표지역으로 세팅한다.
-			
+			// 전달 받은 제일 마지막 컨텐츠의 지역코드를 대표지역으로 세팅한다.			
 			areaCode = spot.getAreacode();
 			sigunguCode = spot.getSigungucode();
 			
+			
+			// 컨텐츠가 DB에 저장된 적이 없다면 저장을 진행 
 			if(!isExists) {
 				
 				ContentsEntity contentEntity = new ContentsEntity();
@@ -184,7 +192,7 @@ public class CourseService {
 		
 		// 2단계에서 만들어둔 contents 객체 재사용
 		
-		for(CourseSpotDto spot : contents) {
+		for(SaveContentDto spot : contents) {
 			CourseSpotEntity entity = new CourseSpotEntity();
 			
 //			// 영속성 판단 로직의 차이로 에러 발생함.
@@ -238,8 +246,79 @@ public class CourseService {
 		}
 		else {
 			Long likesCount = likesCourseRepository.countByCourse_CourseId(courseId);	
-			return new SaveResponseDto(false, "not_found", null, null, likesCount);
+			return new SaveResponseDto(false, "not_found", likesCount);
 		}
+		
+	}
+
+
+	public SaveResponseDto updateCourse(Long courseId, CourseUpdateDto dto) {
+		
+		//1. course_id가 유효한지 검사
+		Optional<CourseEntity> rec = courseRepository.findById(courseId);
+		if(rec.isEmpty()) {
+			return new SaveResponseDto(false, "DB에 course_id에 해당하는 자료가 없습니다.");
+		}
+		
+		CourseEntity target = rec.get();
+		
+		//2. 마스터 레코드의 수정 부분이 있다면 반영
+		if(dto.getCourse_name() != null) {
+			target.setCourseName(dto.getCourse_name());			
+		}
+		if(dto.getDescription() != null) {
+			target.setDescription(dto.getDescription());
+		}
+			
+		CourseEntity updatedCourse = courseRepository.save(target);
+		
+		
+		//3. no_spot_update값이 false이면 자식 레코드(course_spot)들을 모두 삭제 후 재등록한다.		
+		if(dto.isContents_update() == true) {
+			System.out.println("*************************************** XXXXXXXXXXX");
+
+			courseSpotRepository.deleteAllByCourse_CourseId(courseId);
+			
+			for(SaveContentDto spot : dto.getContents()) {
+				
+				CourseSpotEntity courseSpot = new CourseSpotEntity();
+				courseSpot.setCourse(updatedCourse);
+				
+				
+				//3-A DB에 해당 컨텐츠가 없다면 저장해 준다.				
+				Optional<ContentsEntity> content = contentsRepository.findByContentId(spot.getContentid());
+				if(content.isEmpty()) {
+					
+					ContentsEntity newContent = new ContentsEntity();
+					
+					newContent.setContentId(spot.getContentid());
+					newContent.setContentTypeId(spot.getContenttypeid());
+					newContent.setTitle(spot.getTitle());
+					newContent.setAddr(spot.getAddr1());
+					newContent.setAreaCode(spot.getAreacode());
+					newContent.setSigunguCode(spot.getSigungucode());
+					newContent.setFirstimage(spot.getFirstimage());
+					
+					ContentsEntity newOne = contentsRepository.save(newContent);
+					
+					System.out.println("새로운 content 등록" + newOne.getContentsRowId() + " " + newOne.getContentId());
+					
+					courseSpot.setContents(newOne);
+				}
+				else { //3-B 기존에 저장되어 있던 컨텐츠 
+					courseSpot.setContents(content.get());
+				}
+				
+				//새로운 CourseSpot 레코드생성시간을 포함하여 DB에 저장한다.
+				courseSpot.setCrdttm(LocalDateTime.now());
+				CourseSpotEntity newSpot = courseSpotRepository.save(courseSpot);
+				
+				System.out.println("새로운 courseSpot 자료 저장" + newSpot.getCourseSpotId());
+			}
+
+		}
+		
+		return new SaveResponseDto(true, "updated", "course_id", updatedCourse.getCourseId());
 		
 	}
 

@@ -14,12 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.blug.tour.dto.CourseDto;
+import kr.blug.tour.dto.CourseUpdateDto;
+import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveCourseDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.CourseEntity;
@@ -78,6 +82,17 @@ public class CourseController {
 			
 		}
 		
-		}
+	}
+	
+	@PatchMapping("/course/update/{id}")
+	public ResponseEntity<Map<String, Object>> updateCourse(
+			@PathVariable(name="id") Long courseId,
+			@RequestBody CourseUpdateDto dto
+			) {
+		
+		SaveResponseDto result = courseService.updateCourse(courseId, dto);
+		
+		return ResponseEntity.ok(Map.of("result", result));
+	}
 
 }

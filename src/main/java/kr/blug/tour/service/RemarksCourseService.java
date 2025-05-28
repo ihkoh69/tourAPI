@@ -102,10 +102,10 @@ public class RemarksCourseService {
 	public SaveResponseDto deleteRemarksCourse(Long remarksCourseId) {
 		
 		Optional<RemarksCourseEntity> remark = remarksCourseRepository.findById(remarksCourseId);
-		if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null, null);
+		if(remark.isEmpty()) return new SaveResponseDto(false, "not_found");
 		
 		remarksCourseRepository.delete(remark.get());
-		return new SaveResponseDto(true, "deleted", "remarks_course_id", remark.get().getRemarksCourseId(), null);
+		return new SaveResponseDto(true, "deleted", "remarks_course_id", remark.get().getRemarksCourseId());
 	}
 
 	public Long countRemarksCourse(Long userId, Long courseId) {
@@ -119,13 +119,13 @@ public class RemarksCourseService {
 		
 		// 1. 해당 id의 레코드가 있는지 검사한다.
 		Optional<RemarksCourseEntity> remark = remarksCourseRepository.findById(remarksCourseId);
-		if(remark.isEmpty()) return new SaveResponseDto(false, "not_found", null, null, null);
+		if(remark.isEmpty()) return new SaveResponseDto(false, "DB에 remarks_cours_id에 해당하는 자료가 없습니다.");
 		
 		RemarksCourseEntity comment = remark.get();
 		comment.setComment(dto.getComment());
 		remarksCourseRepository.save(comment);
 		
-		return new SaveResponseDto(true, "updated", "remarks_course_id", comment.getRemarksCourseId(), null);
+		return new SaveResponseDto(true, "updated", "remarks_course_id", comment.getRemarksCourseId());
 	}
 	
 }

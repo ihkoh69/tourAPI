@@ -12,13 +12,11 @@ import lombok.NoArgsConstructor;
 public class CourseSpotDto {
 	
 	private Long course_spot_id;	
-	private Long course_id;
 	
 	private String contentid;
 	private String contenttypeid;
 	private String title;
 	private String addr1;
-	private String titleImage;
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;

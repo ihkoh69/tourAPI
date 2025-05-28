@@ -20,7 +20,7 @@ public class SaveCourseDto {
 	private Long shared_count;
 	private String areacode;
 	private String sigungucode;
-	private List<CourseSpotDto> contents;
+	private List<SaveContentDto> contents;
 	private LocalDateTime updttm;
 	
 

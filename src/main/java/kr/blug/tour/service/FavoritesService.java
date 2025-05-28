@@ -38,9 +38,15 @@ public class FavoritesService {
 	@Autowired
 	private LikesContentRepository likesContentRepository;
 
-	public Page<FavoritesDto> listByUserIdAndContentTypeId(Long userId, String contentTypeId, Pageable pageable) {
+	public Page<FavoritesDto> listMyFavorites(Long userId, String contentTypeId, String contentId, String areaCode, String sigunguCode, Pageable pageable) {
 		
-		Page<FavoritesEntity> favoritesPage = favoritesRepository.findByUser_UserIdAndContents_ContentTypeIdOrderByCrdttmDesc(userId, contentTypeId, pageable);
+		
+		
+//		Page<FavoritesEntity> favoritesPage = favoritesRepository.findByUser_UserIdAndContents_ContentIdAndContents_ContentTypeIdOrderByCrdttmDesc(userId, contentId, contentTypeId, pageable);
+		
+
+		Page<FavoritesEntity> favoritesPage = favoritesRepository.listMyFavorites(userId, contentId, contentTypeId, areaCode, sigunguCode, pageable);
+		
 		
 		return favoritesPage.map(record->{
 			FavoritesDto dto = new FavoritesDto();
@@ -69,14 +75,14 @@ public class FavoritesService {
 		    boolean exists = favoritesRepository.existsByUser_UserIdAndContents_ContentId(userId, contentId);
 		    if (exists) {
 		    	Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
-		        return new SaveResponseDto(false, "data already exists", null, null, likesCount);
+		        return new SaveResponseDto(false, "data already exists", likesCount);
 		    }
 
 		    // 2. 사용자 존재 여부 확인
 		    Optional<UserEntity> optionalUser = userRepository.findById(userId);
 		    if (optionalUser.isEmpty()) {
 		    	Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
-		        return new SaveResponseDto(false, "user not exists", null, null, likesCount);
+		        return new SaveResponseDto(false, "user not exists", likesCount);
 		    }
 		    UserEntity user = optionalUser.get();
 
@@ -122,7 +128,7 @@ public class FavoritesService {
 		}
 		else {
 			Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
-			return new SaveResponseDto(false, "not_found", null, null, likesCount);
+			return new SaveResponseDto(false, "not_found", likesCount);
 
 	    }
 	

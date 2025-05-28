@@ -74,12 +74,23 @@ public class FavoritesController {
 	
 	@GetMapping("/favorites/list")
 	public ResponseEntity<Map<String, Object>> listFavoritesByUserId(
-			@RequestParam(value="user_id", required=true) Long userId,
-			@RequestParam(value="contenttypeid", required=true) String contentTypeId,
+			@RequestParam(value="user_id", required = false) Long userId,
+			@RequestParam(value="contenttypeid", required = false) String contentTypeId,
+			@RequestParam(value="contentid", required = false) String contentId,
+			@RequestParam(value="areacode", required = false) String areaCode,
+			@RequestParam(value="sigungucode", required = false) String sigunguCode,			
 			@PageableDefault(size=10, page=0, sort="crdttm", direction = Sort.Direction.ASC) Pageable pageable){ // sort에 대입되는 인자는 물리적DB의 컬럼명 user_id가 아니라 Entity의 필드명 userId여야 
 		
 		
-		Page<FavoritesDto> items = favoritesService.listByUserIdAndContentTypeId(userId, contentTypeId, pageable);
+		if(userId == null) {
+			return ResponseEntity.ok(Map.of("result", "error", "msg", "유저id는 반드시 사용해야 합니다."));
+		}
+		
+		if(sigunguCode != null && areaCode == null) {
+			return ResponseEntity.ok(Map.of("result", "error", "msg", "시군구코드는 반드시 시도코드와 함께 사용해야합니다."));
+		}
+		
+		Page<FavoritesDto> items = favoritesService.listMyFavorites(userId, contentTypeId, contentId, areaCode, sigunguCode, pageable);
 		
 		return ResponseEntity.ok(Map.of(
 				"result", "success", 

@@ -35,13 +35,8 @@ public class CourseSpotEntity {
 	@JoinColumn(name="course_id")
 	private CourseEntity course;
 	//	private Long courseId;
+	
+	
 	private LocalDateTime crdttm;
-	
-
-	
-
-
-	
-	
 
 }

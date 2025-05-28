@@ -30,6 +30,7 @@ public class LikesContentService {
 	private ContentsRepository contentsRepository;
 
 
+	// likes/content/check
 	public LikesContentCheckDto findByUserAndContent(Long userId, String contentId) {
 		
 		
@@ -43,11 +44,7 @@ public class LikesContentService {
 		dto.setContentid(contentId);
 		dto.setLikes_count(likesCount);
 		dto.setMy_check(isMine);
-
 		
-//		return likesContentRepository.findByUser_UserIdAndContents_ContentIdOrderByCrdttm(userId, contentId).map(myContent->{
-
-			
 		return dto;
 
 	}
@@ -85,18 +82,11 @@ public class LikesContentService {
 		    System.out.println(item.getTitle() + " / 좋아요 수: " + item.getLikesCount());
 		});	
 		
-
-//		Page<LikesCourseDto> dtoPage = page.map(course -> new LikesCourseDto()
-//		);
-		
 		Page<LikesContentDto> dtoPage = page.map(item -> {
-				LikesContentDto dto = new LikesContentDto();
+			
+				LikesContentDto dto = new LikesContentDto();				
 				
-				
-				
-				
-				
-//				dto.setLikes_content_id();
+				dto.setLikes_content_id(item.getContentsRowId());
 
 				dto.setContentid(item.getContentId());
 				dto.setContenttypeid(item.getContentTypeId());
@@ -107,14 +97,11 @@ public class LikesContentService {
 				dto.setFirstimage(item.getFirstimage());
 				dto.setLikes_count(item.getLikesCount());
 				
-	
-	//			private LocalDateTime crdttm;
-				
-				
+				dto.setCrdttm(item.getCrdttm());
+					
 				return dto;
 			}
 		);
-
 		
 		return dtoPage;
 
@@ -128,30 +115,21 @@ public class LikesContentService {
 		
 		if(isExists) {
 			Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
-			return new SaveResponseDto(false, "record already exists", null, null, likesCount);
+			return new SaveResponseDto(false, "record already exists", likesCount);
 		}
 		
 		// 2. 유효한(존재하는) 사용자인지 확인 user_id
 		
-//		isExists = userRepository.existsById(dto.getUser_id());
-//		if(!isExists) {
-//			return new SaveResponseDto(false, "user not exists", null, null);
-//		}
-//		UserEntity user = userRepository.findByUserId(dto.getUser_id());
-		
 		Optional<UserEntity> optionalUser = userRepository.findById(dto.getUser_id());
 		if(optionalUser.isEmpty()) {
 			Long likesCount = likesContentRepository.countByContents_ContentId(dto.getContentid());
-			return new SaveResponseDto(false, "user not exists", null, null, likesCount);
+			return new SaveResponseDto(false, "user not exists", likesCount);
 		}
 		UserEntity user = optionalUser.get();
 		
 		
 		// 3. 저장되어 있는 컨텐츠 여부 확인 미존재시 컨텐츠를 미리 등록   contentid
-		
-		
 
-		
 		ContentsEntity content = contentsRepository.findByContentId(dto.getContentid())
 				.orElseGet(()->{
 					ContentsEntity newContent = new ContentsEntity();
@@ -166,12 +144,9 @@ public class LikesContentService {
 					newContent.setCrdttm(LocalDateTime.now());
 					
 					return contentsRepository.save(newContent);					
-				});
-		
-		
+				});			
 		
 		// 4. likesContent에 좋아요 데이터 저장	
-
 		
 		LikesContentEntity likesContentEntity = new LikesContentEntity();
 		likesContentEntity.setUser(user);;
@@ -202,7 +177,7 @@ public class LikesContentService {
 		else
 		{
 			Long likesCount = likesContentRepository.countByContents_ContentId(contentId);
-			return new SaveResponseDto(false, "not_found", null, null,likesCount);
+			return new SaveResponseDto(false, "not_found",likesCount);
 		}
 
 	}
