@@ -54,14 +54,17 @@ dependencies {
 	
 
 	//thumbnail
-	implementation 'net.coobird:thumbnailator:0.4.14'
-    
+	implementation 'net.coobird:thumbnailator:0.4.14'    
     
     
     //bootstrap설정
     runtimeOnly 'org.webjars:bootstrap:5.3.3'
     	
+	//  Spring WebFlux ------> WebClient 클래스 사용을 위해 필
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	
+	// HTML Parsing Library
+	implementation 'org.jsoup:jsoup:1.17.2' 
 }
 
 eclipse.wtp.facet {
