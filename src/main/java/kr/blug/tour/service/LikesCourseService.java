@@ -213,6 +213,11 @@ public class LikesCourseService {
 		}
 
 	}
+
+
+	public Long countlikesCourse(Long userId, Long courseId) {
+		return likesCourseRepository.countByOptionalUserAndContent(userId, courseId);
+	}
 		
 	
 }

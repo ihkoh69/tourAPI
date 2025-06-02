@@ -44,6 +44,8 @@ public class ContentsEntity {
 	
 	@Column(length=1000)
 	private String firstimage;
+	private String mapX;
+	private String mapY;
 	private LocalDateTime crdttm;
 	
 		

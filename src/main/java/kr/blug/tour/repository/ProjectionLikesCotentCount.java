@@ -12,6 +12,8 @@ public interface ProjectionLikesCotentCount {
      String getAddr();
      String getTitle();
      String getFirstimage();
+     String getMapX();
+     String getMapY();
      LocalDateTime getCrdttm();
      Long getLikesCount();
 }

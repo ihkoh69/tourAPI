@@ -21,7 +21,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Table(name="user",
 			 uniqueConstraints = {
 					 @UniqueConstraint(columnNames = "email"),

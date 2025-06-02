@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.blug.tour.dto.FavoritesCheckDto;
 import kr.blug.tour.dto.FavoritesDto;
+import kr.blug.tour.dto.LikesContentCheckDto;
 import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.service.FavoritesService;
@@ -101,15 +103,23 @@ public class FavoritesController {
 				));
 	}
 	
-//	@GetMapping("/favorites/list")
-//	public ResponseEntity<Map<String, Object>> listFavoritesByUserId(
-//			@RequestParam(value="userId", required=true) Long userId){
-//		
-//		
-//		List<FavoritesDto> items = favoritesService.listByUserId(userId);
-//		
-//		return ResponseEntity.ok(Map.of("result", "success", "items", items));
-//	}
+
+	@GetMapping("/favorites/check")
+	public ResponseEntity<Map<String, Object>> findByUserAndContent(
+				@RequestParam(name = "user_id", required = false) Long userId,
+				@RequestParam(name= "contentid", required = false) String contentId){
+		
+		if(userId == null || contentId == null ) {
+			return ResponseEntity.ok(Map.of("result", "error", "msg", "유저id와 컨텐츠id는 반드시 입력해야 합니다."));				
+		}
+		
+		
+		FavoritesCheckDto dto = favoritesService.findByUserAndContent(userId, contentId); 
+		
+
+			return ResponseEntity.ok(Map.of("result", "success", "items", dto));
+
+	}
 	
 	
 }

@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MetaImageExtractorService {
 	
-	private static final String DEFAULT_IMAGE_URL = "/images/no-image.jpg";
+//	private static final String DEFAULT_IMAGE_URL = "/images/no-title-image.jpg";
+	private static final String DEFAULT_IMAGE_URL = "http://localhost:5173/images/no-title-image.png";
+	
+
 	
 	
 	public String extractMainImage(String url) {

@@ -98,6 +98,9 @@ public class CourseService {
 				spot.setAreacode(spotEntity.getContents().getAreaCode());
 				spot.setSigungucode(spotEntity.getContents().getSigunguCode());
 				spot.setFirstimage(spotEntity.getContents().getFirstimage());
+				spot.setMapX(spotEntity.getContents().getMapX());
+				spot.setMapY(spotEntity.getContents().getMapY());
+				
 
 				spotlists.add(spot);
 				System.out.println(spotEntity.getContents().getTitle());
@@ -158,6 +161,8 @@ public class CourseService {
 				contentEntity.setAreaCode(spot.getAreacode());
 				contentEntity.setSigunguCode(spot.getSigungucode());
 				contentEntity.setFirstimage(spot.getFirstimage());
+				contentEntity.setMapX(spot.getMapX());
+				contentEntity.setMapY(spot.getMapY());
 				contentEntity.setCrdttm(LocalDateTime.now());
 				
 				// 컨텐츠 일반 정보 저장 
@@ -298,6 +303,8 @@ public class CourseService {
 					newContent.setAreaCode(spot.getAreacode());
 					newContent.setSigunguCode(spot.getSigungucode());
 					newContent.setFirstimage(spot.getFirstimage());
+					newContent.setMapX(spot.getMapX());
+					newContent.setMapY(spot.getMapY());
 					
 					ContentsEntity newOne = contentsRepository.save(newContent);
 					

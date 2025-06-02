@@ -134,7 +134,15 @@ public class LikesContentController {
 		}
 	}
 	
-	
+	@GetMapping("/likes/content/count")
+	public ResponseEntity<Map<String, Object>> countLikesContent(
+			@RequestParam(name="user_id", required = false) Long userId,
+			@RequestParam(name="contentid", required = false) String contentId
+		){
+		
+		Long cnt = likesContentService.countLikesContent(userId, contentId);
+		return ResponseEntity.ok(Map.of("result", "success", "count", cnt));
+	}
 	
 	
 	
