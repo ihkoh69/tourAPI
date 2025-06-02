@@ -2,13 +2,20 @@ package kr.blug.tour.dto;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FavoritesDto {
 
 	private Long favorites_id;
@@ -21,6 +28,8 @@ public class FavoritesDto {
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;
+	private String mapX;
+	private String mapY;
 	private LocalDateTime crdttm;
 	
 }

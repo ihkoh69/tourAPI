@@ -108,6 +108,15 @@ public class LikesCourseCotroller {
 	
     }
 	
+	@GetMapping("/likes/course/count")
+	public ResponseEntity<Map<String, Object>> countlikesCourse(
+			@RequestParam(name="user_id", required = false) Long userId,
+			@RequestParam(name="course_id", required = false) Long courseId
+		){
+		
+		Long cnt = likesCourseService.countlikesCourse(userId, courseId);
+		return ResponseEntity.ok(Map.of("result", "success", "count", cnt));
+	}
 
 	
 }

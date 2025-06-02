@@ -20,4 +20,6 @@ public class CourseSpotDto {
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;
+	private String MapX;
+	private String MapY;
 }

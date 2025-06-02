@@ -33,6 +33,8 @@ public interface LikesContentRepository extends JpaRepository<LikesContentEntity
 				    a.addr AS addr,
 				    a.title AS title,
 				    a.firstimage AS firstimage,
+				    a.mapx AS mapX,
+				    a.mapy AS mapY,
 				    a.crdttm AS crdttm,
 				    c.cnt AS likesCount
 				FROM (
@@ -75,61 +77,25 @@ public interface LikesContentRepository extends JpaRepository<LikesContentEntity
 
 	
 	
-//	//countQuery는 반드시 group by 된 course_id의 수만 세도록 따로 작성해줘야 함.
-//	@Query(
-//		    value = """
-//				SELECT
-//				    a.contents_row_id  AS contentsRowId,
-//				    a.content_id AS contentId,
-//				    a.content_type_id AS contentTypeId,
-//				    a.area_code AS areaCode,
-//				    a.sigungu_code AS sigunguCode,
-//				    a.addr AS addr,
-//				    a.title AS title,
-//				    a.firstimage AS firstimage,
-//				    a.crdttm AS crdttm,
-//				    c.cnt AS likesCount
-//				FROM (
-//				    SELECT lc.content_id, COUNT(*) AS cnt
-//				    FROM likes_content lc
-//				    GROUP BY lc.content_id
-//				) c
-//				JOIN contents a ON a.content_id = c.content_id
-//				JOIN likes_content lc2 ON a.content_id = lc2.content_id
-//				JOIN user u ON u.user_id = lc2.user_id
-//				WHERE (:areaCode IS NULL OR a.area_code = :areaCode)
-//				  AND (:sigunguCode IS NULL OR a.sigungu_code = :sigunguCode)
-//				  AND (:contentTypeId IS NULL OR a.content_type_id = :contentTypeId)
-//				  AND (:contentId IS NULL OR c.content_id = :contentId)
-//		          AND (:userId IS NULL OR lc2.user_id = :userId)
-//				ORDER BY c.cnt DESC
-//		        """,
-//		    countQuery = """
-//		        SELECT COUNT(*) FROM (
-//		            SELECT lc.content_id
-//		            FROM likes_content lc
-//		            JOIN contents c on lc.content_id = c.content_id
-//		            WHERE (:areaCode IS NULL OR c.area_code = :areaCode) AND 
-//		                  (:sigunguCode IS NULL OR c.sigungu_code = :sigunguCode) AND
-//		                  (:contentTypeId IS NULL OR c.content_type_id = :contentTypeId) AND
-//		                  (:contentId IS NULL OR c.content_id = :contentId) AND 
-//		                  (:userId IS NULL OR lc.user_id = :userId)
-//		            GROUP BY lc.content_id) AS counted
-//		        """,
-//		    nativeQuery = true
-//		)
-//		Page<ProjectionLikesCotentCount> listContentsOrderByLikesCountDesc(Pageable pageable, 
-//				@Param("areaCode")  String areaCode, 
-//				@Param("sigunguCode")  String sigunguCode, 
-//				@Param("contentTypeId") String contentTypeId,
-//				@Param("contentId") String contentId,
-//				@Param("userId") Long userId
-//			    );
-	
 	LikesContentEntity findByUser_UserIdAndContents_ContentId(Long userId, String contentId);
 
 	boolean existsByUser_UserIdAndContents_ContentId(Long user_id, String contentid);
 
 	Long countByContents_ContentId(String contentId);
+
+	@Query(
+			value = """
+				    SELECT COUNT(*) FROM likes_content rc
+				    WHERE (:userId IS NULL OR rc.user_id = :userId)
+				      AND (:contentId IS NULL OR rc.content_id = :contentId)
+					""",
+			nativeQuery = true
+		
+			
+			)
+		long countByOptionalUserAndContent(
+		    @Param("userId") Long userId,
+		    @Param("contentId") String contentId
+		);
 
 }

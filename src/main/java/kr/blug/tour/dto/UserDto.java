@@ -24,14 +24,14 @@ public class UserDto {
 	private LocalDateTime crDtTm;
 //	private LocalDateTime upDtTm;
 	
-	public UserEntity toEntity() {
-		UserEntity user = UserEntity.builder()
-				.userId(userId)
-				.nickname(nickname)
-				.email(email)
-				.profileImg(profileImg)
-				.build();
-		return user;
-	}
+//	public UserEntity toEntity() {
+//		UserEntity user = UserEntity.builder()
+//				.userId(userId)
+//				.nickname(nickname)
+//				.email(email)
+//				.profileImg(profileImg)
+//				.build();
+//		return user;
+//	}
 	 
 }

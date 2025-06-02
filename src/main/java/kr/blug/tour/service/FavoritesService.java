@@ -12,7 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import kr.blug.tour.dto.CourseDto;
+import kr.blug.tour.dto.FavoritesCheckDto;
 import kr.blug.tour.dto.FavoritesDto;
+import kr.blug.tour.dto.LikesContentCheckDto;
 import kr.blug.tour.dto.SaveContentDto;
 import kr.blug.tour.dto.SaveResponseDto;
 import kr.blug.tour.entity.ContentsEntity;
@@ -61,6 +63,8 @@ public class FavoritesService {
 			dto.setAreacode(record.getContents().getAreaCode());
 			dto.setSigungucode(record.getContents().getSigunguCode());
 			dto.setFirstimage(record.getContents().getFirstimage());
+			dto.setMapX(record.getContents().getMapX());
+			dto.setMapY(record.getContents().getMapY());
 			
 			return dto;
 		});
@@ -98,6 +102,8 @@ public class FavoritesService {
 		                newContents.setAreaCode(dto.getAreacode());
 		                newContents.setSigunguCode(dto.getSigungucode());
 		                newContents.setFirstimage(dto.getFirstimage());
+		                newContents.setMapX(dto.getMapX());
+		                newContents.setMapY(dto.getMapY());
 		                newContents.setCrdttm(LocalDateTime.now());
 		                return contentsRepository.save(newContents); // 저장 후 반환
 		            });
@@ -134,5 +140,22 @@ public class FavoritesService {
 	
 	}
 
+
+	
+	// favorites/check
+	public FavoritesCheckDto findByUserAndContent(Long userId, String contentId) {
+		
+		
+		FavoritesCheckDto dto = new FavoritesCheckDto();		
+		
+		Boolean isMine = favoritesRepository.existsByUser_UserIdAndContents_ContentId(userId, contentId);
+		
+		dto.setUser_id(userId);
+		dto.setContentid(contentId);
+		dto.setMy_check(isMine);
+		
+		return dto;
+
+	}
 
 }
