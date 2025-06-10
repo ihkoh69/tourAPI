@@ -25,6 +25,7 @@ public class FavoritesDto {
 	private String contenttypeid;
 	private String title;
 	private String addr1;
+	private String addr2;
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;

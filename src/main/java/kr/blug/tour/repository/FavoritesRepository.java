@@ -31,7 +31,7 @@ public interface FavoritesRepository extends JpaRepository<FavoritesEntity, Long
     @Query(value = """
             SELECT 
             f.favorites_id, u.user_id, u.nickname, 
-            c.content_id, c.title, c.addr, c.area_code, c.sigungu_code, c.firstimage, f.crdttm
+            c.content_id, c.title, c.addr1, c.addr2, c.area_code, c.sigungu_code, c.firstimage, f.crdttm
             FROM favorites f
             JOIN contents c ON f.content_id = c.content_id
             JOIN user u ON f.user_id = u.user_id

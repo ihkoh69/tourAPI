@@ -32,7 +32,11 @@ public class CourseEntity {
 	private Long courseId;
 	
 	private String courseName;
-	private String description;
+	private String schedule;          // 일정 
+	private String transportation;    // 교통
+	private String budget;            // 예산 
+	private String lodging;           // 숙박 
+	private String description;       // 메모 
 	
 	@Column(name="shared_count")
 	private Long sharedCount = 0L;  // 공유된 횟수, Column 어노테이션에서는 default 값을 쓸 수 없다.

@@ -237,7 +237,8 @@ public class ItineraryService {
 			content.setContentid(entity.getContents().getContentId());
 			content.setContenttypeid(entity.getContents().getContentTypeId());
 			content.setTitle(entity.getContents().getTitle());
-			content.setAddr1(entity.getContents().getAddr());
+			content.setAddr1(entity.getContents().getAddr1());
+			content.setAddr2(entity.getContents().getAddr2());
 			content.setAreacode(entity.getContents().getAreaCode());
 			content.setSigungucode(entity.getContents().getSigunguCode());
 			content.setFirstimage(entity.getContents().getFirstimage());

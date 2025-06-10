@@ -9,7 +9,8 @@ public interface ProjectionLikesCotentCount {
      String  getContentTypeId();
      String getAreaCode();
      String getSigunguCode();
-     String getAddr();
+     String getAddr1();
+     String getAddr2();
      String getTitle();
      String getFirstimage();
      String getMapX();

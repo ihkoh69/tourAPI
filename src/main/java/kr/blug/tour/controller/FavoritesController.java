@@ -42,7 +42,8 @@ public class FavoritesController {
         			"result", "success", 
         			"message", result.getMessage(), 
         			"id_name", result.getId_name(), 
-        			"value", result.getId() ));
+        			"value", result.getId(),
+        			"likes_count", result.getLikes_count()));
         } 
         else {
         	return ResponseEntity.ok(Map.of(

@@ -98,7 +98,8 @@ public class RemarksContentService {
 				newContent.setContentId(dto.getContentid());
 				newContent.setContentTypeId(dto.getContenttypeid());
 				newContent.setTitle(dto.getTitle());
-				newContent.setAddr(dto.getAddr1());
+				newContent.setAddr1(dto.getAddr1());
+				newContent.setAddr2(dto.getAddr2());
 				newContent.setAreaCode(dto.getAreacode());
 				newContent.setSigunguCode(dto.getSigungucode());
 				newContent.setFirstimage(dto.getFirstimage());

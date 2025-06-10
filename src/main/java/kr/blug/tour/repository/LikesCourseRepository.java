@@ -42,7 +42,13 @@ public interface LikesCourseRepository extends JpaRepository<LikesCourseEntity, 
 				    a.area_code AS areaCode,
 				    a.sigungu_code AS sigunguCode,
 				    a.course_name AS courseName,
+				    
+				    a.schedule AS schedule,
+				    a.transportation AS transportation,
+				    a.budget AS budget,
+				    a.lodging AS lodging,
 				    a.description AS description,
+
 				    a.crdttm AS crdttm,
 				    a.updttm AS updttm,
 				    stat.cnt AS likesCount

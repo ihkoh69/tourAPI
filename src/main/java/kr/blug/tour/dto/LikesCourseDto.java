@@ -21,7 +21,11 @@ public class LikesCourseDto {
 	private Long likes_course_id;
 	private Long course_id;
 	private String course_name;
-	private String course_description;
+	private String schedule;          // 일정 
+	private String transportation;    // 교통
+	private String budget;            // 예산 
+	private String lodging;           // 숙박 
+	private String description;       // 메모 
 	private Long creator_user_id;
 	private String creator_nickname;
 	private Long user_id;
