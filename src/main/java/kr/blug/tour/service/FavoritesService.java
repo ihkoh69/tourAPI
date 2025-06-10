@@ -59,7 +59,8 @@ public class FavoritesService {
 			dto.setContentid(record.getContents().getContentId());
 			dto.setContenttypeid(record.getContents().getContentTypeId());
 			dto.setTitle(record.getContents().getTitle());
-			dto.setAddr1(record.getContents().getAddr());
+			dto.setAddr1(record.getContents().getAddr1());
+			dto.setAddr2(record.getContents().getAddr2());
 			dto.setAreacode(record.getContents().getAreaCode());
 			dto.setSigungucode(record.getContents().getSigunguCode());
 			dto.setFirstimage(record.getContents().getFirstimage());
@@ -98,7 +99,9 @@ public class FavoritesService {
 		                newContents.setContentId(dto.getContentid());
 		                newContents.setContentTypeId(dto.getContenttypeid());
 		                newContents.setTitle(dto.getTitle());
-		                newContents.setAddr(dto.getAddr1());
+		                newContents.setAddr1(dto.getAddr1());
+		                newContents.setAddr2(dto.getAddr2());
+		                newContents.setAddr2(dto.getAddr2());
 		                newContents.setAreaCode(dto.getAreacode());
 		                newContents.setSigunguCode(dto.getSigungucode());
 		                newContents.setFirstimage(dto.getFirstimage());

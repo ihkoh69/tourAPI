@@ -12,7 +12,13 @@ public interface ProjectionLikesCourseCount {
     String getAreaCode();
     String getSigunguCode();
     String getCourseName();
+    
+    String getSchedule();
+    String getTransportation();
+    String getBudget();
+    String getLodging();
     String getDescription();
+    
     LocalDateTime getCrdttm();
     LocalDateTime getUpdttm();
     Long getLikesCount();

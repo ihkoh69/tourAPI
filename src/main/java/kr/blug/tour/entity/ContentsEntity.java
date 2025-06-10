@@ -38,7 +38,8 @@ public class ContentsEntity {
 	private String contentId;
 	private String contentTypeId;
 	private String title;
-	private String addr;
+	private String addr1;
+	private String addr2;
 	private String areaCode;
 	private String sigunguCode;
 	

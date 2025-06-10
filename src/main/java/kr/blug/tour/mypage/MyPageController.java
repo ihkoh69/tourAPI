@@ -18,7 +18,7 @@ public class MyPageController {
 	}
 	
     @GetMapping("/mystats")
-    public List<UserStatsView> getStats(@RequestParam("user_id") Long userId) {
+    public UserStatsDto getStats(@RequestParam("user_id") Long userId) {
         return myPageService.getUserStats(userId);
     }
 

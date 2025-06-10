@@ -78,7 +78,14 @@ public class LikesCourseService {
 			dto.setLikes_count(likesCourseRepository.countByCourseId(dto.getCourse_id()));
 			
 			dto.setCourse_name(entity.getCourse().getCourseName());
-			dto.setCourse_description(entity.getCourse().getDescription());
+			dto.setDescription(entity.getCourse().getDescription());
+		    
+		    dto.setSchedule(entity.getCourse().getSchedule());
+		    dto.setTransportation(entity.getCourse().getTransportation());
+		    dto.setBudget(entity.getCourse().getBudget());
+		    dto.setLodging(entity.getCourse().getLodging());
+		    dto.setDescription(entity.getCourse().getDescription());
+			
 			dto.setAreacode(entity.getCourse().getAreaCode());
 			dto.setSigungucode(entity.getCourse().getSigunguCode());
 
@@ -112,7 +119,13 @@ public class LikesCourseService {
 				
 				dto.setCourse_id(course.getCourseId());
 				dto.setCourse_name(course.getCourseName());
-				dto.setCourse_description(course.getDescription());
+				
+				dto.setSchedule(course.getSchedule());
+				dto.setTransportation(course.getTransportation());
+				dto.setBudget(course.getBudget());
+				dto.setLodging(course.getLodging());
+				dto.setDescription(course.getDescription());
+				
 				dto.setCreator_user_id(course.getWriterUserId());
 				dto.setCreator_nickname(course.getWriterNickname());
 				dto.setAreacode(course.getAreaCode());

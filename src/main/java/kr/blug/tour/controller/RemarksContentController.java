@@ -44,7 +44,8 @@ public class RemarksContentController {
 		
 		if(!items.isEmpty()) {
 			return ResponseEntity.ok(Map.of(
-					"result", "success", "items", items,
+					"result", "success", 
+					"items", items.getContent(),
 					"totalPages", items.getTotalPages(),
 					"totoalElements", items.getTotalElements(),				
 					"currentPage", items.getNumber()

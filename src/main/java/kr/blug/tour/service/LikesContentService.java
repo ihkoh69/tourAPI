@@ -61,7 +61,8 @@ public class LikesContentService {
 			dto.setContentid(myContent.getContents().getContentId());
 			dto.setContenttypeid(myContent.getContents().getContentTypeId());
 			dto.setTitle(myContent.getContents().getTitle());
-			dto.setAddr1(myContent.getContents().getAddr());
+			dto.setAddr1(myContent.getContents().getAddr1());
+			dto.setAddr2(myContent.getContents().getAddr2());
 			dto.setAreacode(myContent.getContents().getAreaCode());
 			dto.setSigungucode(myContent.getContents().getSigunguCode());
 			dto.setFirstimage(myContent.getContents().getFirstimage());
@@ -93,7 +94,8 @@ public class LikesContentService {
 				dto.setContentid(item.getContentId());
 				dto.setContenttypeid(item.getContentTypeId());
 				dto.setTitle(item.getTitle());
-				dto.setAddr1(item.getAddr());
+				dto.setAddr1(item.getAddr1());
+				dto.setAddr2(item.getAddr2());
 				dto.setAreacode(item.getAreaCode());
 				dto.setSigungucode(item.getSigunguCode());
 				dto.setFirstimage(item.getFirstimage());
@@ -141,7 +143,8 @@ public class LikesContentService {
 					newContent.setContentId(dto.getContentid());
 					newContent.setContentTypeId(dto.getContenttypeid());
 					newContent.setTitle(dto.getTitle());
-					newContent.setAddr(dto.getAddr1());
+					newContent.setAddr1(dto.getAddr1());
+					newContent.setAddr2(dto.getAddr2());
 					newContent.setAreaCode(dto.getAreacode());
 					newContent.setSigunguCode(dto.getSigungucode());
 					newContent.setFirstimage(dto.getFirstimage());

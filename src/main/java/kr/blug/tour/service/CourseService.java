@@ -77,7 +77,13 @@ public class CourseService {
 			dto.setCreator_user_id(course.getUser().getUserId());
 			dto.setCreator_nickname(course.getUser().getNickname());
 			dto.setCourse_name(course.getCourseName());
+
+			dto.setSchedule(course.getSchedule());
+			dto.setTransportation(course.getTransportation());
+			dto.setBudget(course.getBudget());
+			dto.setLodging(course.getLodging());			
 			dto.setDescription(course.getDescription());
+			
 			dto.setAreacode(course.getAreaCode());
 			dto.setSigungucode(course.getSigunguCode());			
 
@@ -94,7 +100,8 @@ public class CourseService {
 				spot.setContentid(spotEntity.getContents().getContentId());
 				spot.setContenttypeid(spotEntity.getContents().getContentTypeId());
 				spot.setTitle(spotEntity.getContents().getTitle());
-				spot.setAddr1(spotEntity.getContents().getAddr());
+				spot.setAddr1(spotEntity.getContents().getAddr1());
+				spot.setAddr2(spotEntity.getContents().getAddr2());
 				spot.setAreacode(spotEntity.getContents().getAreaCode());
 				spot.setSigungucode(spotEntity.getContents().getSigunguCode());
 				spot.setFirstimage(spotEntity.getContents().getFirstimage());
@@ -157,7 +164,8 @@ public class CourseService {
 				contentEntity.setContentId(spot.getContentid());
 				contentEntity.setContentTypeId(spot.getContenttypeid());
 				contentEntity.setTitle(spot.getTitle());
-				contentEntity.setAddr(spot.getAddr1());
+				contentEntity.setAddr1(spot.getAddr1());
+				contentEntity.setAddr2(spot.getAddr2());
 				contentEntity.setAreaCode(spot.getAreacode());
 				contentEntity.setSigunguCode(spot.getSigungucode());
 				contentEntity.setFirstimage(spot.getFirstimage());
@@ -184,7 +192,13 @@ public class CourseService {
 		
 		course.setUser(user.get());
 		course.setCourseName(dto.getCourse_name());
+		
+		course.setSchedule(dto.getSchedule());
+		course.setTransportation(dto.getTransportation());
+		course.setBudget(dto.getBudget());
+		course.setLodging(dto.getLodging());
 		course.setDescription(dto.getDescription());
+		
 		course.setSharedCount(0L);
 		
 		course.setAreaCode(areaCode);
@@ -269,7 +283,20 @@ public class CourseService {
 		
 		//2. 마스터 레코드의 수정 부분이 있다면 반영
 		if(dto.getCourse_name() != null) {
-			target.setCourseName(dto.getCourse_name());			
+			target.setCourseName(dto.getCourse_name());		
+		}
+
+		if(dto.getSchedule() != null) {
+			target.setSchedule(dto.getSchedule());
+		}
+		if(dto.getTransportation() != null) {
+			target.setTransportation(dto.getTransportation());
+		}
+		if(dto.getBudget() != null) {
+			target.setBudget(dto.getBudget());
+		}
+		if(dto.getLodging() != null) {
+			target.setLodging(dto.getLodging());
 		}
 		if(dto.getDescription() != null) {
 			target.setDescription(dto.getDescription());
@@ -299,7 +326,8 @@ public class CourseService {
 					newContent.setContentId(spot.getContentid());
 					newContent.setContentTypeId(spot.getContenttypeid());
 					newContent.setTitle(spot.getTitle());
-					newContent.setAddr(spot.getAddr1());
+					newContent.setAddr1(spot.getAddr1());
+					newContent.setAddr2(spot.getAddr2());
 					newContent.setAreaCode(spot.getAreacode());
 					newContent.setSigunguCode(spot.getSigungucode());
 					newContent.setFirstimage(spot.getFirstimage());
