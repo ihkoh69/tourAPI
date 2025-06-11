@@ -103,8 +103,8 @@ public class RemarksContentService {
 				newContent.setAreaCode(dto.getAreacode());
 				newContent.setSigunguCode(dto.getSigungucode());
 				newContent.setFirstimage(dto.getFirstimage());
-				newContent.setMapX(dto.getMapX());
-				newContent.setMapY(dto.getMapY());
+				newContent.setMapx(dto.getMapx());
+				newContent.setMapy(dto.getMapy());
 				newContent.setCrdttm(LocalDateTime.now());
 				
 				return contentsRepository.save(newContent);					

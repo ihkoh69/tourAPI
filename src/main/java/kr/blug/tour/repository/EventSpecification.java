@@ -55,8 +55,8 @@ public class EventSpecification {
 
             if (pxMin != null && pxMax != null && pyMin != null && pyMax != null &&
                 !pxMin.isBlank() && !pxMax.isBlank() && !pyMin.isBlank() && !pyMax.isBlank()) {
-                predicates.add(cb.between(root.get("mapX"), pxMin, pxMax));
-                predicates.add(cb.between(root.get("mapY"), pyMin, pyMax));
+                predicates.add(cb.between(root.get("mapx"), pxMin, pxMax));
+                predicates.add(cb.between(root.get("mapy"), pyMin, pyMax));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

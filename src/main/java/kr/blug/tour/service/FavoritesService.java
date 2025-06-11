@@ -64,8 +64,8 @@ public class FavoritesService {
 			dto.setAreacode(record.getContents().getAreaCode());
 			dto.setSigungucode(record.getContents().getSigunguCode());
 			dto.setFirstimage(record.getContents().getFirstimage());
-			dto.setMapX(record.getContents().getMapX());
-			dto.setMapY(record.getContents().getMapY());
+			dto.setMapx(record.getContents().getMapx());
+			dto.setMapy(record.getContents().getMapy());
 			
 			return dto;
 		});
@@ -101,12 +101,11 @@ public class FavoritesService {
 		                newContents.setTitle(dto.getTitle());
 		                newContents.setAddr1(dto.getAddr1());
 		                newContents.setAddr2(dto.getAddr2());
-		                newContents.setAddr2(dto.getAddr2());
 		                newContents.setAreaCode(dto.getAreacode());
 		                newContents.setSigunguCode(dto.getSigungucode());
 		                newContents.setFirstimage(dto.getFirstimage());
-		                newContents.setMapX(dto.getMapX());
-		                newContents.setMapY(dto.getMapY());
+		                newContents.setMapx(dto.getMapx());
+		                newContents.setMapy(dto.getMapy());
 		                newContents.setCrdttm(LocalDateTime.now());
 		                return contentsRepository.save(newContents); // 저장 후 반환
 		            });

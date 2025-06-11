@@ -34,8 +34,8 @@ public interface LikesContentRepository extends JpaRepository<LikesContentEntity
 				    a.addr2 AS addr2,
 				    a.title AS title,
 				    a.firstimage AS firstimage,
-				    a.mapx AS mapX,
-				    a.mapy AS mapY,
+				    a.mapx AS mapx,
+				    a.mapy AS mapy,
 				    a.crdttm AS crdttm,
 				    c.cnt AS likesCount
 				FROM (
