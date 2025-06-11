@@ -82,8 +82,8 @@ public class EventsService {
         	dto.setContentTypeId(entity.getContentTypeId());
         	dto.setAreaCode(entity.getAreaCode());
         	dto.setSigunguCode(entity.getSigunguCode());
-        	dto.setMapX(entity.getMapX());
-        	dto.setMapY(entity.getMapY());
+        	dto.setMapx(entity.getMapx());
+        	dto.setMapy(entity.getMapy());
         	dto.setStartDate(entity.getStartDate());
         	dto.setEndDate(entity.getEndDate());
         	dto.setTitle(entity.getTitle());

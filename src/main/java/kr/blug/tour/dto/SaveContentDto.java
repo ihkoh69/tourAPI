@@ -27,8 +27,8 @@ public class SaveContentDto {
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;
-	private String mapX;
-	private String mapY;
+	private String mapx;
+	private String mapy;
 	
 	private String comment;  // remarks/content 저장시에만 사용
 	

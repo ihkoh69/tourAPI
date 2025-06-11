@@ -33,8 +33,8 @@ public class LikesContentDto {
 	private String areacode;
 	private String sigungucode;	
 	private String firstimage;
-	private String mapX;
-	private String mapY;
+	private String mapx;
+	private String mapy;
 	private Long likes_count;
 	
 	private LocalDateTime crdttm;

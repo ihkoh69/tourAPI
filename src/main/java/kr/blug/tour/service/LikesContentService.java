@@ -66,8 +66,8 @@ public class LikesContentService {
 			dto.setAreacode(myContent.getContents().getAreaCode());
 			dto.setSigungucode(myContent.getContents().getSigunguCode());
 			dto.setFirstimage(myContent.getContents().getFirstimage());
-			dto.setMapX(myContent.getContents().getMapX());
-			dto.setMapY(myContent.getContents().getMapY());
+			dto.setMapx(myContent.getContents().getMapx());
+			dto.setMapy(myContent.getContents().getMapy());
 
 			return dto;
 		});
@@ -99,8 +99,8 @@ public class LikesContentService {
 				dto.setAreacode(item.getAreaCode());
 				dto.setSigungucode(item.getSigunguCode());
 				dto.setFirstimage(item.getFirstimage());
-				dto.setMapX(item.getMapX());
-				dto.setMapY(item.getMapY());
+				dto.setMapx(item.getMapx());
+				dto.setMapy(item.getMapy());
 				dto.setLikes_count(item.getLikesCount());
 				
 				dto.setCrdttm(item.getCrdttm());
@@ -148,8 +148,8 @@ public class LikesContentService {
 					newContent.setAreaCode(dto.getAreacode());
 					newContent.setSigunguCode(dto.getSigungucode());
 					newContent.setFirstimage(dto.getFirstimage());
-					newContent.setMapX(dto.getMapX());
-					newContent.setMapY(dto.getMapY());
+					newContent.setMapx(dto.getMapx());
+					newContent.setMapy(dto.getMapy());
 					newContent.setCrdttm(LocalDateTime.now());
 					
 					return contentsRepository.save(newContent);					

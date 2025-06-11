@@ -242,8 +242,8 @@ public class ItineraryService {
 			content.setAreacode(entity.getContents().getAreaCode());
 			content.setSigungucode(entity.getContents().getSigunguCode());
 			content.setFirstimage(entity.getContents().getFirstimage());
-			content.setMapX(entity.getContents().getMapX());
-			content.setMapY(entity.getContents().getMapY());
+			content.setMapx(entity.getContents().getMapx());
+			content.setMapy(entity.getContents().getMapy());
 			
 			contents.add(content);
 		}

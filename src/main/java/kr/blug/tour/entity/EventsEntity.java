@@ -31,8 +31,8 @@ public class EventsEntity {
 	private String contentTypeId;
 	private String areaCode;
 	private String sigunguCode;
-	private String mapX;
-	private String mapY;
+	private String mapx;
+	private String mapy;
 	private String startDate;
 	private String endDate;
 	private String title;

@@ -29,8 +29,8 @@ public class FavoritesDto {
 	private String areacode;
 	private String sigungucode;
 	private String firstimage;
-	private String mapX;
-	private String mapY;
+	private String mapx;
+	private String mapy;
 	private LocalDateTime crdttm;
 	
 }
